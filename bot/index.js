@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const bot = require('./bot');
 const { dailyTaskService } = require('./services');
@@ -12,6 +13,10 @@ mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_numb
 
 const app = express();
 app.use(bodyParser.json());
+
+app.get('/cryptomus_a2c0610a.html', (req, res) => {
+	res.sendFile(path.join(__dirname, 'cryptomus.html'));
+});
 
 app.post(`/bot${process.env.BOT_TOKEN}`, async (req, res) => {
 	try{
