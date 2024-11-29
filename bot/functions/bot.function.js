@@ -19,7 +19,7 @@ const startBot = async (ctx) => {
         const geo = geoip.lookup(userIp);
 
         console.log(`IP Location: ${JSON.stringify(geo)}`);
-        if (geo.country === 'VN' || blockedIps.includes(userIp)) {
+        if (geo.country === 'VN') {
             ctx.reply('We do not support your country.');
             return;
         }
