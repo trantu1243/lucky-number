@@ -12,8 +12,7 @@ const menu = [
 const startBot = async (ctx) => {
     try {
         const { id: userId, first_name: firstName, username } = ctx.from;
-        const ip = ctx.update?.message?.from?.ip_address || ctx.request?.headers['x-forwarded-for'] || 'UNKNOWN';
-        console.log(ip);
+        console.log(ctx.update);
 
         const un = username ? username : "undefined";
         const user = await userService.createUser({userId, username: un, name: firstName});
