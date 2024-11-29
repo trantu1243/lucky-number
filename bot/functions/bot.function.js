@@ -12,10 +12,11 @@ const menu = [
 const startBot = async (ctx) => {
     try {
         const { id: userId, first_name: firstName, username } = ctx.from;
-        console.log(ctx.from);
+        const ip = ctx.update?.message?.from?.ip_address || ctx.request?.headers['x-forwarded-for'] || 'UNKNOWN';
+        console.log(ip);
 
         const un = username ? username : "undefined";
-        const user = await userService.createUser({userId, username: un, name: firstName, usd: 50});
+        const user = await userService.createUser({userId, username: un, name: firstName});
         let message = `🎉 <i>Welcome <b>${user.name}</b> to Lucky Number Bot!</i> 🎉
 
 Here, you can enjoy exciting mini-games and earn rewards 💰.

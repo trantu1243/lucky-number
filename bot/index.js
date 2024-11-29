@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const express = require('express');
+const bodyParser = require('body-parser');
 const bot = require('./bot');
 const { dailyTaskService } = require('./services');
 const { CronJob } = require('cron');
@@ -6,6 +8,14 @@ require('dotenv').config();
 
 mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_number?authSource=admin').then(() => {
     console.log("Connect to mongodb successfully")
+});
+
+const app = express();
+app.use(bodyParser.json());
+
+app.post('/webhook', async (req, res) => {
+	await bot.handleUpdate(req.body);
+	res.sendStatus(200); 
 });
 
 bot.launch();
@@ -17,7 +27,7 @@ const job = new CronJob(
 	}, // onTick
 	null, // onComplete
 	true, // start
-	'America/Los_Angeles' // timeZone
+	'Europe/London' // timeZone
 );
 
 // dailyTaskService.createDailyTask({rank: 1, milestone: 10, reward: 1});
