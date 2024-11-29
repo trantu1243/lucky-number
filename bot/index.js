@@ -13,7 +13,7 @@ mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_numb
 const app = express();
 app.use(bodyParser.json());
 
-app.post('/webhook', async (req, res) => {
+app.post(`/bot${process.env.BOT_TOKEN}`, async (req, res) => {
 	await bot.handleUpdate(req.body);
 	res.sendStatus(200); 
 });
