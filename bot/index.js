@@ -13,9 +13,14 @@ mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_numb
 
 const app = express();
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/cryptomus_a2c0610a.html', (req, res) => {
-	res.sendFile(path.join(__dirname, 'cryptomus.html'));
+	res.sendFile(path.join(__dirname, 'public', 'cryptomus.html'));
+});
+
+app.get('/', (req, res) => {
+	res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.post(`/bot${process.env.BOT_TOKEN}`, async (req, res) => {

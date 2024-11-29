@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" href="images/icon.jpg" />
+    <title>Lucky number</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="images/logo-okok.png" alt="Logo" width="100" />
+          Lucky Number
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#"><span style="font-size: x-large;">🎡</span> Spin Wheel</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"
+                >
+                <span style="font-size: x-large;">🎰</span>Jackpot</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://emn178.github.io/online-tools/sha256_checksum.html"
+                ><i
+                  class="fa-solid fa-magnifying-glass"
+                  style="color: #fcff34;font-size: x-large;padding: 5px 0;"
+                  aria-hidden="true"
+                ></i>
+                Check SHA-256</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"
+                ><i class="fa-solid fa-right-to-bracket" style="color: #34e2ff;font-size: x-large;padding: 5px 0;" aria-hidden="true"></i> Login</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div style="margin-top: 109px"></div>
+    <div class="container-fluid mt-5 pt-4">
+      <!-- Top Buttons -->
+      <div class="d-flex justify-content-between my-3">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fa-solid fa-gamepad"></i> GAME LIST
+              </h5>
+              <div class="card-main">
+                <a href="#" class="btn btn-danger"
+                  ><i class="fa-solid fa-clover"></i> Lucky Number</a
+                >
+                <a href="#" class="btn btn-custom"
+                  ><i class="fa-solid fa-list-ol"></i> Even And Odd</a
+                >
+<a href="#" class="btn btn-primary"
+                  ><i class="fa-brands fa-square-letterboxd"></i> Lottery Lucky
+                  Numbers</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video and Info Section -->
+      <div class="row">
+        <div class="col-lg-8 col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fa-solid fa-circle-question"></i> INSTRUCT -
+                <i class="fa-solid fa-clover"></i> LUCKY NUMBER
+              </h5>
+              <div class="card-main">
+                <div class="width-notice">
+                  <p class="notice-game">
+                    🔈 <span style="color: crimson">Notice:</span> The numbers
+                    in the prize are not fixed. They will be updated at 00:00
+                    every day in the GMT+0 time zone !
+                  </p>
+                </div>
+                <hr />
+                <p>
+                  1️⃣ Press "Start" to receive 10 random numbers 🔢 (which will
+                  behashed using SHA-256 🔐).
+                </p>
+                <p>2️⃣ Enter a sequence of numbers 🔢 (0-9digits) 📝.</p>
+                <p>3️⃣ Enter the bet amount in chips 💰.</p>
+                <p>
+                  ➕ Add the two sequences of numbers together. If the last two
+                  digits of the resulting sequence are:
+                </p>
+                <p>
+                  ✅ 00, 10, 20, 30, 40, 50, 60, 70, 80, 90 ✅ => 🔼 Win x1.95
+                  the chips 🔼
+                </p>
+                <p>
+                  🎊 10, 12, 13, 14, 15, 16, 17, 19 🎊 => 🎉 Win x2.8 the chips
+                  🎉
+                </p>
+                <p>💎 18, 28, 38, 48, 58, 68 💎 => ✨ Win x3.85 the chips ✨</p>
+                <p>🔥 33, 77, 88 🔥 => 💥 Win x4.8 the chips 💥</p>
+                <hr />
+                <p class="blink">
+                  Note: The game is given results first in step 1 and the final
+                  result depends on step 2 for you to decide. We are completely
+                  transparent with the results of the games.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fa-solid fa-play"></i> NOTES BEFORE STARTING
+              </h5>
+              <div class="card-main">
+                <ul class="start-list">
+                  <li>
+                    <p>
+                      🔸 The game only works at =>
+                      <a
+                        class="btn btn-warning"
+                        href="https://t.me/luckynumbergame_bot"
+                        >@luckynumbergame_bot</a
+                      >
+                    </p>
+                  </li>
+<li>
+                    <p>
+                      🔸 Game exchange and support channel =>
+                      <a
+                        class="btn btn-light"
+                        href="https://t.me/luckynumber_game"
+                        >luckynumber_game</a
+                      >
+                    </p>
+                  </li>
+                  <li>
+                    <p>🔸 New players should complete the missions to receive many rewards for participating!</p>
+                  </li>
+                  <li>
+                    <p>🔸 Player's level and betting level!</p>
+                    <table class="table media-list" style="table-layout: fixed">
+                      <tbody>
+                        <tr style="border-bottom: 1px solid #3c3a3e">
+                          <td class="level-column-1">Level</td>
+                          <td class="level-column-2">Min</td>
+                          <td>Max</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <i
+                              style="color: #dbdbce"
+                              class="fa-solid fa-face-smile"
+                              aria-hidden="true"
+                            ></i>
+                            Beginner
+                          </td>
+                          <td style="color: #3efb3db3" class="ng-binding">
+                            1
+                          </td>
+                          <td style="color: #eb32ffb3" class="ng-binding">
+                            20
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <i
+                              style="color: #6e6bce"
+                              class="fa-solid fa-user"
+                              aria-hidden="true"
+                            ></i>
+                            Proficient
+                          </td>
+                          <td style="color: #3efb3db3" class="ng-binding">
+                            50
+                          </td>
+                          <td style="color: #eb32ffb3" class="ng-binding">
+                            200
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <i
+                              style="color: #bfbf80"
+                              class="fa-solid fa-trophy"
+                              aria-hidden="true"
+                            ></i>
+                            Master
+                          </td>
+                          <td style="color: #3efb3db3" class="ng-binding">
+                            500
+                          </td>
+                          <td style="color: #eb32ffb3" class="ng-binding">
+                            2000
+                          </td>
+                        </tr>
+                      </tbody>
+</table>
+                  </li>
+                  <li>Betting level regulations: <span style="color:brown"><i class="fa-solid fa-clover" style="color:brown"></i> Lucky Number</span> - <span style="color:brown"><i class="fa-solid fa-list-ol" style="color:brown"></i> Even And Odd</li></span>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<!-- Table Sections -->
+<div class="row mt-4">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> PARTICIPATION HISTORY</h5>
+        <div class="card-main">
+          <!-- Thêm lớp table-responsive để làm bảng responsive -->
+          <div class="table-responsive">
+            <table class="table table-dark table-striped">
+              <thead>
+                <tr>
+                  <th>Player</th>
+                  <th>Game</th>
+                  <th>Select</th>
+                  <th>Bet</th>
+                  <th>Winnings</th>
+                  <th>Result</th>
+                  <th>Order ID</th>
+                  <th>E</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>961***257</td>
+                  <td><i class="fa-solid fa-clover"></i> Lucky Number</td>
+                  <td class="select"><code>-</code></td>
+                  <td>0.5</td>
+                  <td>1.2925</td>
+                  <td class="result"><code>WIN</code></td>
+                  <td>01234567<span class="end-number">89</span></td>
+                  <td class="total-E"><code>89</code></td>
+                  <td>2024/11/29 11:02:50</td>
+                </tr>
+                <tr>
+                  <td>961***257</td>
+                  <td><i class="fa-solid fa-list-ol"></i> Even And Odd</td>
+                  <td class="select"><code>E</code></td>
+                  <td>0.5</td>
+                  <td>1.2925</td>
+                  <td class="result"><code>WIN</code></td>
+                  <td>0123456<span class="end-number">789</span></td>
+                  <td class="total-E"><code>6</code></td>
+                  <td>2024/11/29 11:02:50</td>
+                </tr>
+                <tr>
+                  <td>961***257</td>
+                  <td><i class="fa-solid fa-list-ol"></i> Even And Odd</td>
+                  <td class="select"><code>O</code></td>
+                  <td>0.5</td>
+                  <td>1.2925</td>
+                  <td class="result"><code>WIN</code></td>
+                  <td>9123456<span class="end-number">780</span></td>
+                  <td class="total-E"><code>5</code></td>
+                  <td>2024/11/29 11:02:50</td>
+                </tr>
+                <tr>
+                  <td>961***257</td>
+                  <td><i class="fa-solid fa-clover"></i> Lucky Number</td>
+                  <td class="select"><code>-</code></td>
+<td>0.5</td>
+                  <td>1.2925</td>
+                  <td class="result"><code>WIN</code></td>
+                  <td>01234567<span class="end-number">89</span></td>
+                  <td class="total-E"><code>89</code></td>
+                  <td>2024/11/29 11:02:50</td>
+                </tr>
+                <tr>
+                  <td>961***257</td>
+                  <td><i class="fa-solid fa-clover"></i> Lucky Number</td>
+                  <td class="select"><code>-</code></td>
+                  <td>0.5</td>
+                  <td>1.2925</td>
+                  <td class="result"><code>WIN</code></td>
+                  <td>01234567<span class="end-number">89</span></td>
+                  <td class="total-E"><code>89</code></td>
+                  <td>2024/11/29 11:02:50</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container-fluid mt-4">
+      <!-- Đại Gia Tuần -->
+      <div class="row mt-4">
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header text-white bg-dark">
+              <h5>🏆 WEEKLY TYCOON
+              </h5>
+            </div>
+            <div class="card-body">
+              <div class="card-main">
+              <table class="table table-dark table-striped">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Player</th>
+                    <th>Total Bet</th>
+                    <th>Reward</th>                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1 🥇</td>
+                    <td>986***356</td>
+                    <td>3669.50</td>
+                    <td>100</td>
+                  </tr>
+                  <tr>
+                    <td>2 🥈</td>
+                    <td>100***9727</td>
+                    <td>3252.60</td>
+                    <td>80</td>
+                  </tr>
+                  <tr>
+                    <td>3 🥉</td>
+                    <td>125***555</td>
+                    <td>1469.30</td>
+                    <td>60</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>986***198</td>
+                    <td>1350.40</td>
+                    <td>40</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>100***1473</td>
+                    <td>1241.30</td>
+                    <td>20</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="blink mt-2" style="color: #fff;">
+                * Note: USDT value is calculated based on the total amount of the week/Bonus on the first Monday of the week.
+              </p>
+            </div>
+          </div>
+          </div>
+          <div class="card">
+            <div class="card-header text-white bg-dark">
+<h5>🗓 WEEKLY TASKS
+              </h5>
+            </div>
+            <div class="card-body">
+              <div class="card-main">
+              <p class="mt-2" style="color: #fff;">
+                <b>* Note: Every week you will receive the task of inviting friends to join the game to receive rewards announced by the administrator!.</b>
+              </p>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <!-- Nhiệm Vụ -->
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header text-white bg-dark">
+              <h5>⭐ DAILY TASKS</h5>
+            </div>
+            <div class="card-body">
+              <div class="card-main">
+              <table class="table table-dark table-striped">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Milestone</th>
+                    <th>Reward</th>                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>X1</td>
+                    <td>5</td>
+                    <td>0.5</td>
+                  </tr>
+                  <tr>
+                    <td>X2</td>
+                    <td>50</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>X3</td>
+                    <td>250</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>X4</td>
+                    <td>500</td>
+                    <td>5</td>
+                  </tr>
+                  <tr>
+                    <td>X5</td>
+                    <td>1,500</td>
+                    <td>15</td>
+                  </tr>
+                  <tr>
+                    <td>X6</td>
+                    <td>2,500</td>
+                    <td>25</td>
+                  </tr>
+                  <tr>
+                    <td>X7</td>
+                    <td>5,000</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>X8</td>
+                    <td>10,000</td>
+                    <td>100</td>
+                  </tr>
+                  <tr>
+                    <td>X9</td>
+                    <td>25,000</td>
+                    <td>250</td>
+                  </tr>
+                  <tr>
+                    <td>X10</td>
+                    <td>50,000</td>
+                    <td>550</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="blink mt-2">
+                * Note: USDT value is calculated based on total bets for the day/ Amount is refunded immediately after reaching the milestone.
+              </p>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quy Định -->
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header text-white bg-dark">
+<h5>🎁 Gift Code</h5>
+            </div>
+            <div class="card-body">
+              <div class="card-main">
+              <ul class="start-list">
+                <li>
+                  <p>🔹 Gift codes will be updated continuously on our channel =>
+                    <a
+                    class="btn btn-light"
+                    href="https://t.me/luckynumber_game"
+                    >luckynumber_game</a
+                  ></p>
+                </li>
+                <li>🔹 To use giftcode you need to enter the command <span class="command-giftcode">/gift [Code]</span> at our game bot =>
+                  <a
+                  class="btn btn-warning"
+                  href="https://t.me/luckynumbergame_bot"
+                  >@luckynumbergame_bot</a
+                >                  
+                </li>
+                <li>
+                 <p>🔹 As a reward from the gift code you can participate in all online games that we release</p>
+                </li>
+                <li>
+                  <p>🔹 You can only use each giftcode once. Each time you use it, you need to wait at least 60 minutes before using it next time</p>
+                </li>
+                <li>
+                  <p>🔹Please do not abuse giftcodes for fraudulent purposes! If our system detects your account, your account may be banned!</p>
+                </li>
+              </ul>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Giới Thiệu -->
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header text-white bg-dark">
+              <h5>💡 About Us</h5>
+            </div>
+            <div class="card-body">
+              <p>
+                ✅ We aim for an enjoyable game without cheating. By giving the secondary result in advance before placing a bet and the player is the one who decides the official result of the game
+              </p>
+              <p>
+                ✅ Our system is completely automated and transparent. As well as deposit, withdrawal, and quick disbursement for players
+              </p>
+              <p>
+                ✅ If there are security holes! Report it to us and you will receive a fair compensation for that vulnerability
+              </p>
+              <p>
+                ✅Please do not exploit game errors or vulnerabilities. That may cause your account to be locked and your ill-gotten funds refused to be paid!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+  <footer class="bg-dark text-light py-4">
+    <div class="container text-center">
+        <p class="mb-2">© 2024 Lucky-Number.Net</p>
+<ul class="list-unstyled d-flex justify-content-center mb-0">
+            <li class="mx-2">
+                <a href="#" class="text-light text-decoration-none">Privacy Policy</a>
+            </li>
+            <li class="mx-2">
+                <a href="#" class="text-light text-decoration-none">Terms of Service</a>
+            </li>
+            <li class="mx-2">
+                <a href="#" class="text-light text-decoration-none">Contact Us</a>
+            </li>
+        </ul>
+    </div>
+</footer>
+
+</html>
+​
