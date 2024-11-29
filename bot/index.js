@@ -14,7 +14,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post(`/bot${process.env.BOT_TOKEN}`, async (req, res) => {
-	await bot.handleUpdate(req.body);
+	bot.handleUpdate(req.body);
 	res.sendStatus(200); 
 });
 
