@@ -1,4 +1,5 @@
 const { Markup } = require("telegraf");
+var geoip = require('geoip-lite');
 const { userService, historyService } = require("../services");
 const userState = require("../userState");
 const { History } = require("../models");
@@ -12,7 +13,16 @@ const menu = [
 const startBot = async (ctx) => {
     try {
         const { id: userId, first_name: firstName, username } = ctx.from;
-        console.log(ctx.update);
+
+        const userIp = ctx.update.userIp;
+        console.log(userIp);
+        const geo = geoip.lookup(userIp);
+
+        console.log(`IP Location: ${JSON.stringify(geo)}`);
+        if (geo.country === 'VN' || blockedIps.includes(userIp)) {
+            ctx.reply('We do not support your country.');
+            return;
+        }
 
         const un = username ? username : "undefined";
         const user = await userService.createUser({userId, username: un, name: firstName});
