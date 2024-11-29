@@ -14,11 +14,16 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post(`/bot${process.env.BOT_TOKEN}`, async (req, res) => {
-	const userIp = req.headers['x-forwarded-for'] || req.ip;
-    console.log(`User IP: ${userIp}`);
+	try{
+		const userIp = req.headers['x-forwarded-for'] || req.ip;
+		console.log(`User IP: ${userIp}`);
+	
+		bot.handleUpdate({userIp: userIp});
+		res.sendStatus(200); 
+	} catch (error) {
+		console.log(error)
+	}
 
-	bot.handleUpdate({userIp: userIp});
-	res.sendStatus(200); 
 });
 
 const job = new CronJob(
