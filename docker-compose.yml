@@ -1,0 +1,73 @@
+version: "3"
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb-container
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin036203
+      MONGO_INITDB_DATABASE: lucky_number
+    volumes:
+      - ./db/:/data/db
+    networks:
+      - lucky_number_network
+  traefik:
+    image: traefik:v3.2
+    container_name: traefik
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.yml:/etc/traefik/traefik.yml
+    networks:
+      - lucky_number_network
+  lucky_number:
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+    container_name: lucky_number
+    environment:
+      MONGODB_URL: mongodb://admin:admin036203@mongodb-container:27017/lucky_number?authSource=admin
+    ports:
+      - "80"
+    restart: always
+    depends_on:
+      - "mongodb"
+    volumes:
+       - ./bot:/usr/src/lucky-number
+       - /usr/src/lucky-number/node_modules
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.lucky_number.rule=Host(`lucky-number.net`)"
+      - "traefik.http.services.lucky_number.loadbalancer.server.port=80"
+    networks:
+      - lucky_number_network
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: web
+    environment:
+      MONGODB_URL: mongodb://admin:admin036203@mongodb-container:27017/lucky_number?authSource=admin
+    ports:
+      - "80"
+    restart: always
+    depends_on:
+      - "mongodb"
+    volumes:
+       - ./web:/usr/src/lucky-number
+       - /usr/src/lucky-number/node_modules
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=Host(`www.lucky-number.net`)"
+      - "traefik.http.services.web.loadbalancer.server.port=80"
+    networks:
+      - lucky_number_network
+networks:
+  lucky_number_network:
+    driver: bridge

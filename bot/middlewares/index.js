@@ -1,0 +1,1 @@
+module.exports.luckyNumberMiddleware = require('./luckyNumber.middleware');
