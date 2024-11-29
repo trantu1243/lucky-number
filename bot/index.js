@@ -18,8 +18,6 @@ app.post('/webhook', async (req, res) => {
 	res.sendStatus(200); 
 });
 
-bot.launch();
-
 const job = new CronJob(
 	'* * * * *', // cronTime
 	async () => {
@@ -29,6 +27,11 @@ const job = new CronJob(
 	true, // start
 	'Europe/London' // timeZone
 );
+
+const PORT = process.env.PORT || 80;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
 
 // dailyTaskService.createDailyTask({rank: 1, milestone: 10, reward: 1});
 // dailyTaskService.createDailyTask({rank: 2, milestone: 100, reward: 5});
