@@ -16,10 +16,13 @@ COPY --chown=node:node . .
 ENV TZ=Europe/London
 
 # Install tzdata to set the timezone
+USER root
 RUN apk add --no-cache tzdata \
-    && cp /usr/share/zoneinfo/Europe/London /etc/localtime \
+    && ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime \
     && echo "Europe/London" > /etc/timezone \
-    && apk del tzdata
+    && apk del --purge tzdata
+
+USER node
 
 EXPOSE 80
 
