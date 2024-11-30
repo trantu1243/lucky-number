@@ -20,8 +20,8 @@ app.get('/cryptomus_a2c0610a.html', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-	const userIp = req.headers['x-forwarded-for'] || req.ip;
-	console.log(`User IP: ${userIp}`);
+	console.log(req.headers);
+	console.log(req.ip);
 	res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
