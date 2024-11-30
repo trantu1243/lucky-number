@@ -40,6 +40,7 @@ services:
       - "mongodb"
     volumes:
        - ./bot:/usr/src/lucky-number
+       - /usr/src/lucky-number/node_modules
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.lucky_number.rule=Host(`lucky-number.net`)"
@@ -60,6 +61,7 @@ services:
       - "mongodb"
     volumes:
        - ./web:/usr/src/lucky-number
+       - /usr/src/lucky-number/node_modules
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=Host(`www.lucky-number.net`)"
@@ -80,6 +82,7 @@ services:
       - "mongodb"
     volumes:
        - ./hosting:/usr/src/lucky-number
+       - /usr/src/lucky-number/node_modules
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=Host(`api.lucky-number.net`)"
