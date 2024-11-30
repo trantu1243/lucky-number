@@ -40,7 +40,6 @@ services:
       - "mongodb"
     volumes:
        - ./bot:/usr/src/lucky-number
-       - /usr/src/lucky-number/node_modules
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.lucky_number.rule=Host(`lucky-number.net`)"
@@ -61,10 +60,29 @@ services:
       - "mongodb"
     volumes:
        - ./web:/usr/src/lucky-number
-       - /usr/src/lucky-number/node_modules
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=Host(`www.lucky-number.net`)"
+      - "traefik.http.services.web.loadbalancer.server.port=80"
+    networks:
+      - lucky_number_network
+  hosting:
+    build:
+      context: ./hosting
+      dockerfile: Dockerfile
+    container_name: hosting
+    environment:
+      MONGODB_URL: mongodb://admin:admin036203@mongodb-container:27017/lucky_number?authSource=admin
+    ports:
+      - "80"
+    restart: always
+    depends_on:
+      - "mongodb"
+    volumes:
+       - ./hosting:/usr/src/lucky-number
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=Host(`api.lucky-number.net`)"
       - "traefik.http.services.web.loadbalancer.server.port=80"
     networks:
       - lucky_number_network
