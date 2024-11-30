@@ -29,7 +29,9 @@ app.get('/', (req, res) => {
 app.post(`/bot${process.env.BOT_TOKEN}`, async (req, res) => {
 	try{
 		const userIp = req.headers['x-forwarded-for'] || req.ip;
-		console.log(`User IP: ${userIp}`);
+		console.log(req.headers);
+		console.log('get');
+		console.log(req.ip);
 		req.body.userIp = userIp;
 		await bot.handleUpdate(req.body);
 		res.sendStatus(200); 
