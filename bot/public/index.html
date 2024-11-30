@@ -7,7 +7,7 @@
     <title>Lucky number</title>
     <!-- Bootstrap CSS -->
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      href="./public/bootstrap.min.css?v=5.3.0"
       rel="stylesheet"
     />
     <link
@@ -22,7 +22,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
-          <img src="images/logo-okok.png" alt="Logo" width="100" />
+          <img src="./images/logo-nen.webp" alt="Logo" width="100" />
           Lucky Number
         </a>
         <button
@@ -69,18 +69,20 @@
       <div class="d-flex justify-content-between my-3">
         <div class="col-md-12">
           <div class="card">
-            <div class="card-body">
+            <div class="card-header text-white bg-dark">
               <h5 class="card-title">
                 <i class="fa-solid fa-gamepad"></i> GAME LIST
               </h5>
-              <div class="card-main">
+            </div>
+            <div class="card-body">
+              <div class="card-main text-center">
                 <a href="#" class="btn btn-danger"
                   ><i class="fa-solid fa-clover"></i> Lucky Number</a
                 >
                 <a href="#" class="btn btn-custom"
                   ><i class="fa-solid fa-list-ol"></i> Even And Odd</a
                 >
-<a href="#" class="btn btn-primary"
+                <a href="#" class="btn btn-primary"
                   ><i class="fa-brands fa-square-letterboxd"></i> Lottery Lucky
                   Numbers</a
                 >
@@ -94,11 +96,13 @@
       <div class="row">
         <div class="col-lg-8 col-md-12">
           <div class="card">
-            <div class="card-body">
+            <div class="card-header text-white bg-dark">
               <h5 class="card-title">
                 <i class="fa-solid fa-circle-question"></i> INSTRUCT -
                 <i class="fa-solid fa-clover"></i> LUCKY NUMBER
               </h5>
+            </div>
+            <div class="card-body">
               <div class="card-main">
                 <div class="width-notice">
                   <p class="notice-game">
@@ -140,10 +144,12 @@
         </div>
         <div class="col-lg-4 col-md-12">
           <div class="card">
-            <div class="card-body">
+            <div class="card-header text-white bg-dark">
               <h5 class="card-title">
                 <i class="fa-solid fa-play"></i> NOTES BEFORE STARTING
               </h5>
+            </div>
+            <div class="card-body">
               <div class="card-main">
                 <ul class="start-list">
                   <li>
@@ -156,7 +162,7 @@
                       >
                     </p>
                   </li>
-<li>
+                  <li>
                     <p>
                       🔸 Game exchange and support channel =>
                       <a
@@ -227,7 +233,7 @@
                           </td>
                         </tr>
                       </tbody>
-</table>
+                    </table>
                   </li>
                   <li>Betting level regulations: <span style="color:brown"><i class="fa-solid fa-clover" style="color:brown"></i> Lucky Number</span> - <span style="color:brown"><i class="fa-solid fa-list-ol" style="color:brown"></i> Even And Odd</li></span>
                 </ul>
@@ -241,8 +247,10 @@
 <div class="row mt-4">
   <div class="col-md-12">
     <div class="card">
+      <div class="card-header text-white bg-dark">
+        <h5 class="card-title"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> HISTORY</h5>
+      </div>
       <div class="card-body">
-        <h5 class="card-title"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> PARTICIPATION HISTORY</h5>
         <div class="card-main">
           <!-- Thêm lớp table-responsive để làm bảng responsive -->
           <div class="table-responsive">
@@ -298,7 +306,7 @@
                   <td>961***257</td>
                   <td><i class="fa-solid fa-clover"></i> Lucky Number</td>
                   <td class="select"><code>-</code></td>
-<td>0.5</td>
+                  <td>0.5</td>
                   <td>1.2925</td>
                   <td class="result"><code>WIN</code></td>
                   <td>01234567<span class="end-number">89</span></td>
@@ -386,7 +394,7 @@
           </div>
           <div class="card">
             <div class="card-header text-white bg-dark">
-<h5>🗓 WEEKLY TASKS
+              <h5>🗓 WEEKLY TASKS
               </h5>
             </div>
             <div class="card-body">
@@ -482,7 +490,7 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header text-white bg-dark">
-<h5>🎁 Gift Code</h5>
+              <h5>🎁 GIFT CODE</h5>
             </div>
             <div class="card-body">
               <div class="card-main">
@@ -523,9 +531,10 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header text-white bg-dark">
-              <h5>💡 About Us</h5>
+              <h5>💡 ABOUT US</h5>
             </div>
             <div class="card-body">
+              <div class="card-main">
               <p>
                 ✅ We aim for an enjoyable game without cheating. By giving the secondary result in advance before placing a bet and the player is the one who decides the official result of the game
               </p>
@@ -539,18 +548,19 @@
                 ✅Please do not exploit game errors or vulnerabilities. That may cause your account to be locked and your ill-gotten funds refused to be paid!
               </p>
             </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./public/bootstrap.bundle.min.js?v=5.3.0"></script>
   </body>
   <footer class="bg-dark text-light py-4">
     <div class="container text-center">
         <p class="mb-2">© 2024 Lucky-Number.Net</p>
-<ul class="list-unstyled d-flex justify-content-center mb-0">
+        <ul class="list-unstyled d-flex justify-content-center mb-0">
             <li class="mx-2">
                 <a href="#" class="text-light text-decoration-none">Privacy Policy</a>
             </li>
@@ -565,4 +575,3 @@
 </footer>
 
 </html>
-​
