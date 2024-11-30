@@ -16,13 +16,13 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/cryptomus_a2c0610a.html', (req, res) => {
+	console.log(req.headers);
+	console.log('get');
+	console.log(req.ip);
 	res.sendFile(path.join(__dirname, 'public', 'cryptomus.html'));
 });
 
 app.get('/', (req, res) => {
-	console.log(req.headers);
-	console.log('get');
-	console.log(req.ip);
 	res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
