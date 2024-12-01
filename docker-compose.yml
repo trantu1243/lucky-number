@@ -47,6 +47,16 @@ services:
       - "traefik.http.services.lucky_number.loadbalancer.server.port=80"
     networks:
       - lucky_number_network
+  redirect:
+    image: traefik/whoami                               
+    container_name: redirect
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.redirect.rule=Host(`api.lucky-number.net`)"
+      - "traefik.http.routers.redirect.entrypoints=web"             
+      - "traefik.http.middlewares.redirect-to-lucky-number.redirectregex.regex=^.*" 
+      - "traefik.http.middlewares.redirect-to-lucky-number.redirectregex.replacement=http://lucky-number.net" 
+      - "traefik.http.routers.redirect.middlewares=redirect-to-lucky-number" 
   web:
     build:
       context: ./web
