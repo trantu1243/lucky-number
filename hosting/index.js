@@ -18,6 +18,10 @@ app.get('/sign-up', (req, res) => {
 	res.sendFile(path.join(__dirname, 'public', 'sign-up.html'));
 });
 
+app.get('/cryptomus_0d0dd028.html', (req, res) => {
+	res.sendFile(path.join(__dirname, 'public', 'cryptomus.html'));
+});
+
 const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
