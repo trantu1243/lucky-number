@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { userLevels } = require('../configs/user');
-const { DailyTask } = require('.');
 
 const userSchema = mongoose.Schema(
     {
