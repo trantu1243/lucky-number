@@ -11,7 +11,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 
 const webhookURL = process.env.WEBHOOK_URL || 'https://lucky-number.net';
 
-// bot.telegram.setWebhook(`${webhookURL}/bot${process.env.BOT_TOKEN}`);
+bot.telegram.setWebhook(`${webhookURL}/bot${process.env.BOT_TOKEN}`);
 
 bot.start(botFunction.startBot);
 

@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const bot = require('./bot');
-const { dailyTaskService } = require('./services');
+const { dailyTaskService, paymentService, userService } = require('./services');
 const { CronJob } = require('cron');
 const { internalMiddleware } = require('./middlewares');
 require('dotenv').config();
@@ -12,7 +12,7 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Connect to mongodb successfully")
 });
 
-bot.launch()
+// bot.launch()
 
 const app = express();
 app.use(bodyParser.json());
@@ -42,7 +42,23 @@ app.post(`/bot${process.env.BOT_TOKEN}`, async (req, res) => {
 
 app.post('/callback-invoce', internalMiddleware.checkInternalToken, async (req, res) => {
 	console.log(req.body);
-	
+	const { order_id, status} = req.body;
+	const payment = await paymentService.findPaymentByOrderId(order_id);
+	payment.payment_status = status;
+	await payment.save();
+
+	if (status == 'paid' || status == 'paid_over') {
+		const user = await userService.findPaymentByOrderId(payment.userId.userId);
+		user.usd += payment.merchant_amount;
+		await user.save();
+		bot.telegram.sendMessage(payment.userId.userId, `<b>✅ You have successfully recharged ${payment.merchant_amount} chips.</b>`, { parse_mode: 'HTML' });
+	} else if (status == 'cancel') {
+		bot.telegram.sendMessage(payment.userId.userId, `<b>❌ Recharged failed: ${payment.merchant_amount} USDT</b>
+<b>Reason: Recharge time expired.</b>`, { parse_mode: 'HTML' });
+	} else if (status == 'wrong_amount') {
+		bot.telegram.sendMessage(payment.userId.userId, `<b>❌ Recharged failed: ${payment.merchant_amount} USDT</b>
+<b>Reason: Incorrect amount.</b>`, { parse_mode: 'HTML' });
+	}
 })
 
 const job = new CronJob(

@@ -5,6 +5,11 @@ const createPayment = async (paymentBody) => {
     return payment;
 };
 
+const findPaymentByOrderId = async (order_id) => {
+    return Payment.findOne({'order_id': order_id}).populate('userId', 'userId');
+}
+
 module.exports = {
     createPayment,
+    findPaymentByOrderId
 }

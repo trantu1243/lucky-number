@@ -3,7 +3,7 @@ const userState = require("../userState");
 const axios = require("axios");
 const { v4: uuidv4 } = require('uuid');
 const { Payment } = require("../models");
-const { paymentService } = require("../services");
+const { paymentService, userService } = require("../services");
 require('dotenv').config();
 
 const INTERNAL_TOKEN = process.env.INTERNAL_TOKEN;
@@ -49,6 +49,24 @@ const backRecharge = async (ctx) => {
 
 const startRecharge = async (ctx) => {
     try {
+        const dateNow = Math.floor(Date.now() / 1000);
+        const user = await userService.getUserByUserId(ctx.from.id);
+
+        if (dateNow < user.payment_time + 60) {
+            ctx.editMessageText(
+                    `<b>❌ You can only create one payment per minute.</b>`,
+                    {
+                        parse_mode: 'HTML',
+                        ...Markup.inlineKeyboard([
+                            Markup.button.callback('🚪 Back', 'back_recharge'),
+                        ])
+                    }   
+            );
+            return
+        } 
+        user.payment_time = dateNow;
+        await user.save();
+
         userState[ctx.from.id] = {
             ...userState[ctx.from.id], 
             action: 'recharge'   
@@ -81,7 +99,7 @@ const onAmount = async (ctx, input, user) => {
         const data = {
             amount: String(input),
             currency: "USDT",
-            order_id: "6",
+            order_id: uuidv4(),
             network: "tron",
             lifetime: "300"
         };

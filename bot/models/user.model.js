@@ -72,12 +72,12 @@ const userSchema = mongoose.Schema(
             default: true
         },
         payment_time: {
-            type: Date,
-            default: Date.now()
+            type: Number,
+            default: Math.floor(Date.now() / 1000)
         },
         payout_time: {
-            type: Date,
-            default: Date.now()
+            type: Number,
+            default: Math.floor(Date.now() / 1000)
         }
     },
     {
@@ -94,6 +94,6 @@ userSchema.statics.isUserIdTaken = async function (userId, excludeUserId) {
 /**
  * @typedef User
  */
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('user', userSchema);
 
 module.exports = User;
