@@ -70,6 +70,14 @@ const userSchema = mongoose.Schema(
         active: {
             type: Boolean,
             default: true
+        },
+        payment_time: {
+            type: Date,
+            default: Date.now()
+        },
+        payout_time: {
+            type: Date,
+            default: Date.now()
         }
     },
     {

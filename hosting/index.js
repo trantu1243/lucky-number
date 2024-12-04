@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const checkInternalToken = require('./middleware/internal');
 const CryptoJS = require('crypto-js');
 const axios = require('axios');
+require('dotenv').config();
 
 const app = express();
 app.use(bodyParser.json());
@@ -26,12 +27,15 @@ app.get('/cryptomus_0d0dd028.html', (req, res) => {
 });
 
 app.post('/create-invoice', checkInternalToken, (req, res) => {
+	const URL = process.env.URL;
+	const API_KEY = process.env.API_KEY;
 	const body = {
 		amount: req.body.amount,
 		currency: req.body.currency,
 		order_id: req.body.order_id,
 		network: req.body.network,
-		lifetime: req.body.lifetime
+		url_callback: `${URL}/callback-invoice-bc40-c903cb794d97-0d0dd028-c61b-4aa6`,
+		lifetime: req.body.lifetime,
 	};
 
 	const data = JSON.stringify(body);
@@ -56,7 +60,22 @@ app.post('/create-invoice', checkInternalToken, (req, res) => {
 		});
 });
 
-app.post('/callback-invoice', (req, res) => {
+app.post('/callback-invoice-bc40-c903cb794d97-0d0dd028-c61b-4aa6', (req, res) => {
+	console.log(req.body);
+	const url = `${process.env.LN_URL}/`;
+	const headers = {
+		'x-internal-token': INTERNAL_TOKEN
+	};
+
+	axios
+		.post(url, req.body, { headers })
+		.then((response) => {
+			res.send(response.data);
+		})
+		.catch((error) => {
+			console.error(error);
+			res.status(400).send(error);
+		});
 
 })
 

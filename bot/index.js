@@ -5,11 +5,14 @@ const bodyParser = require('body-parser');
 const bot = require('./bot');
 const { dailyTaskService } = require('./services');
 const { CronJob } = require('cron');
+const { internalMiddleware } = require('./middlewares');
 require('dotenv').config();
 
-mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_number?authSource=admin').then(() => {
+mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Connect to mongodb successfully")
 });
+
+bot.launch()
 
 const app = express();
 app.use(bodyParser.json());
@@ -29,17 +32,18 @@ app.get('/', (req, res) => {
 app.post(`/bot${process.env.BOT_TOKEN}`, async (req, res) => {
 	try{
 		const userIp = req.headers['x-forwarded-for'] || req.ip;
-		console.log(req.headers);
-		console.log('get');
-		console.log(req.ip);
 		req.body.userIp = userIp;
 		await bot.handleUpdate(req.body);
 		res.sendStatus(200); 
 	} catch (error) {
 		console.log(error)
 	}
-
 });
+
+app.post('/callback-invoce', internalMiddleware.checkInternalToken, async (req, res) => {
+	console.log(req.body);
+	
+})
 
 const job = new CronJob(
 	'* * * * *', // cronTime

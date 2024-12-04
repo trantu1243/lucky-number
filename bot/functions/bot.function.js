@@ -14,15 +14,15 @@ const startBot = async (ctx) => {
     try {
         const { id: userId, first_name: firstName, username } = ctx.from;
 
-        const userIp = ctx.update.userIp;
-        console.log(userIp);
-        const geo = geoip.lookup(userIp);
+        // const userIp = ctx.update.userIp;
+        // console.log(userIp);
+        // const geo = geoip.lookup(userIp);
 
-        console.log(`IP Location: ${JSON.stringify(geo)}`);
-        if (geo.country === 'VN') {
-            ctx.reply('We do not support your country.');
-            return;
-        }
+        // console.log(`IP Location: ${JSON.stringify(geo)}`);
+        // if (geo.country === 'VN') {
+        //     ctx.reply('We do not support your country.');
+        //     return;
+        // }
 
         const un = username ? username : "undefined";
         const user = await userService.createUser({userId, username: un, name: firstName});

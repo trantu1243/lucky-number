@@ -7,5 +7,4 @@ const createPayment = async (paymentBody) => {
 
 module.exports = {
     createPayment,
-    getPaymentByUserId
 }

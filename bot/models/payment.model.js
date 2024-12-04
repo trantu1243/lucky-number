@@ -53,7 +53,6 @@ const paymentSchema = mongoose.Schema(
         },
         mercuryo_payment_link: {
             type: String,
-            required: true,
         }
     },
     {

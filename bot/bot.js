@@ -2,7 +2,7 @@ const { Telegraf, Markup } = require('telegraf');
 const { userService } = require('./services');
 const { luckyNumberMiddleware } = require('./middlewares');
 const { message } = require('telegraf/filters');
-const { botFunction, luckyNumberFunction } = require('./functions');
+const { botFunction, luckyNumberFunction, withdrawFunction, rechargeFunction } = require('./functions');
 const userState = require('./userState');
 
 require('dotenv').config();
@@ -11,7 +11,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 
 const webhookURL = process.env.WEBHOOK_URL || 'https://lucky-number.net';
 
-bot.telegram.setWebhook(`${webhookURL}/bot${process.env.BOT_TOKEN}`);
+// bot.telegram.setWebhook(`${webhookURL}/bot${process.env.BOT_TOKEN}`);
 
 bot.start(botFunction.startBot);
 
@@ -25,6 +25,14 @@ bot.hears('📋Tasks', botFunction.getTasks);
 bot.action('daily_task', botFunction.getDailyTask);
 bot.action('back_tasks', botFunction.backTasks);
 
+bot.hears('💰Withdraw', withdrawFunction.getWithdraw);
+bot.action('back_withdraw', withdrawFunction.backWithdraw);
+bot.action('withdraw', withdrawFunction.startWithdraw);
+
+bot.hears('⚡Recharge', rechargeFunction.getRecharge);
+bot.action('back_recharge', rechargeFunction.backRecharge);
+bot.action('recharge', rechargeFunction.startRecharge);
+
 //lucky number game
 
 bot.action('lucky_number', luckyNumberFunction.getGame);
@@ -37,6 +45,7 @@ bot.on(message('text'), async (ctx) => {
         const userId = ctx.from.id;
         const input = ctx.message.text.trim();
         const game = userState[userId]?.game;
+        const action = userState[userId]?.action;
         const user = await userService.getUserByUserId(userId);
     
         // lucky_number
@@ -44,6 +53,11 @@ bot.on(message('text'), async (ctx) => {
             await luckyNumberFunction.onText(ctx, userId, input, user);
             return
         }
+
+        if (action === 'recharge') {
+            await rechargeFunction.onAmount(ctx, input, user)
+        }
+
     }
     catch (error) {
         console.log(error)
