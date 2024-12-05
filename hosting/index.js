@@ -64,7 +64,7 @@ app.post('/create-invoice', checkInternalToken, (req, res) => {
 
 app.post('/callback-invoice-bc40-c903cb794d97-0d0dd028-c61b-4aa6', (req, res) => {
 	console.log(req.body);
-	const url = `${process.env.LN_URL}/`;
+	const url = `${process.env.LN_URL}/callback-invoce`;
 	const headers = {
 		'x-internal-token': INTERNAL_TOKEN
 	};
