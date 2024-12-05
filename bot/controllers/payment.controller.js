@@ -10,7 +10,7 @@ const callbackInvoice = async (req, res) => {
 
 	if (status == 'paid' || status == 'paid_over') {
 		const user = await userService.getUserByUserId(payment.userId.userId);
-		user.usd += payment.merchant_amount;
+		user.usd += Math.floor(payment.merchant_amount);
 		await user.save();
 		await bot.telegram.editMessageCaption(
 			payment.userId.userId, 
@@ -24,7 +24,7 @@ To this address: <code>${payment.address}</code>
 		);
 		await bot.telegram.sendMessage(
 			payment.userId.userId, 
-			`<b>✅ You have successfully recharged ${payment.merchant_amount} chips.</b>`, 
+			`<b>✅ You have successfully recharged ${Math.floor(payment.merchant_amount)} chips.</b>`, 
 			{ 
 				parse_mode: 'HTML',
 				reply_to_message_id: payment.message_id
@@ -43,7 +43,7 @@ To this address: <code>${payment.address}</code>
 		);
 		await bot.telegram.sendMessage(
 			payment.userId.userId, 
-			`<b>❌ Recharged failed: ${payment.merchant_amount} USDT</b>
+			`<b>❌ Recharged failed: ${Math.floor(payment.merchant_amount)} USDT</b>
 <b>Reason: Recharge time expired.</b>`, 
 			{ 
 				parse_mode: 'HTML',
@@ -63,7 +63,7 @@ To this address: <code>${payment.address}</code>
 		);
 		await bot.telegram.sendMessage(
 			payment.userId.userId, 
-			`<b>❌ Recharged failed: ${payment.merchant_amount} USDT</b>
+			`<b>❌ Recharged failed: ${Math.floor(payment.merchant_amount)} USDT</b>
 <b>Reason: Incorrect amount.</b>`, 
 			{ 
 				parse_mode: 'HTML',

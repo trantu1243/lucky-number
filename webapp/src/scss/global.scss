@@ -1,0 +1,124 @@
+*,
+*::before,
+*::after {
+  padding: 0px;
+  margin: 0px;
+  outline: none;
+  box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-right: env(safe-area-inset-right);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  --safe-area-inset-left: env(safe-area-inset-left);
+}
+
+html,
+body,
+main,
+#root,
+#app,
+#screen {
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    color: #111111;
+    scrollbar-width: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'DMSans-Regular', sans-serif;
+
+    #root {
+      width: 100vw;
+
+      #app {
+        display: flex;
+        flex-direction: column;
+        max-width: 650px;
+        margin: 0 auto;
+        position: relative;
+
+        #screen {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          overflow-y: auto;
+          position: relative;
+          -webkit-overflow-scrolling: touch;
+
+          .container {
+            display: flex;
+            flex-direction: column;
+            padding: 0 20px;
+          }
+
+          main {
+            display: flex;
+            flex-direction: column;
+          }
+        }
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      img {
+        display: block;
+      }
+
+      button {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        background-color: transparent;
+        border: none;
+        color: inherit;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      input {
+        all: unset;
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: #a0adcc;
+      }
+
+      textarea {
+        all: unset;
+      }
+
+      .swiper {
+        padding: 0 20px !important;
+      }
+
+      .embla {
+        overflow: hidden;
+      }
+      .embla__container {
+        display: flex;
+      }
+      .embla__slide {
+        flex: 0 0 100%;
+        min-width: 0;
+      }
+    }
+  }
+}

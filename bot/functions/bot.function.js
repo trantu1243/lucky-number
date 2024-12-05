@@ -46,7 +46,13 @@ Your luck will depend entirely on the numbers you choose 🔢.
                     ['🎰Minigames', '👤Profile'],
                     ['📋Tasks', '📜History'],
                     ['⚡Recharge', '💰Withdraw'],
-                    ['❓Help', '🔧Setting']
+                    ['❓Help', '🔧Setting'],
+                    [
+                        {
+                        text: 'Webapp',
+                        web_app: { url: 'https://lucky-number.net' }
+                        }
+                    ]
                 ],
                 resize_keyboard: true,
                 one_time_keyboard: false 

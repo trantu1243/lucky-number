@@ -95,7 +95,7 @@ const onAmount = async (ctx, input, user) => {
             ctx.reply(`Enter the amount you want to recharge (minimum 10 USDT): 💰.`);
             return;
         }
-        const amount = Number(input) * 1.02;
+        const amount = Math.ceil(Number(input) / 0.98 * 10) / 10;
         const data = {
             amount: String(amount),
             currency: "USDT",

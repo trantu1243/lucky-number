@@ -44,20 +44,10 @@ services:
        - /usr/src/lucky-number/node_modules
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.lucky_number.rule=Host(`lucky-number.net`)"
+      - "traefik.http.routers.lucky_number.rule=Host(`api.lucky-number.net`)"
       - "traefik.http.services.lucky_number.loadbalancer.server.port=80"
     networks:
       - lucky_number_network
-  redirect:
-    image: traefik/whoami                               
-    container_name: redirect
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.redirect.rule=Host(`api.lucky-number.net`)"
-      - "traefik.http.routers.redirect.entrypoints=web"             
-      - "traefik.http.middlewares.redirect-to-lucky-number.redirectregex.regex=^.*" 
-      - "traefik.http.middlewares.redirect-to-lucky-number.redirectregex.replacement=http://lucky-number.net" 
-      - "traefik.http.routers.redirect.middlewares=redirect-to-lucky-number" 
   web:
     build:
       context: ./web
@@ -78,6 +68,28 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=Host(`www.lucky-number.net`)"
       - "traefik.http.services.web.loadbalancer.server.port=80"
+    networks:
+      - lucky_number_network
+  webapp:
+    build:
+      context: ./webapp
+      dockerfile: Dockerfile
+    container_name: webapp
+    environment:
+      MONGODB_URL: mongodb://admin:admin036203@mongodb-container:27017/lucky_number?authSource=admin
+    ports:
+      - "80"
+      # - "3001:3001"
+    restart: always
+    depends_on:
+      - "mongodb"
+    volumes:
+       - ./webapp:/usr/src/lucky-number
+       - /usr/src/lucky-number/node_modules
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.webapp.rule=Host(`lucky-number.net`)"
+      - "traefik.http.services.webapp.loadbalancer.server.port=80"
     networks:
       - lucky_number_network
   hosting:
