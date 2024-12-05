@@ -43,6 +43,10 @@ app.post(`/bot${process.env.BOT_TOKEN}`, async (req, res) => {
 
 app.post('/callback-invoce', internalMiddleware.checkInternalToken, paymentController.callbackInvoice);
 
+app.post('/callback-payout', internalMiddleware.checkInternalToken, (req, res) => {
+	console.log(req.body)
+});
+
 const job = new CronJob(
 	'* * * * *', // cronTime
 	async () => {

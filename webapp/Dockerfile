@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:alpine as builder
 
 RUN mkdir -p /usr/src/lucky-number && chown -R node:node /usr/src/lucky-number
 
@@ -24,6 +24,11 @@ RUN apk add --no-cache tzdata \
 
 USER node
 
-EXPOSE 80
+RUN yarn build
 
-CMD ["yarn", "start"]
+FROM nginx:1.19.0
+WORKDIR /usr/share/nginx/html
+RUN rm -rf ./*
+COPY --from=builder /usr/src/lucky-number/build .
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
