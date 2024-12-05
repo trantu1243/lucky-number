@@ -6,6 +6,7 @@ const bot = require('./bot');
 const { dailyTaskService, paymentService, userService } = require('./services');
 const { CronJob } = require('cron');
 const { internalMiddleware } = require('./middlewares');
+const { paymentController } = require('./controllers');
 require('dotenv').config();
 
 mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_number?authSource=admin').then(() => {
@@ -40,77 +41,7 @@ app.post(`/bot${process.env.BOT_TOKEN}`, async (req, res) => {
 	}
 });
 
-app.post('/callback-invoce', internalMiddleware.checkInternalToken, async (req, res) => {
-	console.log(req.body);
-	const { order_id, status} = req.body;
-	const payment = await paymentService.findPaymentByOrderId(order_id);
-	payment.payment_status = status;
-	await payment.save();
-
-	if (status == 'paid' || status == 'paid_over') {
-		const user = await userService.getUserByUserId(payment.userId.userId);
-		user.usd += payment.merchant_amount;
-		await user.save();
-		await bot.telegram.editMessageText(
-			payment.userId.userId, 
-			payment.message_id, 
-			null, 
-			`Send an amount equal to or greater than: <code>${payment.amount}</code> ${payment.currency} tron(TRC20)
-To this address: <code>${payment.address}</code>
-
-⏰ <b><i>✅ YOU HAVE SUCCESSFULLY RECHARGED.</b>`, 
-			{ parse_mode: 'HTML' }
-		);
-		await bot.telegram.sendMessage(
-			payment.userId.userId, 
-			`<b>✅ You have successfully recharged ${payment.merchant_amount} chips.</b>`, 
-			{ 
-				parse_mode: 'HTML',
-				reply_to_message_id: payment.message_id
-			}
-		);
-	} else if (status == 'cancel') {
-		await bot.telegram.editMessageText(
-			payment.userId.userId, 
-			payment.message_id, 
-			null, 
-			`Send an amount equal to or greater than: <code>${payment.amount}</code> ${payment.currency} tron(TRC20)
-To this address: <code>${payment.address}</code>
-
-⏰ <b><i>❌ RECHARGED FAILED: RECHARGE TIME EXPIRED.</b>`, 
-			{ parse_mode: 'HTML' }
-		);
-		await bot.telegram.sendMessage(
-			payment.userId.userId, 
-			`<b>❌ Recharged failed: ${payment.merchant_amount} USDT</b>
-<b>Reason: Recharge time expired.</b>`, 
-			{ 
-				parse_mode: 'HTML',
-				reply_to_message_id: payment.message_id
-			}
-		);
-	} else if (status == 'wrong_amount') {
-		await bot.telegram.editMessageText(
-			payment.userId.userId, 
-			payment.message_id, 
-			null, 
-			`Send an amount equal to or greater than: <code>${payment.amount}</code> ${payment.currency} tron(TRC20)
-To this address: <code>${payment.address}</code>
-
-⏰ <b><i>❌ RECHARGED FAILED: INCORRECT AMOUNT.</b>`, 
-			{ parse_mode: 'HTML' }
-		);
-		await bot.telegram.sendMessage(
-			payment.userId.userId, 
-			`<b>❌ Recharged failed: ${payment.merchant_amount} USDT</b>
-<b>Reason: Incorrect amount.</b>`, 
-			{ 
-				parse_mode: 'HTML',
-				reply_to_message_id: payment.message_id
-			}
-		);
-	}
-})
+app.post('/callback-invoce', internalMiddleware.checkInternalToken, paymentController.callbackInvoice);
 
 const job = new CronJob(
 	'* * * * *', // cronTime
