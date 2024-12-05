@@ -1,12 +1,19 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
 const checkInternalToken = require('./middleware/internal');
 const CryptoJS = require('crypto-js');
 const axios = require('axios');
+const { CronJob } = require('cron');
+const { PaymentService } = require('./models');
 require('dotenv').config();
 
 const INTERNAL_TOKEN = process.env.INTERNAL_TOKEN;
+
+mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_number?authSource=admin').then(() => {
+    console.log("Connect to mongodb successfully")
+});
 
 const app = express();
 app.use(bodyParser.json());
@@ -138,3 +145,43 @@ const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+const getPaymentService = async () => {
+	const API_KEY = 'AfU4DTD9OFYbPYlGol692R5LWSZpAZ2GWkJObaa7AHWL5bEGMepPzSPeVDcd0WwzRQ7dBdb8Cjf0tcoBjTwxaoUzhumEmIlpToUDPA151zty4sO15KPAzMCNOeMlq4ZH';
+	const body = {};
+
+	const data = JSON.stringify(body);
+	const base64Data = Buffer.from(data).toString('base64');
+	const sign = CryptoJS.MD5(base64Data + API_KEY).toString();
+
+	const url = 'https://api.cryptomus.com/v1/payment/services';
+	const headers = {
+		merchant: '0d0dd028-c61b-4aa6-bc40-c903cb794d97',
+		sign: sign,
+		'Content-Type': 'application/json',
+	};
+	try {
+		const response = await axios.post(url, data, { headers });
+		console.log(response.data);
+		response.data.result.forEach(async (value) => {
+			const paymentService = await PaymentService.findOneAndUpdate(
+				{ currency: value.currency, network: value.network },
+				value, 
+				{ upsert: true, new: true, setDefaultsOnInsert: true } 
+			);
+		});
+	} 
+	catch (error) {
+		console.log(error);
+	}
+}
+
+const job = new CronJob(
+	'0 0 * * *', 
+	function () {
+		getPaymentService()	
+	}, // onTick
+	null, // onComplete
+	true, // start
+	'Europe/London' // timeZone
+);

@@ -34,7 +34,7 @@ const moneyboxes = [
   },
 ];
 
-export const Deposits: React.FC = () => {
+export const Transaction: React.FC = () => {
   const navigate = hooks.useAppNavigate();
 
   const renderHeader = (): JSX.Element => {
@@ -44,15 +44,15 @@ export const Deposits: React.FC = () => {
   const renderTitle = (): JSX.Element => {
     return (
       <div style={{marginBottom: 20}}>
-        <text.H2>Deposits</text.H2>
+        <text.H2>Deposit/Withdrawal</text.H2>
       </div>
     );
   };
 
   const renderCurrentDeposits = (): JSX.Element => {
     return (
-      <div style={{marginBottom: 30}}>
-        <text.T16 style={{marginBottom: 10}}>Current deposits</text.T16>
+      <div style={{marginBottom: 30, marginTop: 20}}>
+        <text.T16 style={{marginBottom: 10}}>Recent deposits</text.T16>
         {deposits.map((deposit, index, array) => {
           const isLast = index === array.length - 1;
           return (
@@ -103,7 +103,7 @@ export const Deposits: React.FC = () => {
   const renderCurrentMoneyBoxes = (): JSX.Element => {
     return (
       <div style={{marginBottom: 30}}>
-        <text.T16 style={{marginBottom: 10}}>Current deposits</text.T16>
+        <text.T16 style={{marginBottom: 10}}>Recent Withdrawals</text.T16>
         {moneyboxes.map((deposit, index, array) => {
           const isLast = index === array.length - 1;
           return (
@@ -160,15 +160,15 @@ export const Deposits: React.FC = () => {
         }}
       >
         <components.Button
-          title='+ moneybox'
-          colorScheme='light'
-          containerStyle={{width: '48%'}}
-          onClick={() => navigate('/OpenMoneybox')}
-        />
-        <components.Button
           title='+ Deposit'
           containerStyle={{width: '48%'}}
           onClick={() => navigate('/OpenDeposit')}
+        />
+        <components.Button
+          title='- Withdraw'
+          colorScheme='light'
+          containerStyle={{width: '48%'}}
+          onClick={() => navigate('/OpenMoneybox')}
         />
       </div>
     );
@@ -185,9 +185,10 @@ export const Deposits: React.FC = () => {
         className='container'
       >
         {renderTitle()}
+        {renderButtons()}
+
         {renderCurrentDeposits()}
         {renderCurrentMoneyBoxes()}
-        {renderButtons()}
       </main>
     );
   };

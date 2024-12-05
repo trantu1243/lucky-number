@@ -12,11 +12,11 @@ import {components} from '../components';
 const currencies = [
   {
     id: 1,
-    title: 'USD',
+    title: 'USDT',
   },
   {
     id: 2,
-    title: 'EUR',
+    title: 'ETH',
   },
 ];
 
@@ -128,42 +128,7 @@ export const OpenDeposit: React.FC = () => {
         <text.T14 style={{marginBottom: 10}}>Choose deposit period</text.T14>
         <div style={{display: 'flex', gap: 10}}>
           {/* Block 01 */}
-          <div
-            style={{
-              flex: '1 1 calc(33.333% - 10px)',
-              backgroundColor: '#FFF7F2',
-              borderRadius: 6,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              aspectRatio: '1/1',
-              flexDirection: 'column',
-            }}
-          >
-            <span
-              style={{
-                ...theme.fonts.SourceSansPro_400Regular,
-                fontSize: 12,
-                textTransform: 'capitalize',
-                color: theme.colors.mainColor,
-                marginBottom: 8,
-                marginTop: 10,
-              }}
-            >
-              You rate
-            </span>
-            <span
-              style={{
-                ...theme.fonts.SourceSansPro_400Regular,
-                fontSize: 24,
-                textTransform: 'capitalize',
-                color: theme.colors.mainColor,
-                marginBottom: 8,
-              }}
-            >
-              8 %
-            </span>
-          </div>
+       
           {/* Block 02 */}
           <div
             style={{

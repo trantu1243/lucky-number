@@ -33,9 +33,9 @@ import {ForgotPasswordSentEmail} from './ForgotPasswordSentEmail';
 // Tabs
 import {More} from './tabs/More';
 import {Loans} from './tabs/Loans';
-import {Deposits} from './tabs/Deposits';
 import {Dashboard} from './tabs/Dashboard';
 import {Notification} from './tabs/Notification';
+import {Transaction} from './tabs/Transaction';
 
 export const screens = {
   FAQ,
@@ -45,7 +45,7 @@ export const screens = {
   SignUp,
   Profile,
   Payments,
-  Deposits,
+  Transaction,
   CardMenu,
   Dashboard,
   Statistics,

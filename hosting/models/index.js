@@ -1,0 +1,1 @@
+module.exports.PaymentService = require('./paymentService.model');
