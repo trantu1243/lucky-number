@@ -8,7 +8,7 @@ const { CronJob } = require('cron');
 const { internalMiddleware } = require('./middlewares');
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGO_URL).then(() => {
+mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_number?authSource=admin').then(() => {
     console.log("Connect to mongodb successfully")
 });
 
