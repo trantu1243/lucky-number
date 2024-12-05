@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { message } = require('telegraf/filters');
 
 const paymentSchema = mongoose.Schema(
     {
@@ -52,6 +53,9 @@ const paymentSchema = mongoose.Schema(
             required: true,
         },
         mercuryo_payment_link: {
+            type: String,
+        },
+        message_id: {
             type: String,
         }
     },

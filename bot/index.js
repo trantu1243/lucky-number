@@ -51,13 +51,64 @@ app.post('/callback-invoce', internalMiddleware.checkInternalToken, async (req, 
 		const user = await userService.getUserByUserId(payment.userId.userId);
 		user.usd += payment.merchant_amount;
 		await user.save();
-		bot.telegram.sendMessage(payment.userId.userId, `<b>✅ You have successfully recharged ${payment.merchant_amount} chips.</b>`, { parse_mode: 'HTML' });
+		await bot.telegram.editMessageText(
+			payment.userId.userId, 
+			payment.message_id, 
+			null, 
+			`Send an amount equal to or greater than: <code>${payment.amount}</code> ${payment.currency} tron(TRC20)
+To this address: <code>${payment.address}</code>
+
+⏰ <b><i>✅ YOU HAVE SUCCESSFULLY RECHARGED.</b>`, 
+			{ parse_mode: 'HTML' }
+		);
+		await bot.telegram.sendMessage(
+			payment.userId.userId, 
+			`<b>✅ You have successfully recharged ${payment.merchant_amount} chips.</b>`, 
+			{ 
+				parse_mode: 'HTML',
+				reply_to_message_id: payment.message_id
+			}
+		);
 	} else if (status == 'cancel') {
-		bot.telegram.sendMessage(payment.userId.userId, `<b>❌ Recharged failed: ${payment.merchant_amount} USDT</b>
-<b>Reason: Recharge time expired.</b>`, { parse_mode: 'HTML' });
+		await bot.telegram.editMessageText(
+			payment.userId.userId, 
+			payment.message_id, 
+			null, 
+			`Send an amount equal to or greater than: <code>${payment.amount}</code> ${payment.currency} tron(TRC20)
+To this address: <code>${payment.address}</code>
+
+⏰ <b><i>❌ RECHARGED FAILED: RECHARGE TIME EXPIRED.</b>`, 
+			{ parse_mode: 'HTML' }
+		);
+		await bot.telegram.sendMessage(
+			payment.userId.userId, 
+			`<b>❌ Recharged failed: ${payment.merchant_amount} USDT</b>
+<b>Reason: Recharge time expired.</b>`, 
+			{ 
+				parse_mode: 'HTML',
+				reply_to_message_id: payment.message_id
+			}
+		);
 	} else if (status == 'wrong_amount') {
-		bot.telegram.sendMessage(payment.userId.userId, `<b>❌ Recharged failed: ${payment.merchant_amount} USDT</b>
-<b>Reason: Incorrect amount.</b>`, { parse_mode: 'HTML' });
+		await bot.telegram.editMessageText(
+			payment.userId.userId, 
+			payment.message_id, 
+			null, 
+			`Send an amount equal to or greater than: <code>${payment.amount}</code> ${payment.currency} tron(TRC20)
+To this address: <code>${payment.address}</code>
+
+⏰ <b><i>❌ RECHARGED FAILED: INCORRECT AMOUNT.</b>`, 
+			{ parse_mode: 'HTML' }
+		);
+		await bot.telegram.sendMessage(
+			payment.userId.userId, 
+			`<b>❌ Recharged failed: ${payment.merchant_amount} USDT</b>
+<b>Reason: Incorrect amount.</b>`, 
+			{ 
+				parse_mode: 'HTML',
+				reply_to_message_id: payment.message_id
+			}
+		);
 	}
 })
 

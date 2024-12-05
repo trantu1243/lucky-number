@@ -95,9 +95,9 @@ const onAmount = async (ctx, input, user) => {
             ctx.reply(`Enter the amount you want to recharge (minimum 10 USDT): 💰.`);
             return;
         }
-        amount = Number(input) * 1.02;
+        const amount = Number(input) * 1.02;
         const data = {
-            amount: String(input),
+            amount: String(amount),
             currency: "USDT",
             order_id: uuidv4(),
             network: "tron",
@@ -120,7 +120,7 @@ const onAmount = async (ctx, input, user) => {
         const base64Data = payment.address_qr_code.replace(/^data:image\/\w+;base64,/, '');
         const imageBuffer = Buffer.from(base64Data, 'base64');
         const expired_at = formatTimestamp(payment.expired_at);
-        ctx.sendPhoto({ source: imageBuffer }, {
+        const editedMessage = await ctx.sendPhoto({ source: imageBuffer }, {
             caption: `Send an amount equal to or greater than: <code>${payment.amount}</code> ${payment.currency} tron(TRC20)
 To this address: <code>${payment.address}</code>
 
@@ -129,6 +129,9 @@ To this address: <code>${payment.address}</code>
 ⏰ <b><i>PAYMENT WILL EXPIRE AT:</i> ${expired_at}</b>`,
             parse_mode: 'HTML',
         })
+
+        payment = editedMessage.message_id;
+        await payment.save();
     }
     catch (error) {
         console.log(error)
