@@ -47,12 +47,7 @@ Your luck will depend entirely on the numbers you choose 🔢.
                     ['📋Tasks', '📜History'],
                     ['⚡Recharge', '💰Withdraw'],
                     ['❓Help', '🔧Setting'],
-                    [
-                        {
-                        text: 'Webapp',
-                        web_app: { url: 'https://lucky-number.net' }
-                        }
-                    ]
+                    ['Webapp']
                 ],
                 resize_keyboard: true,
                 one_time_keyboard: false 
@@ -244,6 +239,19 @@ Your luck will depend entirely on the numbers you choose 🔢.
     }
     catch (error) {
         console.log(error)
+    }
+}
+
+const getWebapp = async (ctx) => {
+    try{
+        ctx.reply('Choose section below:',
+            Markup.inlineKeyboard([
+                Markup.button.webApp('Open Web App', 'https://lucky-number.net') 
+              ])
+        );
+    }
+    catch (error) {
+        console.log(error);
     }
 }
 

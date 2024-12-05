@@ -33,6 +33,9 @@ bot.hears('⚡Recharge', rechargeFunction.getRecharge);
 bot.action('back_recharge', rechargeFunction.backRecharge);
 bot.action('recharge', rechargeFunction.startRecharge);
 
+bot.hears('Webapp', rechargeFunction.getRecharge);
+
+
 //lucky number game
 
 bot.action('lucky_number', luckyNumberFunction.getGame);
