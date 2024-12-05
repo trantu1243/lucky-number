@@ -264,5 +264,6 @@ module.exports = {
     sendHistory,
     getTasks,
     backTasks,
+    getWebapp,
     leave
 }

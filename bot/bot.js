@@ -33,7 +33,7 @@ bot.hears('⚡Recharge', rechargeFunction.getRecharge);
 bot.action('back_recharge', rechargeFunction.backRecharge);
 bot.action('recharge', rechargeFunction.startRecharge);
 
-bot.hears('Webapp', rechargeFunction.getRecharge);
+bot.hears('Webapp', botFunction.getWebapp);
 
 
 //lucky number game
