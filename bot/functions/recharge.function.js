@@ -130,7 +130,7 @@ To this address: <code>${payment.address}</code>
             parse_mode: 'HTML',
         })
 
-        payment = editedMessage.message_id;
+        payment.message_id = editedMessage.message_id;
         await payment.save();
     }
     catch (error) {
