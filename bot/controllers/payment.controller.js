@@ -12,7 +12,7 @@ const callbackInvoice = async (req, res) => {
 		const user = await userService.getUserByUserId(payment.userId.userId);
 		user.usd += payment.merchant_amount;
 		await user.save();
-		await bot.telegram.editMessageText(
+		await bot.telegram.editMessageCaption(
 			payment.userId.userId, 
 			payment.message_id, 
 			null, 
@@ -31,7 +31,7 @@ To this address: <code>${payment.address}</code>
 			}
 		);
 	} else if (status == 'cancel') {
-		await bot.telegram.editMessageText(
+		await bot.telegram.editMessageCaption(
 			payment.userId.userId, 
 			payment.message_id, 
 			null, 
@@ -51,7 +51,7 @@ To this address: <code>${payment.address}</code>
 			}
 		);
 	} else if (status == 'wrong_amount') {
-		await bot.telegram.editMessageText(
+		await bot.telegram.editMessageCaption(
 			payment.userId.userId, 
 			payment.message_id, 
 			null, 
