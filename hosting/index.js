@@ -6,6 +6,8 @@ const CryptoJS = require('crypto-js');
 const axios = require('axios');
 require('dotenv').config();
 
+const INTERNAL_TOKEN = process.env.INTERNAL_TOKEN;
+
 const app = express();
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
