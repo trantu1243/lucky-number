@@ -1,5 +1,5 @@
+const bot = require("../bot");
 const { paymentService, userService } = require("../services");
-const bot = require('./bot');
 
 const callbackInvoice = async (req, res) => {
 	console.log(req.body);
