@@ -24,6 +24,11 @@ const userSchema = mongoose.Schema(
             required: true,
             default: 0
         },
+        experience: {
+            type: Number,
+            required: true,
+            default: 0
+        },
         level: {
             type: String,
             enum: userLevels,

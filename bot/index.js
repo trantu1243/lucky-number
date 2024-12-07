@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.post(`/bot${process.env.BOT_TOKEN}`, async (req, res) => {
+app.post(`/bot${encodeURIComponent(process.env.BOT_TOKEN)}`, async (req, res) => {
 	try{
 		const userIp = req.headers['x-forwarded-for'] || req.ip;
 		req.body.userIp = userIp;

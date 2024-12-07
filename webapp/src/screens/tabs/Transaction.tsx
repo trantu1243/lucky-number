@@ -162,7 +162,7 @@ export const Transaction: React.FC = () => {
         <components.Button
           title='+ Deposit'
           containerStyle={{width: '48%'}}
-          onClick={() => navigate('/OpenDeposit')}
+          onClick={() => navigate('/deposit')}
         />
         <components.Button
           title='- Withdraw'

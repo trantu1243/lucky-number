@@ -1,15 +1,50 @@
-import React, {useState, useEffect} from 'react';
-import {useLocation} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
-import {text} from '../text';
-import {hooks} from '../hooks';
-import {utils} from '../utils';
-import {svg} from '../assets/svg';
-import {theme} from '../constants';
-import {components} from '../components';
+import { text } from '../text';
+import { hooks } from '../hooks';
+import { utils } from '../utils';
+import { svg } from '../assets/svg';
+import { theme } from '../constants';
+import { components } from '../components';
+import { ErrorPage } from './ErrorPage';
+
+const loanDetails = [
+  {
+    title: '💰Chips',
+    content: '50',
+  },
+  {
+    title: '🎖️Level',
+    content: 'Beginner (0/50)',
+  },
+  {
+    title: '🎲Wins',
+    content: '24',
+  },
+  {
+    title: '📅Player since',
+    content: '2024-12-05',
+  },
+  {
+    title: '📅Last played',
+    content: '2024-12-05',
+  },
+];
+
+interface TelegramUser {
+  id: number;
+  first_name: string;
+  last_name?: string; 
+  username?: string;  
+  photo_url?: string; 
+}
 
 export const Profile: React.FC = () => {
-  const {pathname} = useLocation();
+
+  const [user, setUser] = useState<TelegramUser | null>(null);
+
+  const { pathname } = useLocation();
 
   const navigate = hooks.useAppNavigate();
 
@@ -18,9 +53,20 @@ export const Profile: React.FC = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      window.scroll({top: -1, left: 0, behavior: 'smooth'});
+      window.scroll({ top: -1, left: 0, behavior: 'smooth' });
     }, 10);
   }, [pathname]);
+
+  useEffect(() => {
+    const telegram = (window as any).Telegram?.WebApp;
+    if (telegram && telegram.initDataUnsafe?.user) {
+      console.log(telegram.initDataUnsafe.user);
+      setUser(telegram.initDataUnsafe.user as TelegramUser);
+    }
+  }, []);
+
+  if (!user) 
+    return <ErrorPage />
 
   const renderHeader = (): JSX.Element => {
     return (
@@ -34,7 +80,7 @@ export const Profile: React.FC = () => {
   const renderUserInfo = (): JSX.Element => {
     return (
       <div
-        style={{marginBottom: 30, cursor: 'pointer', userSelect: 'none'}}
+        style={{ marginBottom: 30, cursor: 'pointer', userSelect: 'none' }}
         onClick={() => navigate('/EditPersonalInfo')}
       >
         <img
@@ -48,11 +94,33 @@ export const Profile: React.FC = () => {
             marginBottom: 14,
           }}
         />
-        <text.H4 style={{textAlign: 'center'}}>Briley Henderson</text.H4>
-        <text.T16 style={{textAlign: 'center'}}>+17 123 456 7890</text.T16>
+        <text.H4 style={{ textAlign: 'center' }}>Briley Henderson</text.H4>
+        <text.T16 style={{ textAlign: 'center' }}>+17 123 456 7890</text.T16>
       </div>
     );
   };
+
+  const renderInfo = (): JSX.Element => {
+    return (
+      <div style={{ marginBottom: 30 }}>
+        {loanDetails.map((item, index, array) => {
+          const isLast = index === array.length - 1;
+          return (
+            <div
+              style={{
+                ...utils.rowCenterSpcBtw(),
+                padding: '0 20px',
+                marginBottom: isLast ? 0 : 14,
+              }}
+            >
+              <text.T14 style={{ marginBottom: 10 }}>{item.title}</text.T14>
+              <text.H6>{item.content}</text.H6>
+            </div>
+          );
+        })}
+      </div>
+    )
+  }
 
   const renderMenu = (): JSX.Element => {
     const btnStyle = {
@@ -63,102 +131,14 @@ export const Profile: React.FC = () => {
     };
 
     return (
-      <div style={{marginBottom: 30}}>
-        <div
-          style={{
-            ...btnStyle,
-            marginBottom: 8,
-            cursor: 'pointer',
-            userSelect: 'none',
-          }}
-          onClick={() => navigate('/EditPersonalInfo')}
-        >
-          <svg.ProfileUserSvg />
-          <text.H5 style={{marginLeft: 10, marginRight: 'auto'}}>
-            Personal Info
-          </text.H5>
-          <svg.RightArrowSvg />
-        </div>
-        <div
-          style={{
-            ...btnStyle,
-            marginBottom: 10,
-            cursor: 'pointer',
-            userSelect: 'none',
-          }}
-          onClick={() => setNotification(!notification)}
-        >
-          <svg.MessageCircelSvg />
-          <text.H5 style={{marginLeft: 10, marginRight: 'auto'}}>
-            Notifications
-          </text.H5>
-          <div
-            style={{
-              width: 41,
-              backgroundColor: notification ? '#55ACEE' : 'lightgray',
-              borderRadius: 12,
-              padding: '1.5px 1.5px',
-              cursor: 'pointer',
-              userSelect: 'none',
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: notification ? 'flex-end' : 'flex-start',
-            }}
-          >
-            <div
-              style={{
-                width: 20.9,
-                height: 20.9,
-                backgroundColor: '#FFFFFF',
-                borderRadius: 11,
-                alignSelf: notification ? 'flex-end' : 'flex-start',
-              }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            ...btnStyle,
-            marginBottom: 10,
-            cursor: 'pointer',
-            userSelect: 'none',
-          }}
-          onClick={() => setFaceID(!faceID)}
-        >
-          <svg.FaceIDSvg />
-          <text.H5 style={{marginLeft: 10, marginRight: 'auto'}}>
-            Face ID
-          </text.H5>
-          <div
-            style={{
-              width: 41,
-              backgroundColor: faceID ? '#55ACEE' : 'lightgray',
-              borderRadius: 12,
-              padding: '1.5px 1.5px',
-              cursor: 'pointer',
-              userSelect: 'none',
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: faceID ? 'flex-end' : 'flex-start',
-            }}
-          >
-            <div
-              style={{
-                width: 20.9,
-                height: 20.9,
-                backgroundColor: '#FFFFFF',
-                borderRadius: 11,
-                alignSelf: faceID ? 'flex-end' : 'flex-start',
-              }}
-            />
-          </div>
-        </div>
-        <div style={{...btnStyle, cursor: 'pointer', userSelect: 'none'}}>
+      <div style={{ marginBottom: 30 }}>
+
+        <div style={{ ...btnStyle, cursor: 'pointer', userSelect: 'none' }}>
           <svg.TranslateSvg />
-          <text.H5 style={{marginLeft: 10, marginRight: 'auto'}}>
+          <text.H5 style={{ marginLeft: 10, marginRight: 'auto' }}>
             Language
           </text.H5>
-          <div style={{...utils.rowCenter({gap: 11})}}>
+          <div style={{ ...utils.rowCenter({ gap: 11 }) }}>
             <span
               style={{
                 fontSize: 12,
@@ -189,9 +169,10 @@ export const Profile: React.FC = () => {
     return (
       <main
         className='container'
-        style={{marginTop: 52 + 46, marginBottom: 20}}
+        style={{ marginTop: 52 + 46, marginBottom: 20 }}
       >
         {renderUserInfo()}
+        {renderInfo()}
         {renderMenu()}
         {renderButton()}
       </main>

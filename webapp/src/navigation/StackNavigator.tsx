@@ -10,6 +10,10 @@ const stack = createBrowserRouter([
     element: <screens.Onboarding />,
   },
   {
+    path: '/deposit',
+    element: <screens.Deposit/>,
+  },
+  {
     path: '/SignIn',
     element: <screens.SignIn />,
   },

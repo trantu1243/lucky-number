@@ -4,6 +4,7 @@ import {SignUp} from './SignUp';
 import {Profile} from './Profile';
 import {CardMenu} from './CardMenu';
 import {Payments} from './Payments';
+import {Deposit} from './Deposit';
 import {Onboarding} from './Onboarding';
 import {Statistics} from './Statistics';
 import {OpenNewLoan} from './OpenNewLoan';
@@ -29,6 +30,7 @@ import {TransactionDetails} from './TransactionDetails';
 import {SignUpAccountCreated} from './SignUpAccountCreated';
 import {VerifyYourPhoneNumber} from './VerifyYourPhoneNumber';
 import {ForgotPasswordSentEmail} from './ForgotPasswordSentEmail';
+import { ErrorPage } from './ErrorPage';
 
 // Tabs
 import {More} from './tabs/More';
@@ -46,6 +48,7 @@ export const screens = {
   Profile,
   Payments,
   Transaction,
+  Deposit,
   CardMenu,
   Dashboard,
   Statistics,
@@ -74,4 +77,5 @@ export const screens = {
   SignUpAccountCreated,
   VerifyYourPhoneNumber,
   ForgotPasswordSentEmail,
+  ErrorPage
 };
