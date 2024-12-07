@@ -255,6 +255,19 @@ const getWebapp = async (ctx) => {
     }
 }
 
+const getProfileWebapp = async (ctx) => {
+    try{
+        ctx.reply('Choose section below:',
+            Markup.inlineKeyboard([
+                Markup.button.webApp('Open Web App', 'https://lucky-number.net/Profile') 
+              ])
+        );
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     startBot,
     getProfile,
@@ -265,5 +278,6 @@ module.exports = {
     getTasks,
     backTasks,
     getWebapp,
+    getProfileWebapp,
     leave
 }

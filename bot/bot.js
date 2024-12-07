@@ -16,7 +16,7 @@ bot.telegram.setWebhook(`${webhookURL}/bot${encodeURIComponent(process.env.BOT_T
 bot.start(botFunction.startBot);
 
 bot.command("profile", botFunction.getProfile);
-bot.hears('👤Profile', botFunction.getProfile);
+bot.hears('👤Profile', botFunction.getProfileWebapp);
 bot.hears('🎰Minigames', botFunction.getMinigames);
 bot.hears('📜History', async (ctx) => {
     await botFunction.sendHistory(ctx, 1, true);
