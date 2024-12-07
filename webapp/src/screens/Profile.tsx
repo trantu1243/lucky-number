@@ -43,6 +43,7 @@ interface TelegramUser {
 export const Profile: React.FC = () => {
 
   const [user, setUser] = useState<TelegramUser | null>(null);
+  const [telegramm, setTele] = useState(null);
 
   const { pathname } = useLocation();
 
@@ -59,6 +60,7 @@ export const Profile: React.FC = () => {
 
   useEffect(() => {
     const telegram = (window as any).Telegram?.WebApp;
+    setTele(telegram);
     if (telegram && telegram.initDataUnsafe?.user) {
       console.log(telegram.initDataUnsafe.user);
       setUser(telegram.initDataUnsafe.user as TelegramUser);
@@ -66,7 +68,12 @@ export const Profile: React.FC = () => {
   }, []);
 
   if (!user) 
-    return <ErrorPage />
+    return  (<>
+      <div>{telegramm}</div>
+      <ErrorPage />
+    </>
+    
+  )
 
   const renderHeader = (): JSX.Element => {
     return (
