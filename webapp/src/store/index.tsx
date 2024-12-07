@@ -19,6 +19,7 @@ import {filterSlice} from './slices/filterSlice';
 import {paymentSlice} from './slices/paymentSlice';
 import {firstLaunchSlice} from './slices/firstLaunchSlice';
 import {verificationSlice} from './slices/verificationSlice';
+import { webappSlice } from './slices/webappSlice';
 
 const rootReducer = combineReducers({
   tabSlice: tabSlice.reducer,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   paymentSlice: paymentSlice.reducer,
   firstLaunchSlice: firstLaunchSlice.reducer,
   verificationSlice: verificationSlice.reducer,
+  webappSlice: webappSlice.reducer
 });
 
 const persistConfig = {
@@ -40,6 +42,7 @@ const persistConfig = {
     'promocodeSlice',
     'firstLaunchSlice',
     'verificationSlice',
+    'webappSlice'
   ],
 };
 

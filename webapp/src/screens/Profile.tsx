@@ -8,6 +8,7 @@ import { svg } from '../assets/svg';
 import { theme } from '../constants';
 import { components } from '../components';
 import { ErrorPage } from './ErrorPage';
+import { useAppSelector } from '../store';
 
 const loanDetails = [
   {
@@ -32,25 +33,13 @@ const loanDetails = [
   },
 ];
 
-interface TelegramUser {
-  id: number;
-  first_name: string;
-  last_name?: string; 
-  username?: string;  
-  photo_url?: string; 
-}
-
 export const Profile: React.FC = () => {
 
-  const [user, setUser] = useState<TelegramUser | null>(null);
-  const [telegramm, setTele] = useState(null);
+  const teleUser = useAppSelector(state => state.webappSlice.user);
 
   const { pathname } = useLocation();
 
   const navigate = hooks.useAppNavigate();
-
-  const [faceID, setFaceID] = useState(true);
-  const [notification, setNotification] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
@@ -58,20 +47,10 @@ export const Profile: React.FC = () => {
     }, 10);
   }, [pathname]);
 
-  useEffect(() => {
-    const app = (window as any).Telegram?.WebApp;
-    if (app) {
-      app.ready();
-      console.log(app);
-    }
-  }, []);
-
-  if (!user) 
+  if (!teleUser) 
     return  (<>
-      <div>{telegramm}</div>
       <ErrorPage />
     </>
-    
   )
 
   const renderHeader = (): JSX.Element => {
@@ -91,7 +70,7 @@ export const Profile: React.FC = () => {
       >
         <img
           alt='avatar'
-          src='https://george-fx.github.io/apitex_api/assets/users/01.png'
+          src={teleUser.photo_url ? teleUser.photo_url : 'https://george-fx.github.io/apitex_api/assets/users/01.png'}
           style={{
             width: 100,
             height: 100,
@@ -100,7 +79,7 @@ export const Profile: React.FC = () => {
             marginBottom: 14,
           }}
         />
-        <text.H4 style={{ textAlign: 'center' }}>Briley Henderson</text.H4>
+        <text.H4 style={{ textAlign: 'center' }}>{teleUser.first_name} {teleUser.last_name}</text.H4>
         <text.T16 style={{ textAlign: 'center' }}>+17 123 456 7890</text.T16>
       </div>
     );
