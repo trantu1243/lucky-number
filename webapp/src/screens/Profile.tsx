@@ -59,11 +59,10 @@ export const Profile: React.FC = () => {
   }, [pathname]);
 
   useEffect(() => {
-    const telegram = (window as any).Telegram?.WebApp;
-    setTele(telegram);
-    if (telegram && telegram.initDataUnsafe?.user) {
-      console.log(telegram.initDataUnsafe.user);
-      setUser(telegram.initDataUnsafe.user as TelegramUser);
+    const app = (window as any).Telegram?.WebApp;
+    if (app) {
+      app.ready();
+      console.log(app);
     }
   }, []);
 
