@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { text } from '../text';
@@ -22,6 +22,7 @@ export const Profile: React.FC = () => {
 
   const teleUser = useAppSelector(state => state.webappSlice.user);
   const [userInfo, setUserInfo] = useState<IUserInfo>({usd: 0, level: '', won: 0, createdAt: '', updatedAt: ''});
+  const webapp = useAppSelector(state => state.webappSlice.webApp);
 
   const loanDetails = [
     { title: '💰Chips', content: userInfo.usd.toString() },
@@ -31,7 +32,31 @@ export const Profile: React.FC = () => {
     { title: '📅Last played', content: userInfo.updatedAt },
   ];
 
-  
+  const getUserInfo = useCallback(async ()=>{
+    const params = webapp?.initDataUnsafe;
+    const sanitizedParams = Object.fromEntries(
+      Object.entries(params || {}).map(([key, value]) => [key, String(value)])
+    );
+    const query = new URLSearchParams(sanitizedParams).toString();
+    console.log(sanitizedParams)
+    const urlWithParams = `https://api.lucky-number.net/v1/user?${query}`;
+
+
+    fetch(urlWithParams, {
+      method: 'GET',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setUserInfo(data);
+      })
+      .catch((error) => console.error(error));
+
+  }, [webapp]);
+
+  useEffect(()=>{
+    getUserInfo()
+  }, [getUserInfo])
 
   const { pathname } = useLocation();
 
