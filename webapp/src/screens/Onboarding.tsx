@@ -189,7 +189,7 @@ export const Onboarding: React.FC = () => {
           width: '44%',
           margin: '0 20px 20px 20px',
         }}
-        onClick={() => navigate('/SignIn')}
+        onClick={() => navigate('/TabNavigator')}
       />
     );
   };

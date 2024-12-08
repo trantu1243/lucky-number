@@ -11,6 +11,7 @@ import {svg} from '../../assets/svg';
 import {theme} from '../../constants';
 import {components} from '../../components';
 import {TransactionType, UserType, OperationType} from '../../types';
+import { useAppSelector } from '../../store';
 
 const cards = [
   {
@@ -59,6 +60,8 @@ const operations: OperationType[] = [
 
 export const Dashboard: React.FC = () => {
   const navigate = hooks.useAppNavigate();
+  const teleUser = useAppSelector(state => state.webappSlice.user);
+
 
   const {pathname} = useLocation();
 

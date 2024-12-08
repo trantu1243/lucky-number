@@ -7,6 +7,7 @@ import {svg} from '../assets/svg';
 import {theme} from '../constants';
 import {actions} from '../store/actions';
 import {hooks, RootState} from '../hooks';
+import { useAppSelector } from '../store';
 
 type Props = {
   user?: boolean;
@@ -31,6 +32,8 @@ export const Header: React.FC<Props> = ({
   documentIcon,
 }) => {
   const navigate = useNavigate();
+  const teleUser = useAppSelector(state => state.webappSlice.user);
+
 
   const renderGoBack = (): JSX.Element | null => {
     const canGoBack = window.history.length > 1;
@@ -70,11 +73,11 @@ export const Header: React.FC<Props> = ({
         >
           <img
             alt='avatar'
-            src='https://george-fx.github.io/apitex/users/01.png'
+            src={teleUser?.photo_url ? teleUser.photo_url : 'https://george-fx.github.io/apitex_api/assets/users/01.png'}
             style={{width: 26, marginRight: 10, borderRadius: 13}}
           />
           <text.T16 style={{color: theme.colors.mainDark}}>
-            Briley Henderson
+            {teleUser?.first_name}
           </text.T16>
         </div>
       </div>
