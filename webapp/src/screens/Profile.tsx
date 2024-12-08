@@ -33,17 +33,14 @@ export const Profile: React.FC = () => {
   ];
 
   const getUserInfo = useCallback(async ()=>{
-    const params = webapp?.initDataUnsafe;
-    const sanitizedParams = Object.fromEntries(
-      Object.entries(params || {}).map(([key, value]) => [key, String(value)])
-    );
-    const query = new URLSearchParams(sanitizedParams).toString();
-    console.log(sanitizedParams)
+    const body = webapp?.initDataUnsafe || {};
+    console.log(body)
     const urlWithParams = `https://api.lucky-number.net/v1/user?${query}`;
 
 
     fetch(urlWithParams, {
-      method: 'GET',
+      method: 'POST',
+      body: JSON.stringify(body)
     })
       .then((response) => response.json())
       .then((data) => {
@@ -100,7 +97,7 @@ export const Profile: React.FC = () => {
             marginBottom: 14,
           }}
         />
-        <text.H4 style={{ textAlign: 'center' }}>{teleUser.first_name} {teleUser.last_name}</text.H4>
+        <text.H4 style={{ textAlign: 'center' }}>{teleUser.first_name} {teleUser.last_name }</text.H4>
         {/* <text.T16 style={{ textAlign: 'center' }}>+17 123 456 7890</text.T16> */}
       </div>
     );
