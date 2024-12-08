@@ -15,12 +15,25 @@ import {TransactionType, UserType, OperationType} from '../../types';
 const cards = [
   {
     id: 1,
-    cardUrl: 'https://george-fx.github.io/apitex/cards/01.jpg',
+    cardUrl: '/images/Home/1-lucky-number-game-min.png',
   },
   {
     id: 2,
-    cardUrl: 'https://george-fx.github.io/apitex/cards/02.jpg',
+    cardUrl: '/images/Home/2-even-odd-game-min.png',
   },
+  {
+    id: 3,
+    cardUrl: '/images/Home/3-over-under-game-min.png',
+  },
+  {
+    id: 4,
+    cardUrl: '/images/Home/4-lucky-lottery-min.png',
+  },
+  {
+    id: 5,
+    cardUrl: '/images/Home/5-poke-play-game-min.png',
+  },
+  
 ];
 
 const operations: OperationType[] = [

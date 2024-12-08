@@ -10,32 +10,28 @@ import { components } from '../components';
 import { ErrorPage } from './ErrorPage';
 import { useAppSelector } from '../store';
 
-const loanDetails = [
-  {
-    title: '💰Chips',
-    content: '50',
-  },
-  {
-    title: '🎖️Level',
-    content: 'Beginner (0/50)',
-  },
-  {
-    title: '🎲Wins',
-    content: '24',
-  },
-  {
-    title: '📅Player since',
-    content: '2024-12-05',
-  },
-  {
-    title: '📅Last played',
-    content: '2024-12-05',
-  },
-];
+export interface IUserInfo {
+  usd: number;
+  level: string;
+  won: number;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export const Profile: React.FC = () => {
 
   const teleUser = useAppSelector(state => state.webappSlice.user);
+  const [userInfo, setUserInfo] = useState<IUserInfo>({usd: 0, level: '', won: 0, createdAt: '', updatedAt: ''});
+
+  const loanDetails = [
+    { title: '💰Chips', content: userInfo.usd.toString() },
+    { title: '🎖️Level', content: userInfo.level },
+    { title: '🎲Wins', content: userInfo.won.toString() },
+    { title: '📅Player since', content: userInfo.createdAt },
+    { title: '📅Last played', content: userInfo.updatedAt },
+  ];
+
+  
 
   const { pathname } = useLocation();
 
@@ -80,7 +76,7 @@ export const Profile: React.FC = () => {
           }}
         />
         <text.H4 style={{ textAlign: 'center' }}>{teleUser.first_name} {teleUser.last_name}</text.H4>
-        <text.T16 style={{ textAlign: 'center' }}>+17 123 456 7890</text.T16>
+        {/* <text.T16 style={{ textAlign: 'center' }}>+17 123 456 7890</text.T16> */}
       </div>
     );
   };
@@ -140,15 +136,15 @@ export const Profile: React.FC = () => {
     );
   };
 
-  const renderButton = (): JSX.Element => {
-    return (
-      <components.Button
-        title='Log out'
-        colorScheme='light'
-        onClick={() => navigate('/SignIn')}
-      />
-    );
-  };
+  // const renderButton = (): JSX.Element => {
+  //   return (
+  //     <components.Button
+  //       title='Log out'
+  //       colorScheme='light'
+  //       onClick={() => navigate('/SignIn')}
+  //     />
+  //   );
+  // };
 
   const renderContent = (): JSX.Element => {
     return (
@@ -159,7 +155,7 @@ export const Profile: React.FC = () => {
         {renderUserInfo()}
         {renderInfo()}
         {renderMenu()}
-        {renderButton()}
+        {/* {renderButton()} */}
       </main>
     );
   };
