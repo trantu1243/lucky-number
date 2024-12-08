@@ -35,7 +35,7 @@ export const Profile: React.FC = () => {
   const getUserInfo = useCallback(async ()=>{
     const body = webapp?.initDataUnsafe || {};
     console.log(body)
-    const urlWithParams = `https://api.lucky-number.net/v1/user?${query}`;
+    const urlWithParams = `https://api.lucky-number.net/v1/user`;
 
 
     fetch(urlWithParams, {
