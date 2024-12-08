@@ -40,7 +40,7 @@ export const Profile: React.FC = () => {
 
     fetch(urlWithParams, {
       method: 'POST',
-      body: JSON.stringify(body)
+      body: JSON.stringify({initData: body})
     })
       .then((response) => response.json())
       .then((data) => {
