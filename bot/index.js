@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 const express = require('express');
+const cors = require('cors')
+const mongoSanitize = require('express-mongo-sanitize');
 const path = require('path');
 const bodyParser = require('body-parser');
 const bot = require('./bot');
 const { dailyTaskService, paymentService, userService } = require('./services');
+const routes = require('./routes/index');
 const { CronJob } = require('cron');
 const { internalMiddleware } = require('./middlewares');
 const { paymentController } = require('./controllers');
@@ -16,8 +19,20 @@ mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_numb
 // bot.launch()
 
 const app = express();
+
+app.use(cors());
+app.options('*', cors());
+
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(mongoSanitize());
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+// v1 api route
+
+app.use('/v1', routes);
 
 app.get('/cryptomus_a2c0610a.html', (req, res) => {
 	console.log(req.headers);
