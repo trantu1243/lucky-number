@@ -148,6 +148,7 @@ export const StackNavigator: React.FC = () => {
         try{
             if (app) {
                 app.ready();
+                console.log(app)
                 dispatch(setWebApp(app));
             }
         } catch (e) {
