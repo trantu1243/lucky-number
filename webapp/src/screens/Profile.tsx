@@ -25,11 +25,11 @@ export const Profile: React.FC = () => {
   const webapp = useAppSelector(state => state.webappSlice.webApp);
 
   const loanDetails = [
-    { title: '💰Chips', content: userInfo.usd.toString() },
-    { title: '🎖️Level', content: userInfo.level },
-    { title: '🎲Wins', content: userInfo.won.toString() },
-    { title: '📅Player since', content: userInfo.createdAt },
-    { title: '📅Last played', content: userInfo.updatedAt },
+    { title: '💰Chips', content: (userInfo.usd ?? 0).toString() },
+    { title: '🎖️Level', content: userInfo.level || 'N/A' },
+    { title: '🎲Wins', content: (userInfo.won ?? 0).toString() },
+    { title: '📅Player since', content: userInfo.createdAt || 'N/A' },
+    { title: '📅Last played', content: userInfo.updatedAt || 'N/A' },
   ];
 
   const getUserInfo = useCallback(async ()=>{
