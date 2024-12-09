@@ -56,7 +56,7 @@ function validateTelegramData(req, res, next) {
         return res.status(403).json({ error: "Invalid data signature" });
     }
 
-    const authDate = Number(data.get("auth_date"));
+    const authDate = Number(rest.auth_date);
     const currentTime = Math.floor(Date.now() / 1000);
     const MAX_AGE = 86400; 
 
