@@ -30,6 +30,8 @@ function validateTelegramData(req, res, next) {
         return res.status(400).json({ error: "Invalid data or bot token" });
     }
 
+    initData.user = JSON.stringify(initData.user)
+
     // const data = new URLSearchParams(initData);
     // const hash = data.get("hash");
     // data.delete("hash");
@@ -51,7 +53,7 @@ function validateTelegramData(req, res, next) {
     //     .update(dataCheckString)
     //     .digest("hex");
 
-    if (!checkSignature(botToken, JSON.stringify(initData))) {
+    if (!checkSignature(botToken, initData)) {
         return res.status(403).json({ error: "Invalid data signature" });
     }
 
