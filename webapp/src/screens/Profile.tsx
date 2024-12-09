@@ -39,6 +39,9 @@ export const Profile: React.FC = () => {
 
     fetch(urlWithParams, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({initData: body})
     })
       .then((response) => response.json())
