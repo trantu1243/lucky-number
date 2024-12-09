@@ -29,29 +29,6 @@ function validateTelegramData(req, res, next) {
 
     const { hash, ...rest } = initData;
 
-    // initData.user = JSON.stringify(initData.user)
-
-    // const data = new URLSearchParams(initData);
-    // const hash = data.get("hash");
-    // data.delete("hash");
-
-    // const dataCheckString = Array.from(data.entries())
-    //     .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
-    //     .map(([key, value]) => `${key}=${value}`)
-    //     .join("\n");
-
-    // console.log(dataCheckString);
-
-    // const secretKey = crypto
-    //     .createHmac("sha256", "WebAppData")
-    //     .update(botToken)
-    //     .digest();
-
-    // const calculatedHash = crypto
-    //     .createHmac("sha256", secretKey)
-    //     .update(dataCheckString)
-    //     .digest("hex");
-
     if (!verifyDataIntegrity(rest, hash, botToken)) {
         return res.status(403).json({ error: "Invalid data signature" });
     }
@@ -63,6 +40,8 @@ function validateTelegramData(req, res, next) {
     if (currentTime - authDate > MAX_AGE) {
         return res.status(403).json({ error: "Data is outdated" });
     }
+
+    req.userId = rest.user.id;
 
     next();
 }

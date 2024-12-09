@@ -20,8 +20,11 @@ mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_numb
 
 const app = express();
 
-app.use(cors());
-app.options('*', cors());
+app.use(cors({
+	origin: 'https://lucky-number.net', 
+	methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+	allowedHeaders: ['Content-Type', 'Authorization'], 
+}));
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
