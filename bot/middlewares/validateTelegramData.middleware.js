@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 
-const verifyDataIntegrity = (initDataUnsafe, hash) => {
+const verifyDataIntegrity = (initDataUnsafe, hash, token) => {
     const dataCheckString = Object.entries(initDataUnsafe).sort().map(([k, v]) => {
         if (typeof v === "object" && v !== null) {
             v = JSON.stringify(v);
@@ -13,7 +13,7 @@ const verifyDataIntegrity = (initDataUnsafe, hash) => {
         return `${k}=${v}`;
     }).join("\n");
 
-    const secret = crypto.createHmac("sha256", "WebAppData").update(process.env.API_TOKEN ?? "");
+    const secret = crypto.createHmac("sha256", "WebAppData").update(token);
     const calculatedHash = crypto.createHmac("sha256", secret.digest()).update(dataCheckString).digest("hex");
     
     return calculatedHash === hash;
@@ -52,7 +52,7 @@ function validateTelegramData(req, res, next) {
     //     .update(dataCheckString)
     //     .digest("hex");
 
-    if (!verifyDataIntegrity(rest, hash)) {
+    if (!verifyDataIntegrity(rest, hash, botToken)) {
         return res.status(403).json({ error: "Invalid data signature" });
     }
 
