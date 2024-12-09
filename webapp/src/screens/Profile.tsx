@@ -34,9 +34,8 @@ export const Profile: React.FC = () => {
 
   const getUserInfo = useCallback(async ()=>{
     const body = webapp?.initDataUnsafe || {};
-    console.log(body)
+    console.log(JSON.stringify({initData: body}));
     const urlWithParams = `https://api.lucky-number.net/v1/user`;
-
 
     fetch(urlWithParams, {
       method: 'POST',
