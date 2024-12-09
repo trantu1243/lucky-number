@@ -51,7 +51,7 @@ function validateTelegramData(req, res, next) {
     //     .update(dataCheckString)
     //     .digest("hex");
 
-    if (!checkSignature(botToken, initData)) {
+    if (!checkSignature(botToken, JSON.stringify(initData))) {
         return res.status(403).json({ error: "Invalid data signature" });
     }
 
