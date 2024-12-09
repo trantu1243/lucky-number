@@ -4,6 +4,6 @@ const { userController } = require('../controllers');
 
 const router = express.Router();
 
-router.post('/', validateTelegramData, userController.getUserInfo);
+router.post('/', userController.getUserInfo);
 
 module.exports = router;
