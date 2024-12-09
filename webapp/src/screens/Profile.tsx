@@ -14,22 +14,27 @@ export interface IUserInfo {
   usd: number;
   level: string;
   won: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: number;
+  updatedAt: number;
+}
+
+function formatTimestampToDate(timestamp: number) {
+  const date = new Date(timestamp * 1000); 
+  return date.toISOString().slice(0, 10);
 }
 
 export const Profile: React.FC = () => {
 
   const teleUser = useAppSelector(state => state.webappSlice.user);
-  const [userInfo, setUserInfo] = useState<IUserInfo>({usd: 0, level: '', won: 0, createdAt: '', updatedAt: ''});
+  const [userInfo, setUserInfo] = useState<IUserInfo>({usd: 0, level: '', won: 0, createdAt: 0, updatedAt: 0});
   const webapp = useAppSelector(state => state.webappSlice.webApp);
 
   const loanDetails = [
     { title: '💰Chips', content: (userInfo.usd ?? 0).toString() },
     { title: '🎖️Level', content: userInfo.level || 'N/A' },
     { title: '🎲Wins', content: (userInfo.won ?? 0).toString() },
-    { title: '📅Player since', content: userInfo.createdAt || 'N/A' },
-    { title: '📅Last played', content: userInfo.updatedAt || 'N/A' },
+    { title: '📅Player since', content: formatTimestampToDate(userInfo.createdAt) || 'N/A' },
+    { title: '📅Last played', content: formatTimestampToDate(userInfo.updatedAt) || 'N/A' },
   ];
 
   const getUserInfo = useCallback(async ()=>{
