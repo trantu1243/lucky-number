@@ -33,8 +33,8 @@ export const Profile: React.FC = () => {
     { title: '💰Chips', content: (userInfo.usd ?? 0).toString() },
     { title: '🎖️Level', content: userInfo.level || 'N/A' },
     { title: '🎲Wins', content: (userInfo.won ?? 0).toString() },
-    { title: '📅Player since', content: formatTimestampToDate(userInfo.createdAt) || 'N/A' },
-    { title: '📅Last played', content: formatTimestampToDate(userInfo.updatedAt) || 'N/A' },
+    { title: '📅Player since', content: userInfo.createdAt ? formatTimestampToDate(userInfo.createdAt) : 'N/A' },
+    { title: '📅Last played', content: userInfo.updatedAt ? formatTimestampToDate(userInfo.updatedAt) : 'N/A' },
   ];
 
   const getUserInfo = useCallback(async ()=>{
