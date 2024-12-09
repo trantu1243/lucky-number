@@ -1,26 +1,23 @@
-const { createHmac } = require('node:crypto');
+const crypto = require('crypto');
 
-function parseInitData(initData) {
-    const q = new URLSearchParams(initData);
-    const hash = q.get("hash");
-    q.delete("hash");
-    const v = Array.from(q.entries());
-    v.sort(([aN], [bN]) => aN.localeCompare(bN));
-    const data_check_string = v.map(([n, v]) => `${n}=${v}`).join("\n");
-    console.log(data_check_string);
-    return { hash, data_check_string };
-  }
-  
-  function checkSignature(bot_token, initData) {
-    const { hash, data_check_string } = parseInitData(initData);
-  
-    const secret_key = createHmac("sha256", "WebAppData").update(bot_token).digest();
-    const key = createHmac("sha256", secret_key)
-      .update(data_check_string)
-      .digest("hex");
-  
-    return key === hash;
-  }
+const verifyDataIntegrity = (initDataUnsafe, hash) => {
+    const dataCheckString = Object.entries(initDataUnsafe).sort().map(([k, v]) => {
+        if (typeof v === "object" && v !== null) {
+            v = JSON.stringify(v);
+        }
+
+        if (typeof v === "string" && /(https?:\/\/[^\s]+)/.test(v)) {
+            v = v.replace(/\//g, "\\/");
+        }
+        
+        return `${k}=${v}`;
+    }).join("\n");
+
+    const secret = crypto.createHmac("sha256", "WebAppData").update(process.env.API_TOKEN ?? "");
+    const calculatedHash = crypto.createHmac("sha256", secret.digest()).update(dataCheckString).digest("hex");
+    
+    return calculatedHash === hash;
+};
 
 function validateTelegramData(req, res, next) {
     const { initData } = req.body; 
@@ -30,7 +27,9 @@ function validateTelegramData(req, res, next) {
         return res.status(400).json({ error: "Invalid data or bot token" });
     }
 
-    initData.user = JSON.stringify(initData.user)
+    const { hash, ...rest } = initData;
+
+    // initData.user = JSON.stringify(initData.user)
 
     // const data = new URLSearchParams(initData);
     // const hash = data.get("hash");
@@ -53,7 +52,7 @@ function validateTelegramData(req, res, next) {
     //     .update(dataCheckString)
     //     .digest("hex");
 
-    if (!checkSignature(botToken, initData)) {
+    if (!verifyDataIntegrity(rest, hash)) {
         return res.status(403).json({ error: "Invalid data signature" });
     }
 
