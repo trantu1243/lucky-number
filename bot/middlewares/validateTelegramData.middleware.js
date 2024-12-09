@@ -2,7 +2,8 @@ const crypto = require("crypto");
 
 function validateTelegramData(req, res, next) {
     const { initData } = req.body; 
-    console.log(req.body);
+    console.log('body:', req.body);
+    console.log('header:', req.header);
     const botToken = process.env.BOT_TOKEN; 
 
     if (!initData || !botToken) {
