@@ -20,7 +20,7 @@ const H1: React.FC<Props> = ({
       style={{
         fontSize: 32,
         lineHeight: 1.2,
-        color: theme.colors.mainDark,
+        color: theme.colors.whiteText,
         textAlign: 'left',
         ...theme.fonts.SourceSansPro_600SemiBold,
         ...(numberOfLines

@@ -19,7 +19,7 @@ export const H6: React.FC<Props> = ({
       style={{
         fontSize: 14,
         lineHeight: 1.6,
-        color: theme.colors.mainDark,
+        color: theme.colors.whiteText,
         textAlign: 'left',
         ...theme.fonts.SourceSansPro_400Regular,
         ...(numberOfLines

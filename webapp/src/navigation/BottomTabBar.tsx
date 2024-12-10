@@ -83,7 +83,7 @@ export const BottomTabBar: React.FC = () => {
                 color={
                   currentTabScreen === tab.name
                     ? theme.colors.mainColor
-                    : theme.colors.white
+                    : theme.colors.primary
                 }
               />
             </button>

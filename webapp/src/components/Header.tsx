@@ -49,6 +49,17 @@ export const Header: React.FC<Props> = ({
       );
     }
 
+    if (goBack) {
+      return (
+        <button
+          style={{position: 'absolute', left: 0, padding: 20}}
+          onClick={() => navigate('/TabNavigator')}
+        >
+          <svg.GoBackSvg />
+        </button>
+      );
+    }
+
     return null;
   };
 
@@ -153,8 +164,9 @@ export const Header: React.FC<Props> = ({
     position: 'fixed',
     maxWidth: 650,
     zIndex: 6,
-    backgroundColor: theme.colors.white,
+    backgroundColor: theme.colors.mainDark,
     borderBottom: line ? `1px solid ${theme.colors.aliceBlue}` : 'none',
+    borderRadius: '0 0 10px 10px'
   };
 
   return (

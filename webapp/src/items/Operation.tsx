@@ -23,7 +23,7 @@ export const Operation: React.FC<Props> = ({isLast, operation}) => {
         ...utils.rowCenter(),
         gap: 10,
         cursor: 'pointer',
-        backgroundColor: theme.colors.mainDark,
+        backgroundColor: theme.colors.main2Dark,
       }}
       onClick={() => {
         navigate(operation.url);

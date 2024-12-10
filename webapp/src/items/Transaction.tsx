@@ -22,7 +22,7 @@ export const Transaction: React.FC<Props> = ({
   return (
     <div
       style={{
-        backgroundColor: '#FFF7F2',
+        backgroundColor: theme.colors.main2Dark,
         padding: 10,
         borderRadius: 10,
         cursor: 'pointer',
@@ -42,7 +42,7 @@ export const Transaction: React.FC<Props> = ({
         <text.H6
           style={{
             textTransform: 'capitalize',
-            color: theme.colors.mainDark,
+            color: theme.colors.whiteText,
             lineHeight: 1.2,
             marginBottom: 2,
           }}
@@ -65,8 +65,8 @@ export const Transaction: React.FC<Props> = ({
           style={{
             color:
               transaction.direction === 'in'
-                ? '#55ACEE'
-                : theme.colors.mainDark,
+                ? '#33FF33'
+                : '#FF3333',
           }}
         >
           {transaction.direction === 'in' ? '+' : '-'}{' '}

@@ -22,7 +22,7 @@ const H5: React.FC<Props> = ({
       style={{
         fontSize: 16,
         lineHeight: 1.3,
-        color: theme.colors.mainDark,
+        color: theme.colors.whiteText,
         textAlign: 'left',
         ...theme.fonts.SourceSansPro_400Regular,
         ...(numberOfLines

@@ -23,7 +23,7 @@ const H4: FC<Props> = ({
       style={{
         fontSize: 18,
         lineHeight: 1.2,
-        color: theme.colors.mainDark,
+        color: theme.colors.whiteText,
         textAlign: 'left',
         ...theme.fonts.SourceSansPro_400Regular,
         ...(numberOfLines

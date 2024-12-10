@@ -1,4 +1,5 @@
 import React from 'react';
+import { theme } from '../../constants';
 
 export const RepeatSvg: React.FC = () => {
   return (
@@ -15,7 +16,7 @@ export const RepeatSvg: React.FC = () => {
         rx={15}
       />
       <g
-        stroke='#040325'
+        stroke={theme.colors.mainColor}
         strokeLinecap='round'
         strokeLinejoin='round'
         strokeWidth={1.5}
