@@ -5,6 +5,8 @@ import {Background} from './Background';
 import {ScrollToTop} from './ScrollToTop';
 import {BlockHeading} from './BlockHeading';
 import {BottomTabBar} from '../navigation/BottomTabBar';
+import { NotificationLine } from './NotificationLine';
+import { WinnerList } from './WinnerList';
 
 export const components = {
   Button,
@@ -14,4 +16,6 @@ export const components = {
   ScrollToTop,
   BottomTabBar,
   BlockHeading,
+  NotificationLine,
+  WinnerList
 };

@@ -1,0 +1,59 @@
+.adm-notice-bar.adm-notice-bar-alert {
+    background-color: #3f3f3f;
+    border-color: #fff3e9;
+    color: #e3483e;
+    height: 1.8rem;;
+    box-sizing: border-box;
+    font-size: .8rem;
+    padding: 0 .60rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: solid .02667rem #fff3e9;
+    border-left: none;
+    border-right: none;
+    margin-bottom: 8px;
+}
+
+.adm-notice-bar .adm-notice-bar-left {
+    flex-shrink: 0;
+    margin-right: .21333rem;
+    font-size: .96rem;
+}
+
+.adm-notice-bar .adm-notice-bar-content {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.adm-notice-bar-content {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.adm-notice-bar .adm-notice-bar-content .adm-notice-bar-content-inner {
+    width: auto;
+    transition-timing-function: linear;
+    white-space: nowrap;
+}
+
+.adm-notice-bar-content-inner {
+    display: inline-block;
+    padding-left: 100%;
+    white-space: nowrap;
+    animation: scrollText 30s linear infinite;
+}
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}

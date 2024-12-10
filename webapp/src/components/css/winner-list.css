@@ -1,0 +1,62 @@
+.list-wrap {
+    width: 95%;
+    padding: .26667rem 0;
+    margin: 0 auto;
+    display: block;
+    unicode-bidi: isolate;
+    font-size: 21px;
+}
+
+.winner-list-wrap {
+    background-color: #121212;
+    color: #fff;
+    border-radius: .10667rem;
+    overflow: hidden;
+    display: block;
+    unicode-bidi: isolate;
+}
+
+.winner-list-wrap .title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .16rem .20667rem;
+    font-size: .8rem;
+    font-weight: 700;
+    border-bottom: .02667rem solid #3f3f3f;
+    unicode-bidi: isolate;
+}
+
+.winner-list-wrap .winner-list {
+    height: 15rem;
+    overflow-y: hidden;
+    display: block;
+    unicode-bidi: isolate;
+}
+
+.active .inner-wrap {
+    animation: scroll 180s linear infinite;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.winner-list-wrap .winner-list .winner-item {
+    height: 2.5rem;
+    box-sizing: border-box;
+    padding: 0 .41333rem;
+    border-bottom: .04667rem solid #3f3f3f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: .8rem;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}

@@ -138,7 +138,7 @@ export const Dashboard: React.FC = () => {
 
   const renderCards = (): JSX.Element => {
     return (
-      <div style={{marginBottom: 16, marginTop: 4}}>
+      <div style={{marginBottom: 8, marginTop: 4}}>
         <Swiper
           spaceBetween={14}
           slidesPerView={'auto'}
@@ -171,6 +171,12 @@ export const Dashboard: React.FC = () => {
     );
   };
 
+  const renderNotification = (): JSX.Element => {
+    return (
+      <components.NotificationLine />
+    )
+  }
+
   const renderOperations = (): JSX.Element => {
     return (
       <div style={{marginBottom: 10}}>
@@ -191,7 +197,7 @@ export const Dashboard: React.FC = () => {
   };
   const renderOperations2 = (): JSX.Element => {
     return (
-      <div style={{marginBottom: 30}}>
+      <div style={{marginBottom: 10}}>
         <custom.ScrollView style={{paddingLeft: 20, paddingRight: 20}}>
           {operations2.map((operation, index, array) => {
             const isLast = index === array.length - 1;
@@ -209,31 +215,36 @@ export const Dashboard: React.FC = () => {
   };
 
 
-
-
   const renderLatestTransactions = (): JSX.Element => {
     return (
-      <div className='container'>
-        <components.BlockHeading
-          title='Latest transactions'
-          rightIcon={<svg.SearchSvg />}
-          containerStyle={{marginBottom: 14}}
-        />
-        <div>
-          {transactionsData?.map((transaction, index, array) => {
-            const isLast = index === array.length - 1;
-            return (
-              <items.Transaction
-                isLast={isLast}
-                transaction={transaction}
-                key={transaction.id || index}
-              />
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
+      <components.WinnerList />
+    )
+  }
+
+
+  // const renderLatestTransactions = (): JSX.Element => {
+  //   return (
+  //     <div className='container'>
+  //       <components.BlockHeading
+  //         title='Latest transactions'
+  //         rightIcon={<svg.SearchSvg />}
+  //         containerStyle={{marginBottom: 14}}
+  //       />
+  //       <div>
+  //         {transactionsData?.map((transaction, index, array) => {
+  //           const isLast = index === array.length - 1;
+  //           return (
+  //             <items.Transaction
+  //               isLast={isLast}
+  //               transaction={transaction}
+  //               key={transaction.id || index}
+  //             />
+  //           );
+  //         })}
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   const renderBottomTabBar = () => {
     return <components.BottomTabBar />;
@@ -245,6 +256,7 @@ export const Dashboard: React.FC = () => {
     return (
       <main style={{marginTop: 52, paddingBottom: 100}}>
         {renderCards()}
+        {renderNotification()}
         {renderOperations()}
         {renderOperations2()}
         {renderLatestTransactions()}
