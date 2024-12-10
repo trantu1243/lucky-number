@@ -87,7 +87,7 @@ export const Header: React.FC<Props> = ({
             src={teleUser?.photo_url ? teleUser.photo_url : 'https://george-fx.github.io/apitex_api/assets/users/01.png'}
             style={{width: 26, marginRight: 10, borderRadius: 13}}
           />
-          <text.T16 style={{color: theme.colors.mainDark}}>
+          <text.T16 style={{color: theme.colors.whiteText}}>
             {teleUser?.first_name}
           </text.T16>
         </div>

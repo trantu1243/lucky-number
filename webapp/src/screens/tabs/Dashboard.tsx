@@ -49,7 +49,22 @@ const operations: OperationType[] = [
     title: 'Withdraw',
     icon: <svg.DollarSignSvg />,
     url: '/FundTransfer',
-  }
+  },
+];
+
+const operations2: OperationType[] = [
+  {
+    id: 1,
+    title: 'Gift Code',
+    icon: <svg.RepeatSvg />,
+    url: '/FundTransfer',
+  },
+  {
+    id: 2,
+    title: 'Join Telegram',
+    icon: <svg.TelegramSvg />,
+    url: '/FundTransfer',
+  },
 ];
 
 export const Dashboard: React.FC = () => {
@@ -158,7 +173,7 @@ export const Dashboard: React.FC = () => {
 
   const renderOperations = (): JSX.Element => {
     return (
-      <div style={{marginBottom: 30}}>
+      <div style={{marginBottom: 10}}>
         <custom.ScrollView style={{paddingLeft: 20, paddingRight: 20}}>
           {operations.map((operation, index, array) => {
             const isLast = index === array.length - 1;
@@ -174,6 +189,25 @@ export const Dashboard: React.FC = () => {
       </div>
     );
   };
+  const renderOperations2 = (): JSX.Element => {
+    return (
+      <div style={{marginBottom: 30}}>
+        <custom.ScrollView style={{paddingLeft: 20, paddingRight: 20}}>
+          {operations2.map((operation, index, array) => {
+            const isLast = index === array.length - 1;
+            return (
+              <items.Operation
+                isLast={isLast}
+                operation={operation}
+                key={operation.id || index}
+              />
+            );
+          })}
+        </custom.ScrollView>
+      </div>
+    );
+  };
+
 
 
 
@@ -212,6 +246,7 @@ export const Dashboard: React.FC = () => {
       <main style={{marginTop: 52, paddingBottom: 100}}>
         {renderCards()}
         {renderOperations()}
+        {renderOperations2()}
         {renderLatestTransactions()}
       </main>
     );
