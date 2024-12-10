@@ -16,6 +16,8 @@ export const colors = {
   imageBackground: '#F6F8FB',
   transparent: 'transparent',
   secondaryTextColor: '#666666',
+  green: '#33FF33',
+  red: '#FF3333'
 };
 
 export const theme = {colors};

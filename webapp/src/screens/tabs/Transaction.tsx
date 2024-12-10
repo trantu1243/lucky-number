@@ -59,12 +59,13 @@ export const Transaction: React.FC = () => {
             <div
               style={{
                 width: '100%',
-                backgroundColor: '#FFF7F2',
+                backgroundColor: theme.colors.main2Dark,
                 borderRadius: 10,
                 padding: '20px 18px',
                 cursor: 'pointer',
                 userSelect: 'none',
                 marginBottom: isLast ? 0 : 6,
+                color: theme.colors.whiteText,
                 ...utils.rowCenter(),
               }}
             >
@@ -77,7 +78,7 @@ export const Transaction: React.FC = () => {
                       ...theme.fonts.SourceSansPro_400Regular,
                       fontSize: 14,
                       textTransform: 'uppercase',
-                      color: theme.colors.mainDark,
+                      color: theme.colors.whiteText,
                     }}
                   >
                     usd

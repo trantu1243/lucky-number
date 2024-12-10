@@ -40,22 +40,16 @@ const cards = [
 const operations: OperationType[] = [
   {
     id: 1,
-    title: 'Receive \n Payment',
+    title: 'Deposit',
     icon: <svg.ReceiveSvg />,
-    url: '/CreateInvoice',
+    url: '/deposit',
   },
   {
     id: 2,
-    title: 'Money \n Transfer',
-    icon: <svg.RepeatSvg />,
-    url: '/FundTransfer',
-  },
-  {
-    id: 3,
-    title: 'Make a \n Payment',
+    title: 'Withdraw',
     icon: <svg.DollarSignSvg />,
-    url: '/Payments',
-  },
+    url: '/FundTransfer',
+  }
 ];
 
 export const Dashboard: React.FC = () => {
@@ -181,61 +175,7 @@ export const Dashboard: React.FC = () => {
     );
   };
 
-  const renderQuickMoneyTransfer = (): JSX.Element => {
-    return (
-      <div style={{marginBottom: 30}}>
-        <components.BlockHeading
-          title='Quick money transfer to:'
-          containerStyle={{margin: '0 20px 14px 20px'}}
-        />
 
-        <custom.ScrollView style={{paddingLeft: 20, paddingRight: 20}}>
-          {usersData?.map((user, index, array) => {
-            return (
-              <items.User
-                user={user}
-                key={user.id || index}
-              />
-            );
-          })}
-          <div
-            style={{
-              maxWidth: 55,
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              cursor: 'pointer',
-            }}
-          >
-            <div
-              style={{
-                width: 40,
-                height: 40,
-                marginBottom: 4,
-                borderRadius: 20,
-                backgroundColor: '#FFD9C3',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <svg.PlusSvg />
-            </div>
-            <span
-              style={{
-                fontSize: 12,
-                color: theme.colors.bodyTextColor,
-                ...theme.fonts.SourceSansPro_400Regular,
-              }}
-            >
-              Choose
-            </span>
-          </div>
-        </custom.ScrollView>
-      </div>
-    );
-  };
 
   const renderLatestTransactions = (): JSX.Element => {
     return (
@@ -272,7 +212,6 @@ export const Dashboard: React.FC = () => {
       <main style={{marginTop: 52, paddingBottom: 100}}>
         {renderCards()}
         {renderOperations()}
-        {renderQuickMoneyTransfer()}
         {renderLatestTransactions()}
       </main>
     );

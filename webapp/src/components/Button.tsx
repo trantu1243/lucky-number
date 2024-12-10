@@ -24,8 +24,7 @@ export const Button: React.FC<ButtonProps> = ({
         onClick={onClick}
         style={{
           width: '100%',
-          color:
-            colorScheme === 'dark' ? theme.colors.white : theme.colors.mainDark,
+          color: '#fff',
           height: 40,
           textAlign: 'center',
           fontSize: 16,
@@ -33,7 +32,7 @@ export const Button: React.FC<ButtonProps> = ({
           textTransform: 'capitalize',
           border: colorScheme === 'dark' ? 'none' : '1px solid #FFD9C3',
           background:
-            colorScheme === 'dark' ? theme.colors.mainDark : '#FFD9C3',
+            colorScheme === 'dark' ? theme.colors.mainColor : theme.colors.primary,
           ...utils.flexCenter(),
           ...theme.fonts.SourceSansPro_600SemiBold,
           ...style,

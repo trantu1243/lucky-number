@@ -19,6 +19,7 @@ export interface IUserInfo {
 }
 
 function formatTimestampToDate(timestamp: number) {
+  if (timestamp === 0) return 'N/A';
   const date = new Date(timestamp * 1000); 
   return date.toISOString().slice(0, 10);
 }
@@ -135,7 +136,7 @@ export const Profile: React.FC = () => {
   const renderMenu = (): JSX.Element => {
     const btnStyle = {
       borderRadius: 10,
-      backgroundColor: '#FFF7F2',
+      backgroundColor: theme.colors.main2Dark,
       padding: '10px 20px 10px 10px',
       ...utils.rowCenter(),
     };

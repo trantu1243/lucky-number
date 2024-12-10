@@ -1,4 +1,5 @@
 import React from 'react';
+import { theme } from '../../constants';
 
 export const DepositCheckSvg: React.FC = () => {
   return (
@@ -9,13 +10,13 @@ export const DepositCheckSvg: React.FC = () => {
       fill='none'
     >
       <path
-        fill='#55ACEE'
-        stroke='#fff'
+        fill={theme.colors.green}
+        stroke={theme.colors.main2Dark}
         strokeWidth={4}
         d='M10 26c0-8.837 7.163-16 16-16s16 7.163 16 16-7.163 16-16 16-16-7.163-16-16ZM26 2C12.745 2 2 12.745 2 26s10.745 24 24 24 24-10.745 24-24S39.255 2 26 2Z'
       />
       <path
-        stroke='#55ACEE'
+        stroke={theme.colors.green}
         strokeLinecap='round'
         strokeLinejoin='round'
         strokeWidth={2}

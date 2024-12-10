@@ -99,7 +99,7 @@ export const Deposit: React.FC = () => {
                         paddingRight: 20,
                         position: 'relative',
                         border: '1px solid #FFEFE6',
-                        backgroundColor: theme.colors.white,
+                        backgroundColor: theme.colors.main2Dark,
                         borderRadius: 10,
                         ...utils.rowCenter(),
                     }}
@@ -114,9 +114,9 @@ export const Deposit: React.FC = () => {
                         margin: 0,
                         border: 'none',
                         outline: 'none',
-                        backgroundColor: 'transparent',
+                        backgroundColor: theme.colors.main2Dark,
                         fontSize: 16,
-                        color: theme.colors.mainDark,
+                        color: theme.colors.whiteText,
                         ...theme.fonts.SourceSansPro_400Regular,
                         }}
                     >
@@ -140,7 +140,7 @@ export const Deposit: React.FC = () => {
                         paddingRight: 20,
                         position: 'relative',
                         border: '1px solid #FFEFE6',
-                        backgroundColor: theme.colors.white,
+                        backgroundColor: theme.colors.main2Dark,
                         borderRadius: 10,
                         ...utils.rowCenter(),
                     }}
@@ -155,9 +155,9 @@ export const Deposit: React.FC = () => {
                         margin: 0,
                         border: 'none',
                         outline: 'none',
-                        backgroundColor: 'transparent',
+                        backgroundColor: theme.colors.main2Dark,
                         fontSize: 16,
-                        color: theme.colors.mainDark,
+                        color: theme.colors.whiteText,
                         ...theme.fonts.SourceSansPro_400Regular,
                         }}
                     >

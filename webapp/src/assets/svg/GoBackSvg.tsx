@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { theme } from '../../constants';
 
 export const GoBackSvg: React.FC = () => (
   <svg
@@ -9,7 +10,7 @@ export const GoBackSvg: React.FC = () => (
   >
     <g>
       <path
-        stroke='#142535'
+        stroke={theme.colors.mainColor}
         strokeLinecap='round'
         strokeLinejoin='round'
         strokeWidth={2}

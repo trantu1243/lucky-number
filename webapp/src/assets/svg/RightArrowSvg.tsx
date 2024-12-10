@@ -1,4 +1,5 @@
 import React from 'react';
+import { theme } from '../../constants';
 
 export const RightArrowSvg: React.FC = () => {
   return (
@@ -10,7 +11,7 @@ export const RightArrowSvg: React.FC = () => {
     >
       <g>
         <path
-          stroke='#6C6D84'
+          stroke={theme.colors.mainColor}
           strokeLinecap='round'
           strokeLinejoin='round'
           strokeWidth={1.5}
