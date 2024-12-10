@@ -14,28 +14,28 @@ export interface IUserInfo {
   usd: number;
   level: string;
   won: number;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
-function formatTimestampToDate(timestamp: number) {
-  if (timestamp === 0) return 'N/A';
-  const date = new Date(timestamp * 1000); 
-  return date.toISOString().slice(0, 10);
+function formatISODateToDate(isoString: string) {
+  if (!isoString) return 'N/A';
+  const date = new Date(isoString); 
+  return date.toISOString().slice(0, 10); 
 }
 
 export const Profile: React.FC = () => {
 
   const teleUser = useAppSelector(state => state.webappSlice.user);
-  const [userInfo, setUserInfo] = useState<IUserInfo>({usd: 0, level: '', won: 0, createdAt: 0, updatedAt: 0});
+  const [userInfo, setUserInfo] = useState<IUserInfo>({usd: 0, level: '', won: 0, createdAt: '', updatedAt: ''});
   const webapp = useAppSelector(state => state.webappSlice.webApp);
 
   const loanDetails = [
     { title: '💰Chips', content: (userInfo.usd ?? 0).toString() },
     { title: '🎖️Level', content: userInfo.level || 'N/A' },
     { title: '🎲Wins', content: (userInfo.won ?? 0).toString() },
-    { title: '📅Player since', content: userInfo.createdAt ? formatTimestampToDate(userInfo.createdAt) : 'N/A' },
-    { title: '📅Last played', content: userInfo.updatedAt ? formatTimestampToDate(userInfo.updatedAt) : 'N/A' },
+    { title: '📅Player since', content: userInfo.createdAt ? formatISODateToDate(userInfo.createdAt) : 'N/A' },
+    { title: '📅Last played', content: userInfo.updatedAt ? formatISODateToDate(userInfo.updatedAt) : 'N/A' },
   ];
 
   const getUserInfo = useCallback(async ()=>{
