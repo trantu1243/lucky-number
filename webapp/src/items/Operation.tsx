@@ -33,7 +33,7 @@ export const Operation: React.FC<Props> = ({isLast, operation}) => {
       <div>{operation.icon}</div>
       <span
         style={{
-          fontSize: 10,
+          fontSize: 12,
           ...theme.fonts.SourceSansPro_600SemiBold,
           lineHeight: 1.2,
         }}
