@@ -48,9 +48,8 @@ export const Header: React.FC<Props> = ({
         </button>
       );
     }
-
+    console.log(goBack)
     if (goBack) {
-      console.log(goBack)
       return (
         <button
           style={{position: 'absolute', left: 0, padding: 20}}
