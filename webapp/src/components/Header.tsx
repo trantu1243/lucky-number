@@ -38,20 +38,8 @@ export const Header: React.FC<Props> = ({
   const renderGoBack = (): JSX.Element | null => {
 
     const canGoBack = window.history.length > 1;
-    console.log(window.history.length);
 
     if (goBack && canGoBack) {
-      return (
-        <button
-          style={{position: 'absolute', left: 0, padding: 20}}
-          onClick={() => console.log(navigate(-1))}
-        >
-          <svg.GoBackSvg />
-        </button>
-      );
-    }
-    console.log(goBack)
-    if (goBack) {
       return (
         <button
           style={{position: 'absolute', left: 0, padding: 20}}

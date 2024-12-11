@@ -1,0 +1,10 @@
+p.blink {
+    animation: blinker 1s infinite;
+    font-size: 14px;
+}
+
+@keyframes blinker {
+    50% {
+        color: #e3483e;
+    }
+  }

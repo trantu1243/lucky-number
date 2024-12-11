@@ -6,19 +6,13 @@ import {svg} from '../assets/svg';
 import {theme} from '../constants';
 
 type Props = {
-  viewAllVisible?: boolean;
-  rightIcon?: React.ReactNode;
-  viewAllOnClick?: () => void;
-  rightIconOnClick?: () => void;
   containerStyle?: React.CSSProperties;
+  content: string;
 };
 
 export const NotificationLine: React.FC<Props> = ({
-  rightIcon,
-  viewAllOnClick,
   containerStyle,
-  rightIconOnClick,
-  viewAllVisible = true,
+  content
 }) => {
   return (
     <div className="adm-notice-bar adm-notice-bar-alert">
@@ -61,7 +55,7 @@ export const NotificationLine: React.FC<Props> = ({
         </span>
         <span className="adm-notice-bar-content">
             <span className="adm-notice-bar-content-inner">
-                Kính gửi quý khách hàng, hệ thống sẽ tạm dừng hoạt động sau 00:30 tối. Cảm ơn sự ủng hộ và chúc quý khách ngày mới thật nhiều may mắn!  
+              {content}
             </span>
         </span>
     </div>

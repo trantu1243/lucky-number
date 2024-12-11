@@ -7,11 +7,13 @@ import {URLS} from '../../config';
 import {items} from '../../items';
 import {hooks} from '../../hooks';
 import {custom} from '../../custom';
+import {text} from '../../text';
 import {svg} from '../../assets/svg';
 import {theme} from '../../constants';
 import {components} from '../../components';
 import {TransactionType, UserType, OperationType} from '../../types';
 import { useAppSelector } from '../../store';
+import { utils } from '../../utils';
 
 const cards = [
   {
@@ -37,7 +39,7 @@ const cards = [
   
 ];
 
-const operations: OperationType[] = [
+const menu: OperationType[] = [
   {
     id: 1,
     title: 'Deposit',
@@ -48,6 +50,18 @@ const operations: OperationType[] = [
     id: 2,
     title: 'Withdraw',
     icon: <svg.DollarSignSvg />,
+    url: '/FundTransfer',
+  },
+  {
+    id: 3,
+    title: 'Gift Code',
+    icon: <svg.RepeatSvg />,
+    url: '/FundTransfer',
+  },
+  {
+    id: 4,
+    title: 'Join Telegram',
+    icon: <svg.TelegramSvg />,
     url: '/FundTransfer',
   },
 ];
@@ -173,47 +187,50 @@ export const Dashboard: React.FC = () => {
 
   const renderNotification = (): JSX.Element => {
     return (
-      <components.NotificationLine />
+      <components.NotificationLine content='Kính gửi quý khách hàng, hệ thống sẽ tạm dừng hoạt động sau 00:30 tối. Cảm ơn sự ủng hộ và chúc quý khách ngày mới thật nhiều may mắn!'/>
     )
   }
 
   const renderOperations = (): JSX.Element => {
     return (
-      <div style={{marginBottom: 10}}>
-        <custom.ScrollView style={{paddingLeft: 20, paddingRight: 20}}>
-          {operations.map((operation, index, array) => {
-            const isLast = index === array.length - 1;
+      <div
+          style={{
+            width: '100%',
+            padding: '0 20px',
+            margin: '10px 0',
+            ...utils.rowCenter({gap: 11, wrap: true}),
+          }}
+        >
+          {menu.map((item, index, array) => {
             return (
-              <items.Operation
-                isLast={isLast}
-                operation={operation}
-                key={operation.id || index}
-              />
+              <div
+                key={item.id}
+                style={{
+                  padding: 14,
+                  backgroundColor: theme.colors.main2Dark,
+                  borderRadius: 10,
+                  cursor: 'pointer',
+                  userSelect: 'none',
+                  flex: '1 1 calc(50% - 11px)',
+                  ...utils.rowCenter({gap: 10}),
+                }}
+                onClick={() => navigate(item.url)}
+              >
+                {item.icon}
+                <p 
+                  style={{
+                    color: theme.colors.whiteText,
+                    
+                  }}
+                >
+                  {item.title}
+                </p>
+              </div>
             );
           })}
-        </custom.ScrollView>
-      </div>
+        </div>
     );
   };
-  const renderOperations2 = (): JSX.Element => {
-    return (
-      <div style={{marginBottom: 10}}>
-        <custom.ScrollView style={{paddingLeft: 20, paddingRight: 20}}>
-          {operations2.map((operation, index, array) => {
-            const isLast = index === array.length - 1;
-            return (
-              <items.Operation
-                isLast={isLast}
-                operation={operation}
-                key={operation.id || index}
-              />
-            );
-          })}
-        </custom.ScrollView>
-      </div>
-    );
-  };
-
 
   const renderLatestTransactions = (): JSX.Element => {
     return (
@@ -258,7 +275,6 @@ export const Dashboard: React.FC = () => {
         {renderCards()}
         {renderNotification()}
         {renderOperations()}
-        {renderOperations2()}
         {renderLatestTransactions()}
       </main>
     );
