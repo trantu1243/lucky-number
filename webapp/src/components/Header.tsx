@@ -44,7 +44,7 @@ export const Header: React.FC<Props> = ({
       return (
         <button
           style={{position: 'absolute', left: 0, padding: 20}}
-          onClick={() => navigate(-1)}
+          onClick={() => console.log(navigate(-1))}
         >
           <svg.GoBackSvg />
         </button>
