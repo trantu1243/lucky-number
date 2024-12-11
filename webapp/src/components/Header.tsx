@@ -36,8 +36,9 @@ export const Header: React.FC<Props> = ({
 
 
   const renderGoBack = (): JSX.Element | null => {
+
     const canGoBack = window.history.length > 1;
-    console.log(canGoBack);
+    console.log(window.history.length);
 
     if (goBack && canGoBack) {
       return (
