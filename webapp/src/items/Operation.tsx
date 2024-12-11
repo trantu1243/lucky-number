@@ -15,7 +15,7 @@ export const Operation: React.FC<Props> = ({isLast, operation}) => {
   return (
     <div
       style={{
-        minWidth: 125,
+        width: 150,
         padding: '8px 11px',
         borderRadius: 10,
         whiteSpace: 'pre-line',

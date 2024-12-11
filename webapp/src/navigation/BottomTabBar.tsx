@@ -15,23 +15,23 @@ const tabs = [
   },
   {
     id: 2,
+    name: 'Games',
+    icon: svg.GamesSvg,
+  },
+  {
+    id: 3,
     name: 'Deposits',
     icon: svg.DepositTabSvg,
   },
   {
-    id: 3,
-    name: 'Loans',
-    icon: svg.LoanTabSvg,
-  },
-  {
     id: 4,
     name: 'Notification',
-    icon: svg.NotificationTabSvg,
+    icon: svg.RewardSvg,
   },
   {
     id: 5,
     name: 'More',
-    icon: svg.MoreTabSvg,
+    icon: svg.LotterySvg,
   },
 ];
 

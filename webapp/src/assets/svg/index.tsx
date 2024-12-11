@@ -86,6 +86,9 @@ import {NotificationCheckSvg} from './NotificationCheckSvg';
 import {StatisticExchangeSvg} from './StatisticExchangeSvg';
 import {CalendarStatisticSvg} from './CalendarStatisticSvg';
 import { TelegramSvg } from './TelegramSvg';
+import { GamesSvg } from './GamesSvg';
+import { RewardSvg } from './RewardSvg';
+import { LotterySvg } from './LotterySvg';
 
 export const svg = {
   WJSvg,
@@ -175,5 +178,8 @@ export const svg = {
   CalendarStatisticSvg,
   StatisticExchangeSvg,
   NotificationCheckSvg,
-  TelegramSvg
+  TelegramSvg,
+  GamesSvg,
+  RewardSvg,
+  LotterySvg
 };

@@ -27,6 +27,7 @@ export const TabNavigator: React.FC = () => {
       <div>
         {renderBackground()}
         {screen === 'Dashboard' && <screens.Dashboard />}
+        {screen === 'Games' && <screens.Games />}
         {screen === 'Deposits' && <screens.Transaction />}
         {screen === 'Loans' && <screens.Loans />}
         {screen === 'Notification' && <screens.Notification />}

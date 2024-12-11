@@ -182,7 +182,7 @@ export const Transaction: React.FC = () => {
   const renderContent = (): JSX.Element => {
     return (
       <main
-        style={{marginTop: 52, paddingBottom: 90}}
+        style={{marginTop: 25, paddingBottom: 100}}
         className='container'
       >
         {renderTitle()}
@@ -196,7 +196,6 @@ export const Transaction: React.FC = () => {
 
   return (
     <div id='screen'>
-      {renderHeader()}
       {renderContent()}
       {renderBottomTabBar()}
     </div>

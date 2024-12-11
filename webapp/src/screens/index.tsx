@@ -38,6 +38,7 @@ import {Loans} from './tabs/Loans';
 import {Dashboard} from './tabs/Dashboard';
 import {Notification} from './tabs/Notification';
 import {Transaction} from './tabs/Transaction';
+import { Games } from './tabs/Games';
 
 export const screens = {
   FAQ,
@@ -48,6 +49,7 @@ export const screens = {
   Profile,
   Payments,
   Transaction,
+  Games,
   Deposit,
   CardMenu,
   Dashboard,
