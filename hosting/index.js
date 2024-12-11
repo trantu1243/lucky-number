@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
 const checkInternalToken = require('./middleware/internal');
@@ -11,9 +10,6 @@ require('dotenv').config();
 
 const INTERNAL_TOKEN = process.env.INTERNAL_TOKEN;
 
-mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_number?authSource=admin').then(() => {
-    console.log("Connect to mongodb successfully")
-});
 
 const app = express();
 app.use(bodyParser.json());
