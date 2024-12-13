@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {useLocation} from 'react-router-dom';
 
 import {text} from '../text';
@@ -66,18 +66,33 @@ export const Deposit: React.FC = () => {
     const {pathname} = useLocation();
     const navigate = hooks.useAppNavigate();
 
-    const [selectedPeriod, setSelectedPeriod] = useState<string>(
-        periods[2].title,
-    );
-    const [selectedCard, setSelectedCard] = useState<number>(cards[0].id);
-    const [earlyWithdrawal, setEarlyWithdrawal] = useState<boolean>(false);
-    const [selectedCurrency, setSelectedCurrency] = useState<string>('USD');
-
     useEffect(() => {
         setTimeout(() => {
         window.scroll({top: -1, left: 0, behavior: 'smooth'});
         }, 10);
     }, [pathname]);
+
+    const getAllCurrencies = useCallback(async () => {
+
+        const url = `https://api.lucky-number.net/v1/payment-service/currencies`;
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+            })
+            .catch((error) => console.error(error));
+
+    }, []);
+
+    useEffect(()=>{
+        getAllCurrencies();
+    }, [getAllCurrencies])
 
     const renderHeader = (): JSX.Element => {
         return (
