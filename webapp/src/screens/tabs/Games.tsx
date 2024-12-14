@@ -10,27 +10,27 @@ const menu = [
     {
         id: 1,
         img: '/images/Home/1-lucky-number-game-min.png',
-        url: '/OpenNewCard',
+        url: '/lucky-number',
     },
     {
         id: 2,
         img: '/images/Home/2-even-odd-game-min.png',
-        url: '/OpenNewCard',
+        url: '/lucky-number',
     },
     {
         id: 3,
         img: '/images/Home/3-over-under-game-min.png',
-        url: '/OpenNewCard',
+        url: '/lucky-number',
     },
     {
         id: 4,
         img: '/images/Home/4-lucky-lottery-min.png',
-        url: '/OpenNewCard',
+        url: '/lucky-number',
     },
     {
         id: 5,
         img: '/images/Home/5-poke-play-game-min.png',
-        url: '/OpenNewCard',
+        url: '/lucky-number',
     }
 ];
 

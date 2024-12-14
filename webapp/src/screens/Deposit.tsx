@@ -110,6 +110,7 @@ export const Deposit: React.FC = () => {
             .then((data) => {
                 console.log(data);
                 setNetworks(data);
+                setNetwork('');
             })
             .catch((error) => console.error(error));
 

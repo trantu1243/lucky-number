@@ -23,7 +23,6 @@
     padding: .16rem .20667rem;
     font-size: .8rem;
     font-weight: 700;
-    border-bottom: .02667rem solid #3f3f3f;
     unicode-bidi: isolate;
 }
 
@@ -50,6 +49,38 @@
     align-items: center;
     justify-content: space-between;
     font-size: .8rem;
+}
+
+.header-list {
+    height: 1.5rem;
+    box-sizing: border-box;
+    padding: 0 .41333rem;
+    border-bottom: .04667rem solid #3f3f3f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: .8rem;
+}
+
+.colunm {
+    padding: 2px;
+}
+
+.column-1 {
+    flex: 3.25;
+}
+
+.column-2 {
+    flex: 3.25;
+}
+
+.column-3 {
+    flex: 2;
+}
+
+.column-4 {
+    flex: 1.5;
+    text-align: center;
 }
 
 @keyframes scroll {

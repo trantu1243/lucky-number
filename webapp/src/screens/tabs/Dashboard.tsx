@@ -19,22 +19,27 @@ const cards = [
   {
     id: 1,
     cardUrl: '/images/Home/1-lucky-number-game-min.png',
+    url: '/lucky-number',
   },
   {
     id: 2,
     cardUrl: '/images/Home/2-even-odd-game-min.png',
+    url: '/lucky-number',
   },
   {
     id: 3,
     cardUrl: '/images/Home/3-over-under-game-min.png',
+    url: '/lucky-number',
   },
   {
     id: 4,
     cardUrl: '/images/Home/4-lucky-lottery-min.png',
+    url: '/lucky-number',
   },
   {
     id: 5,
     cardUrl: '/images/Home/5-poke-play-game-min.png',
+    url: '/lucky-number',
   },
   
 ];
@@ -60,21 +65,6 @@ const menu: OperationType[] = [
   },
   {
     id: 4,
-    title: 'Join Telegram',
-    icon: <svg.TelegramSvg />,
-    url: '/FundTransfer',
-  },
-];
-
-const operations2: OperationType[] = [
-  {
-    id: 1,
-    title: 'Gift Code',
-    icon: <svg.RepeatSvg />,
-    url: '/FundTransfer',
-  },
-  {
-    id: 2,
     title: 'Join Telegram',
     icon: <svg.TelegramSvg />,
     url: '/FundTransfer',
@@ -169,7 +159,7 @@ export const Dashboard: React.FC = () => {
                   cursor: 'pointer',
                 }}
                 onClick={() => {
-                  navigate('/CardDetails');
+                  navigate(item.url);
                 }}
               >
                 <img
