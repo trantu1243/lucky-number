@@ -8,6 +8,7 @@ import {custom} from '../custom';
 import {svg} from '../assets/svg';
 import {theme} from '../constants';
 import {components} from '../components';
+import { useAppSelector } from '../store';
 
 const currencies = [
 {
@@ -70,6 +71,8 @@ export const Deposit: React.FC = () => {
     const [currency, setCurrency] = useState<string>("");
     const [network, setNetwork] = useState<string>("");
     const [amount, setAmount] = useState<string>("");
+    const [error, setError] = useState<Boolean>(false);
+    const webapp = useAppSelector(state => state.webappSlice.webApp);
 
     useEffect(() => {
         setTimeout(() => {
@@ -96,7 +99,6 @@ export const Deposit: React.FC = () => {
     }, []);
 
     const getNetworks = useCallback(async () => {
-
         if (!currency) return
         const url = `https://api.lucky-number.net/v1/payment-service/networks/${currency}`;
 
@@ -134,6 +136,38 @@ export const Deposit: React.FC = () => {
 
     function handleChangeAmount(event: React.ChangeEvent<HTMLInputElement>){
         setAmount(event.target.value);
+    }
+
+    function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>){
+        event.preventDefault();
+        if (currency && network && amount && Number(amount) >= 1){
+            const body = webapp?.initDataUnsafe || {};
+            console.log(JSON.stringify({initData: body}));
+            const url = `https://api.lucky-number.net/v1/payment/create-payment`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    initData: body,
+                    currency,
+                    network,
+                    amount
+                })
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error(error);
+                setError(true);
+            });
+        } else {
+            setError(true);
+        }
     }
 
     const renderHeader = (): JSX.Element => {
@@ -240,7 +274,7 @@ export const Deposit: React.FC = () => {
 
     const renderAmount = (): JSX.Element => {
         return (
-            <div style={{marginBottom: 30}}>
+            <div style={{marginBottom: 10}}>
                 <text.T14 style={{marginBottom: 10}}>Amount</text.T14>
                 <custom.InputField
                     placeholder='10'
@@ -254,12 +288,23 @@ export const Deposit: React.FC = () => {
         );
     };
 
+    const renderError = (): JSX.Element => {
+        return (
+            <text.T14 style={{
+                color: theme.colors.red,
+                fontStyle: 'italic'
+            }}>* Please enter correctly. Amount must be at least 1.</text.T14>
+        )
+    }
 
     const renderButton = (): JSX.Element => {
         return (
         <components.Button
             title='Open deposit'
-            onClick={() => navigate(-1)}
+            onClick={handleClick}
+            style={{
+                marginTop: 20
+            }}
         />
         );
     };
@@ -273,6 +318,7 @@ export const Deposit: React.FC = () => {
             {renderCurrentDeposits()}
             {renderNetworkDeposits()}
             {renderAmount()}
+            {error && renderError()}
             {renderButton()}
         </main>
         );

@@ -1,5 +1,8 @@
 const bot = require("../bot");
 const { paymentService, userService } = require("../services");
+require('dotenv').config();
+
+const INTERNAL_TOKEN = process.env.INTERNAL_TOKEN;
 
 const callbackInvoice = async (req, res) => {
 	console.log(req.body);
@@ -73,6 +76,40 @@ To this address: <code>${payment.address}</code>
 	}
 } 
 
+const createPayment = async (req, res) => {
+	try{
+		const amount = Math.ceil(Number(req.body.amount) / 0.98 * 10) / 10;
+		const data = {
+			amount: String(amount),
+			currency: req.body.currency,
+			order_id: 10,
+			to_currency: 'USDT',
+			network: req.body.network,
+			lifetime: "300"
+		};
+
+		const url = `${process.env.HOSTING_URL}/create-invoice`;
+		const headers = {
+			'x-internal-token': INTERNAL_TOKEN
+		};
+
+		const response = await axios.post(url, data, { headers });
+				
+		const result = response.data;
+		console.log(result);
+		const paymentBody = result.result;
+		paymentBody.userId = user;
+		const payment = await paymentService.createPayment(result.result);
+
+		res.status(401).send(result);
+	}
+	catch (error) {
+		console.log(error);
+		res.status(500);
+	}
+}
+
 module.exports = {
-    callbackInvoice
+    callbackInvoice,
+	createPayment
 }

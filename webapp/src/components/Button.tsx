@@ -5,7 +5,7 @@ import {theme} from '../constants';
 
 interface ButtonProps {
   title: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   colorScheme?: 'dark' | 'light';
   style?: React.CSSProperties;
   containerStyle?: React.CSSProperties;

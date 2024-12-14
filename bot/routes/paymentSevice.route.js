@@ -13,5 +13,4 @@ router.get('/all', async (req, res) => {
     res.send(all);
 });
 
-
 module.exports = router;

@@ -24,6 +24,11 @@ const userSchema = mongoose.Schema(
             required: true,
             default: 0
         },
+        usdt: {
+            type: Number,
+            required: true,
+            default: 0
+        },
         experience: {
             type: Number,
             required: true,
