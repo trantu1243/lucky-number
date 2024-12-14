@@ -118,9 +118,12 @@ export const Deposit: React.FC = () => {
         getAllCurrencies();
     }, [getAllCurrencies]);
 
+    useEffect(()=>{
+        getNetworks();
+    }, [getNetworks, currency]);
+
     function handleChangeCurrency(event: React.ChangeEvent<HTMLSelectElement>){
         setCurrency(event.target.value);
-        getNetworks();
     }
 
     function handleChangeNetwork(event: React.ChangeEvent<HTMLSelectElement>){
@@ -128,7 +131,7 @@ export const Deposit: React.FC = () => {
     }
 
     function handleChangeAmount(event: React.ChangeEvent<HTMLInputElement>){
-        setNetwork(event.target.value);
+        setAmount(event.target.value);
     }
 
     const renderHeader = (): JSX.Element => {
