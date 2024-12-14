@@ -96,7 +96,7 @@ export const LuckyNumber: React.FC = () => {
   const renderContent = (): JSX.Element => {
     return (
       <main
-        style={{marginTop: 52, paddingBottom: 100}}
+        style={{marginTop: 60, paddingBottom: 100}}
         className='container'
       >
         <text.H2 style={{marginBottom: 20}}>Lucky Number</text.H2>
