@@ -280,8 +280,8 @@ export const Deposit: React.FC = () => {
 
     return (
         <div id='screen'>
-        {renderHeader()}
-        {renderContent()}
+            {renderHeader()}
+            {renderContent()}
         </div>
     );
 };

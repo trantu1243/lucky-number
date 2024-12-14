@@ -59,8 +59,13 @@ const operations: OperationType[] = [
   ];
 
 export const LuckyNumber: React.FC = () => {
-  const renderBottomTabBar = () => {
-    return <components.BottomTabBar />;
+  const renderHeader = (): JSX.Element => {
+      return (
+      <components.Header
+          title='Open deposit'
+          goBack={true}
+      />
+      );
   };
 
   const renderOperations = (): JSX.Element => {
@@ -81,6 +86,12 @@ export const LuckyNumber: React.FC = () => {
       </div>
     );
   };
+
+  const renderLatestTransactions = (): JSX.Element => {
+      return (
+        <components.WinnerList />
+      )
+    }
 
   const renderContent = (): JSX.Element => {
     return (
@@ -124,12 +135,14 @@ export const LuckyNumber: React.FC = () => {
                     Note: Results are revealed in Step 1; your input in Step 2 determines the outcome. The game is fully transparent.
                 </p>     
             </div>
+        {renderLatestTransactions()}
       </main>
     );
   };
 
   return (
     <div id='screen'>
+      {renderHeader()}
       {renderContent()}
     </div>
   );
