@@ -83,7 +83,7 @@ const createPayment = async (req, res) => {
 		const data = {
 			amount: String(amount),
 			currency: req.body.currency,
-			order_id: 10,
+			order_id: '10',
 			to_currency: 'USDT',
 			network: req.body.network,
 			lifetime: "300"
