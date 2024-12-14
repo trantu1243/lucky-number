@@ -7,11 +7,14 @@ import {theme} from '../constants';
 type Props = {
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
-  type?: 'text' | 'password';
+  type?: 'text' | 'password' | 'number';
   clickable?: boolean;
   containerStyle?: React.CSSProperties;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   placeholder?: string;
+  name: string;
+  value: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const InputField: FC<Props> = ({
@@ -22,6 +25,9 @@ export const InputField: FC<Props> = ({
   rightIcon,
   clickable,
   type = 'text',
+  name,
+  value,
+  onChange
 }) => {
   return (
     <div
@@ -44,6 +50,9 @@ export const InputField: FC<Props> = ({
         placeholder={placeholder}
         maxLength={50}
         type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
         style={{
           width: '100%',
           height: '100%',

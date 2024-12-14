@@ -2,8 +2,8 @@ const PaymentService = require("../models/paymentService.model");
 
 const getAllCurrencies = async () => {
     const currencies = await PaymentService.find({}, 'currency');
-    return currencies.map(doc => doc.currency);
-
+    const uniqueCurrencies = [...new Set(currencies.map(doc => doc.currency))];
+    return uniqueCurrencies;
 }
 
 const getNetworkByCurrency = async (currency) => {

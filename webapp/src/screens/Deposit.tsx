@@ -65,6 +65,11 @@ const cards = [
 export const Deposit: React.FC = () => {
     const {pathname} = useLocation();
     const navigate = hooks.useAppNavigate();
+    const [currencies, setCurrencies] = useState<string[]>([]);
+    const [networks, setNetworks] = useState<string[]>([]);
+    const [currency, setCurrency] = useState<string>("");
+    const [network, setNetwork] = useState<string>("");
+    const [amount, setAmount] = useState<string>("");
 
     useEffect(() => {
         setTimeout(() => {
@@ -79,20 +84,51 @@ export const Deposit: React.FC = () => {
         fetch(url, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
             }
           })
             .then((response) => response.json())
             .then((data) => {
-              console.log(data);
+                setCurrencies(data);
             })
             .catch((error) => console.error(error));
 
     }, []);
 
+    const getNetworks = useCallback(async () => {
+
+        const url = `https://api.lucky-number.net/v1/payment-service/networks?currency=${currency}`;
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+          })
+            .then((response) => response.json())
+            .then((data) => {
+                setNetworks(data);
+            })
+            .catch((error) => console.error(error));
+
+    }, [currency]);
+
     useEffect(()=>{
         getAllCurrencies();
-    }, [getAllCurrencies])
+    }, [getAllCurrencies]);
+
+    function handleChangeCurrency(event: React.ChangeEvent<HTMLSelectElement>){
+        setCurrency(event.target.value);
+        getNetworks();
+    }
+
+    function handleChangeNetwork(event: React.ChangeEvent<HTMLSelectElement>){
+        setNetwork(event.target.value);
+    }
+
+    function handleChangeAmount(event: React.ChangeEvent<HTMLInputElement>){
+        setNetwork(event.target.value);
+    }
 
     const renderHeader = (): JSX.Element => {
         return (
@@ -122,22 +158,28 @@ export const Deposit: React.FC = () => {
                     <div style={{marginRight: 14}}>{<svg.CalendarSvg />}</div>
                     <select
                         name="currency"
+                        value={currency}
+                        defaultValue={""}
+                        onChange={handleChangeCurrency}
                         style={{
-                        width: '100%',
-                        height: '100%',
-                        padding: 0,
-                        margin: 0,
-                        border: 'none',
-                        outline: 'none',
-                        backgroundColor: theme.colors.main2Dark,
-                        fontSize: 16,
-                        color: theme.colors.whiteText,
-                        ...theme.fonts.SourceSansPro_400Regular,
+                            width: '100%',
+                            height: '100%',
+                            padding: 0,
+                            margin: 0,
+                            border: 'none',
+                            outline: 'none',
+                            backgroundColor: theme.colors.main2Dark,
+                            fontSize: 16,
+                            color: theme.colors.whiteText,
+                            ...theme.fonts.SourceSansPro_400Regular,
                         }}
                     >
-                        <option value="usd">USD</option>
-                        <option value="usd">EUR</option>
-                        <option value="usd">GBP</option>
+                        <option value="">--Select currency--</option>
+                        {
+                            currencies.map((value, index)=> {
+                                return <option key={index} value={value}>{value}</option>
+                            })
+                        }
                     </select>
                 </div>
             </div>
@@ -162,7 +204,10 @@ export const Deposit: React.FC = () => {
                 >
                     <div style={{marginRight: 14}}>{<svg.CalendarSvg />}</div>
                     <select
-                        name="currency"
+                        name="network"
+                        value={network}
+                        defaultValue={""}
+                        onChange={handleChangeNetwork}
                         style={{
                         width: '100%',
                         height: '100%',
@@ -176,9 +221,12 @@ export const Deposit: React.FC = () => {
                         ...theme.fonts.SourceSansPro_400Regular,
                         }}
                     >
-                        <option value="usd">USD</option>
-                        <option value="usd">EUR</option>
-                        <option value="usd">GBP</option>
+                        <option value="">--Select network--</option>
+                        {
+                            networks.map((value, index)=> {
+                                return <option key={index} value={value}>{value}</option>
+                            })
+                        }
                     </select>
                 </div>
             </div>
@@ -191,7 +239,11 @@ export const Deposit: React.FC = () => {
             <div style={{marginBottom: 30}}>
                 <text.T14 style={{marginBottom: 10}}>Amount</text.T14>
                 <custom.InputField
-                    placeholder='1 000.00'
+                    placeholder='10'
+                    name='amount'
+                    value={amount}
+                    onChange={handleChangeAmount}
+                    type='number'
                     leftIcon={<svg.DollarSvg />}
                 />
             </div>
