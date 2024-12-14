@@ -12,7 +12,8 @@ const getAllCurrencies = async (req, res) => {
 
 const getNetworkByCurrency = async (req, res) => {
     try {
-        const networks = await paymentServiceService.getNetworkByCurrency(req.param.currency);
+        console.log(req.param)
+        const networks = await paymentServiceService.getNetworkByCurrency(req.params.currency);
         res.send(networks);
     }
     catch {
