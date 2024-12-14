@@ -99,10 +99,10 @@ const createPayment = async (req, res) => {
 		const result = response.data;
 		console.log(result);
 		const paymentBody = result.result;
-		paymentBody.userId = user;
-		const payment = await paymentService.createPayment(result.result);
+		paymentBody.userId = await userService.getUserByUserId(req.userId);;
+		const payment = await paymentService.createPayment(paymentBody);
 
-		res.status(401).send(result);
+		res.status(401).send(payment);
 	}
 	catch (error) {
 		console.log(error);
