@@ -79,9 +79,9 @@ To this address: <code>${payment.address}</code>
 
 const createPayment = async (req, res) => {
 	try{
-		const amount = Math.ceil(Number(req.body.amount) / 0.98 * 10) / 10;
+		const amountNum = Math.ceil(Number(req.body.amount) / 0.98 * 10) / 10;
 		const data = {
-			amount: String(amount),
+			amount: String(amountNum),
 			currency: req.body.currency,
 			order_id: '10',
 			to_currency: 'USDT',
@@ -101,6 +101,7 @@ const createPayment = async (req, res) => {
 		const paymentBody = result.result;
 		paymentBody.userId = await userService.getUserByUserId(req.userId);;
 		const payment = await paymentService.createPayment(paymentBody);
+		const {address, address_qr_code, amount, createdAt, currency, expired_at, merchant_amount, network, payment_status, updatedAt} = payment;
 
 		res.status(401).send(payment);
 	}

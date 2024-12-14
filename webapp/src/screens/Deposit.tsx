@@ -21,6 +21,22 @@ const currencies = [
 },
 ];
 
+const networkDescription : { [key: string]: string } = {
+    TRON: 'TRC20',
+    ETH: 'ERC20',
+    BSC: 'BEP20',
+    BTC: 'Bitcoin',
+    LTC: 'Litecoin',
+    SOL: 'Solana',
+    ADA: 'Cardano',
+    DOT: 'Polkadot',
+    ATOM: 'Cosmos',
+    XMR: 'Monero',
+    DOGE: 'Dogecoin',
+    XRP: 'Ripple',
+    ALGO: 'Algorand',
+    NEAR: 'Near Protocol'
+};
 const periods = [
 {
     id: 1,
@@ -262,7 +278,8 @@ export const Deposit: React.FC = () => {
                         <option value="">--Select network--</option>
                         {
                             networks.map((value, index)=> {
-                                return <option key={index} value={value}>{value}</option>
+                                const description = networkDescription[value] ? ` (${networkDescription[value]})` : '';
+                                return <option key={index} value={value}>{value + description}</option>;
                             })
                         }
                     </select>
@@ -270,7 +287,6 @@ export const Deposit: React.FC = () => {
             </div>
         );
     };
-
 
     const renderAmount = (): JSX.Element => {
         return (
