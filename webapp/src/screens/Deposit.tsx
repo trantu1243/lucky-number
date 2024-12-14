@@ -97,7 +97,7 @@ export const Deposit: React.FC = () => {
 
     const getNetworks = useCallback(async () => {
 
-        const url = `https://api.lucky-number.net/v1/payment-service/networks?currency=${currency}`;
+        const url = `https://api.lucky-number.net/v1/payment-service/networks/${currency}`;
 
         fetch(url, {
             method: 'GET',
