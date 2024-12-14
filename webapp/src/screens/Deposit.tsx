@@ -97,6 +97,7 @@ export const Deposit: React.FC = () => {
 
     const getNetworks = useCallback(async () => {
 
+        if (!currency) return
         const url = `https://api.lucky-number.net/v1/payment-service/networks/${currency}`;
 
         fetch(url, {
@@ -120,7 +121,7 @@ export const Deposit: React.FC = () => {
 
     useEffect(()=>{
         getNetworks();
-    }, [getNetworks, currency]);
+    }, [currency, getNetworks]);
 
     function handleChangeCurrency(event: React.ChangeEvent<HTMLSelectElement>){
         setCurrency(event.target.value);
@@ -163,7 +164,6 @@ export const Deposit: React.FC = () => {
                     <select
                         name="currency"
                         value={currency}
-                        defaultValue={""}
                         onChange={handleChangeCurrency}
                         style={{
                             width: '100%',
@@ -210,7 +210,6 @@ export const Deposit: React.FC = () => {
                     <select
                         name="network"
                         value={network}
-                        defaultValue={""}
                         onChange={handleChangeNetwork}
                         style={{
                         width: '100%',
