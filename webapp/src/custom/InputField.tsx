@@ -12,8 +12,8 @@ type Props = {
   containerStyle?: React.CSSProperties;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   placeholder?: string;
-  name: string;
-  value: string;
+  name?: string;
+  value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
