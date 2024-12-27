@@ -9,7 +9,6 @@ import { hooks } from "../hooks";
 import "../assets/css/loading.css"
 
 export const DepositQr: React.FC = () => {
-    const address = `bc1q6ty5nrhs407wca55tuj4d9h0rr80e0tpj0zx4x`;
 
     const webapp = useAppSelector(state => state.webappSlice.webApp);
     const navigate = hooks.useAppNavigate();
@@ -164,7 +163,7 @@ export const DepositQr: React.FC = () => {
                             src={payment.address_qr_code} />              
 
                     </div>
-                    <components.Countdown expiredAt={1735198133} />
+                    <components.Countdown expiredAt={payment.expired_at} />
                     <text.H3
                         style={{
                             textAlign: 'center',
@@ -251,6 +250,7 @@ export const DepositQr: React.FC = () => {
                             </div>
                             <div 
                                 style={{
+                                    margin: 7,
                                     display: 'flex',
                                     justifyContent: 'center',
                                     alignItems: 'center',

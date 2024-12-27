@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { theme } from '../constants';
 
 interface CountdownProps {
-    expiredAt: number; // UNIX timestamp
+    expiredAt: string; // ISO 8601 formatted date string
 }
 
 const Countdown: React.FC<CountdownProps> = ({ expiredAt }) => {
     const [timeLeft, setTimeLeft] = useState<number>(0);
 
     useEffect(() => {
-        const targetTime = expiredAt * 1000;
+        const targetTime = new Date(expiredAt).getTime();
 
         const updateCountdown = () => {
             const currentTime = Date.now();
@@ -32,7 +32,7 @@ const Countdown: React.FC<CountdownProps> = ({ expiredAt }) => {
             textAlign: 'center',
             ...theme.fonts.SourceSansPro_400Regular,
         }}>
-            {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+            {minutes}:{String(seconds).padStart(2, '0')}
         </div>
     );
 };
