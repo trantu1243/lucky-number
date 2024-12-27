@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.post('/create-payment', validateTelegramData, paymentController.createPayment);
 
+router.post('/check', validateTelegramData, paymentController.checkPayment);
+
 module.exports = router;

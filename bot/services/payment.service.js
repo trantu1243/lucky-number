@@ -11,7 +11,12 @@ const findPaymentByOrderId = async (order_id) => {
     return Payment.findOne({'order_id': order_id}).populate('userId', 'userId');
 }
 
+const checkPaymentByUserId = async (user) => {
+    return Payment.findOne({'userId': user, 'payment_status': 'check'});
+}
+
 module.exports = {
     createPayment,
-    findPaymentByOrderId
+    findPaymentByOrderId,
+    checkPaymentByUserId
 }

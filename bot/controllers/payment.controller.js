@@ -83,10 +83,10 @@ const createPayment = async (req, res) => {
 		const data = {
 			amount: String(amountNum),
 			currency: req.body.currency,
-			order_id: '11',
+			order_id: '12',
 			to_currency: 'USDT',
 			network: req.body.network,
-			lifetime: "600"
+			lifetime: "900"
 		};
 
 		const url = `${process.env.HOSTING_URL}/create-invoice`;
@@ -111,7 +111,27 @@ const createPayment = async (req, res) => {
 	}
 }
 
+const checkPayment = async (req, res) => {
+	try {
+		const user = await userService.getUserByUserId(req.userId);
+		const payment = await paymentService.checkPaymentByUserId(user);
+		if (payment) return res.send({
+			status: 'true',
+			payment
+		}) 
+		else return res.send({
+			status: 'false',
+			payment
+		});
+	}
+	catch (error) {
+		console.log(error);
+		res.status(500);
+	}
+}
+
 module.exports = {
     callbackInvoice,
-	createPayment
+	createPayment,
+	checkPayment
 }

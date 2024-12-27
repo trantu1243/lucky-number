@@ -3,9 +3,37 @@ import {components} from '../components';
 import { ToastContainer, toast } from 'react-toastify';
 import {text} from '../text';
 import {svg} from '../assets/svg';
+import { useCallback, useEffect } from "react";
+import { useAppSelector } from "../store";
 
 export const DepositQr: React.FC = () => {
     const address = `bc1q6ty5nrhs407wca55tuj4d9h0rr80e0tpj0zx4x`;
+
+      const webapp = useAppSelector(state => state.webappSlice.webApp);
+    
+    const checkPayment = useCallback(async () => {
+        const body = webapp?.initDataUnsafe || {};
+        console.log(JSON.stringify({initData: body}));
+        const urlWithParams = `https://api.lucky-number.net/v1/payment/check`;
+    
+        fetch(urlWithParams, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({initData: body})
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((error) => console.error(error));
+    
+    }, [webapp]);
+
+    useEffect(() => {
+        checkPayment();
+    }, [checkPayment])
 
     const handleCopy = (text: string) => {
         navigator.clipboard.writeText(text)
