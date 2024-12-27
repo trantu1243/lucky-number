@@ -116,11 +116,11 @@ const checkPayment = async (req, res) => {
 		const user = await userService.getUserByUserId(req.userId);
 		const payment = await paymentService.checkPaymentByUserId(user);
 		if (payment) return res.send({
-			status: 'true',
+			status: true,
 			payment
 		}) 
 		else return res.send({
-			status: 'false',
+			status: false,
 			payment
 		});
 	}

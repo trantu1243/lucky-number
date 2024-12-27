@@ -139,7 +139,13 @@ export const DepositQr: React.FC = () => {
                         }}
                     >
                         {parseFloat(payment.amount).toString()} {payment.currency}
+                        <span onClick={() => {
+                                    handleCopy(payment.network)
+                                }}>
+                            <svg.CopySvg />
+                        </span>
                     </text.H3>
+                    
                     <div
                         style={{
                             borderRadius: 10,
@@ -175,15 +181,7 @@ export const DepositQr: React.FC = () => {
                                 >
                                     {payment.network}
                                 </text.T16>
-                            </div>
-                            <div style={{
-                                 display: 'flex',
-                                 justifyContent: 'center',
-                                 alignItems: 'center',
-                            }}>
-                                <svg.CopySvg />
-                            </div>
-                            
+                            </div>             
                         </div>
                         <div
                             style={{
