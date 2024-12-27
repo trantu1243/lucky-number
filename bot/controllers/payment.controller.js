@@ -83,10 +83,10 @@ const createPayment = async (req, res) => {
 		const data = {
 			amount: String(amountNum),
 			currency: req.body.currency,
-			order_id: '10',
+			order_id: '11',
 			to_currency: 'USDT',
 			network: req.body.network,
-			lifetime: "300"
+			lifetime: "600"
 		};
 
 		const url = `${process.env.HOSTING_URL}/create-invoice`;
