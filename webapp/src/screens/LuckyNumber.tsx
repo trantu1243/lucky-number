@@ -103,21 +103,21 @@ export const LuckyNumber: React.FC = () => {
         {renderOperations()}
         <components.NotificationLine content='Kính gửi quý khách hàng, hệ thống sẽ tạm dừng hoạt động sau 00:30 tối. Cảm ơn sự ủng hộ và chúc quý khách ngày mới thật nhiều may mắn!'/>
 
-            <div
-              style={{
-                padding: 20,
-                borderRadius: 10,
-                border: '1px solid #FFEFE6',
-                marginBottom: 10,
-                backgroundColor: theme.colors.white,
-              }}
-            >
-              <div style={{...utils.rowCenter({gap: 8})}}>
-                
-                <text.H5 numberOfLines={1}>❓INSTRUCT - 🍀LUCKY NUMBER </text.H5>
-              </div>
-                <text.T16 style={{marginTop: 14}}>
-                1️⃣ Press "Start" to get 10 random numbers 🔢 (hashed with SHA-256 🔐).<br/>
+        <div
+          style={{
+            padding: 20,
+            borderRadius: 10,
+            border: '1px solid #FFEFE6',
+            marginBottom: 10,
+            backgroundColor: theme.colors.white,
+          }}
+        >
+          <div style={{...utils.rowCenter({gap: 8})}}>
+            
+            <text.H5 numberOfLines={1}>❓INSTRUCT - 🍀LUCKY NUMBER </text.H5>
+          </div>
+            <text.T16 style={{marginTop: 14}}>
+            1️⃣ Press "Start" to get 10 random numbers 🔢 (hashed with SHA-256 🔐).<br/>
 2️⃣ Enter a number sequence 🔢 (0-9 digits).<br/>
 3️⃣ Enter your bet 💰.<br/><br/>
 ➕ Add the sequences. If the last two digits are:<br/>
@@ -129,12 +129,12 @@ export const LuckyNumber: React.FC = () => {
 💎 18, 28, 38, 48, 58 💎 ={'>'} ✨ Win x3.85 chips ✨<br/>
 
 🔥 33, 77, 88 🔥 ={'>'} 💥 Win x4.8 chips 💥
-                </text.T16>  
-                <hr style={{margin: '15px 0', backgroundColor: 'gray', border: '1px solid gray'}} />
-                <p className="blink" style={{color: theme.colors.whiteText, textAlign: 'justify'}}>
-                    Note: Results are revealed in Step 1; your input in Step 2 determines the outcome. The game is fully transparent.
-                </p>     
-            </div>
+            </text.T16>  
+            <hr style={{margin: '15px 0', backgroundColor: 'gray', border: '1px solid gray'}} />
+            <p className="blink" style={{color: theme.colors.whiteText, textAlign: 'justify'}}>
+                Note: Results are revealed in Step 1; your input in Step 2 determines the outcome. The game is fully transparent.
+            </p>     
+        </div>
         {renderLatestTransactions()}
       </main>
     );

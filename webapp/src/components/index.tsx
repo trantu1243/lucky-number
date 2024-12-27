@@ -7,15 +7,19 @@ import {BlockHeading} from './BlockHeading';
 import {BottomTabBar} from '../navigation/BottomTabBar';
 import { NotificationLine } from './NotificationLine';
 import { WinnerList } from './WinnerList';
+import CodeBlock from './CopyBlock';
+import Countdown from './Countdown';
 
 export const components = {
-  Button,
-  Header,
-  TabLoader,
-  Background,
-  ScrollToTop,
-  BottomTabBar,
-  BlockHeading,
-  NotificationLine,
-  WinnerList
+    Button,
+    Header,
+    TabLoader,
+    Background,
+    ScrollToTop,
+    BottomTabBar,
+    BlockHeading,
+    NotificationLine,
+    WinnerList,
+    CodeBlock,
+    Countdown
 };

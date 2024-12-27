@@ -40,6 +40,7 @@ import {Notification} from './tabs/Notification';
 import {Transaction} from './tabs/Transaction';
 import { Games } from './tabs/Games';
 import { LuckyNumber } from './LuckyNumber';
+import { DepositQr } from './DepositQr';
 
 export const screens = {
   FAQ,
@@ -81,5 +82,6 @@ export const screens = {
   VerifyYourPhoneNumber,
   ForgotPasswordSentEmail,
   ErrorPage,
-  LuckyNumber
+  LuckyNumber,
+  DepositQr
 };

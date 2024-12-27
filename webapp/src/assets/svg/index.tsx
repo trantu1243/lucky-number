@@ -89,6 +89,7 @@ import { TelegramSvg } from './TelegramSvg';
 import { GamesSvg } from './GamesSvg';
 import { RewardSvg } from './RewardSvg';
 import { LotterySvg } from './LotterySvg';
+import { CopySvg } from './CopySvg';
 
 export const svg = {
   WJSvg,
@@ -181,5 +182,6 @@ export const svg = {
   TelegramSvg,
   GamesSvg,
   RewardSvg,
-  LotterySvg
+  LotterySvg,
+  CopySvg
 };

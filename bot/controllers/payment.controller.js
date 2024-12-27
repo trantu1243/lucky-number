@@ -99,11 +99,11 @@ const createPayment = async (req, res) => {
 		const result = response.data;
 		console.log(result);
 		const paymentBody = result.result;
-		paymentBody.userId = await userService.getUserByUserId(req.userId);;
+		paymentBody.userId = await userService.getUserByUserId(req.userId);
 		const payment = await paymentService.createPayment(paymentBody);
 		const {address, address_qr_code, amount, createdAt, currency, expired_at, merchant_amount, network, payment_status, updatedAt} = payment;
 
-		res.status(401).send(payment);
+		res.status(401).send({address, address_qr_code, amount, createdAt, currency, expired_at, merchant_amount, network, payment_status, updatedAt});
 	}
 	catch (error) {
 		console.log(error);
