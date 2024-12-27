@@ -130,8 +130,23 @@ const checkPayment = async (req, res) => {
 	}
 }
 
+const cancelPayment = async (req, res) => {
+	try {
+		const user = await userService.getUserByUserId(req.userId);
+		await paymentService.cancelPaymentByUserId(user);
+		return res.send({
+			status: true,
+		}) 
+	}
+	catch (error) {
+		console.log(error);
+		res.status(500);
+	}
+}
+
 module.exports = {
     callbackInvoice,
 	createPayment,
-	checkPayment
+	checkPayment,
+	cancelPayment
 }

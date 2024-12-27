@@ -96,6 +96,33 @@ export const Deposit: React.FC = () => {
         }, 10);
     }, [pathname]);
 
+    const checkPayment = useCallback(async () => {
+        const body = webapp?.initDataUnsafe || {};
+        console.log(JSON.stringify({initData: body}));
+        const urlWithParams = `https://api.lucky-number.net/v1/payment/check`;
+    
+        fetch(urlWithParams, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({initData: body})
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data.status) {
+                    navigate("/payment/qrcode");
+                }
+            })
+            .catch((error) => console.error(error));
+    
+    }, [webapp]);
+
+    useEffect(() => {
+        checkPayment();
+    }, [checkPayment])
+
     const getAllCurrencies = useCallback(async () => {
 
         const url = `https://api.lucky-number.net/v1/payment-service/currencies`;

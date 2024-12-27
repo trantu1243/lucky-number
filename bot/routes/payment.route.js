@@ -8,4 +8,6 @@ router.post('/create-payment', validateTelegramData, paymentController.createPay
 
 router.post('/check', validateTelegramData, paymentController.checkPayment);
 
+router.post('/cancel', validateTelegramData, paymentController.cancelPayment);
+
 module.exports = router;

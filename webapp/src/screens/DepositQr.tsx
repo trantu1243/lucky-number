@@ -68,6 +68,39 @@ export const DepositQr: React.FC = () => {
         });
     };
 
+    const handleCancel = async () => {
+        const body = webapp?.initDataUnsafe || {};
+        console.log(JSON.stringify({initData: body}));
+        const urlWithParams = `https://api.lucky-number.net/v1/payment/cancel`;
+    
+        fetch(urlWithParams, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({initData: body})
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data.status) {
+                    navigate("/deposit");
+                    toast.success('Payment canceled successfully!', {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: false,
+                        theme: "dark",
+                    });
+                }
+                
+            })
+            .catch((error) => console.error(error));
+    
+    } 
+
     const renderHeader = (): JSX.Element => {
         return (
             <components.Header
@@ -139,7 +172,13 @@ export const DepositQr: React.FC = () => {
                         }}
                     >
                         {parseFloat(payment.amount).toString()} {payment.currency}
-                        <span onClick={() => {
+                        <span
+                            style={{
+                                display: 'inline-flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                            onClick={() => {
                                     handleCopy(payment.network)
                                 }}>
                             <svg.CopySvg />

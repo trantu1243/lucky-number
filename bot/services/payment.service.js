@@ -15,8 +15,13 @@ const checkPaymentByUserId = async (user) => {
     return Payment.findOne({'userId': user, 'payment_status': 'cancel'}, 'address address_qr_code amount expired_at payment_status url network currency');
 }
 
+const cancelPaymentByUserId = async (user) => {
+    return Payment.findOneAndUpdate({userId: user, payment_status: 'check'}, {payment_status: 'cancel'});
+}
+
 module.exports = {
     createPayment,
     findPaymentByOrderId,
-    checkPaymentByUserId
+    checkPaymentByUserId,
+    cancelPaymentByUserId
 }
