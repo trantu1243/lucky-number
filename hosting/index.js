@@ -142,13 +142,41 @@ app.post('/callback-payout-bc40-c903cb794d97-0d0dd028-c61b-4aa6', (req, res) => 
 
 })
 
+app.post('/get-exchange-rate', checkInternalToken, (req, res) => {
+	const URL = process.env.URL;
+	const API_KEY = process.env.API_KEY;
+
+	const body = {};
+
+	const data = JSON.stringify(body);
+	const base64Data = Buffer.from(data).toString('base64');
+	const sign = CryptoJS.MD5(base64Data + API_KEY).toString();
+
+	const url = `https://api.cryptomus.com/v1/exchange-rate/${req.body.currency}/list`;
+	const headers = {
+		merchant: '0d0dd028-c61b-4aa6-bc40-c903cb794d97',
+		sign: sign,
+		'Content-Type': 'application/json',
+	};
+
+	axios
+		.post(url, data, { headers })
+		.then((response) => {
+			res.send(response.data);
+		})
+		.catch((error) => {
+			console.error(error);
+			res.status(400).send(error);
+		});
+});
+
 const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
 const getPaymentService = async () => {
-	const API_KEY = 'AfU4DTD9OFYbPYlGol692R5LWSZpAZ2GWkJObaa7AHWL5bEGMepPzSPeVDcd0WwzRQ7dBdb8Cjf0tcoBjTwxaoUzhumEmIlpToUDPA151zty4sO15KPAzMCNOeMlq4ZH';
+	const API_KEY = process.env.API_KEY;
 	const body = {};
 
 	const data = JSON.stringify(body);
@@ -176,6 +204,7 @@ const getPaymentService = async () => {
 		console.log(error);
 	}
 }
+
 
 const job = new CronJob(
 	'0 0 * * *', 

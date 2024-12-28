@@ -2,6 +2,7 @@ const bot = require("../bot");
 const axios = require("axios");
 const { v4: uuidv4 } = require('uuid');
 const { paymentService, userService } = require("../services");
+const { Rate } = require("../models");
 require('dotenv').config();
 
 const INTERNAL_TOKEN = process.env.INTERNAL_TOKEN;
@@ -80,7 +81,7 @@ To this address: <code>${payment.address}</code>
 
 const createPayment = async (req, res) => {
 	try{
-		const amountNum = Math.ceil(Number(req.body.amount) / 0.98 * 10) / 10;
+		const amountNum = Math.ceil(Number(req.body.amount) / 0.98 * 1000) / 1000;
 		const data = {
 			amount: String(amountNum),
 			currency: req.body.currency,
@@ -172,10 +173,47 @@ const checkPaid = async (req, res) => {
 	}
 }
 
+const getExchangeRate = async (req, res) => {
+	try {
+		const data = {
+			currency: req.body.currency,	
+		};
+		const url = `${process.env.HOSTING_URL}/get-exchange-rate`;
+		const headers = {
+			'x-internal-token': INTERNAL_TOKEN
+		};
+
+		const response = await axios.post(url, data, { headers });
+		const result = response.data.result;
+		console.log(result);
+		const usdtItem = result.find(item.to === "USDT");
+		const rate = await Rate.findOne({from: usdtItem.from});
+		if (rate) {
+			rate.course = usdtItem.course;
+			await rate.save();
+		} else {
+			rate = await Rate.create({
+				from: usdtItem.from,
+				course: usdtItem.course
+			})
+		}
+
+		return res.send({
+			status: true,
+			rate
+		});
+	}
+	catch (error) {
+		console.log(error);
+		res.status(500);
+	}
+}
+
 module.exports = {
     callbackInvoice,
 	createPayment,
 	checkPayment,
 	cancelPayment,
-	checkPaid
+	checkPaid,
+	getExchangeRate
 }
