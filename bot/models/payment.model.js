@@ -41,7 +41,7 @@ const paymentSchema = mongoose.Schema(
             required: true,
         },
         expired_at: {
-            type: Date
+            type: Number,
         },
         payment_status: {
             type: String,

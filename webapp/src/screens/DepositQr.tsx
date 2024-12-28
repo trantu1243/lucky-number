@@ -16,7 +16,7 @@ export const DepositQr: React.FC = () => {
         address: '',
         address_qr_code: '',
         amount: '',
-        expired_at: '',
+        expired_at: 0,
         payment_status: '',
         url: '',
         network: '',
