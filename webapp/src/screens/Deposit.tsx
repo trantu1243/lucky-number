@@ -217,7 +217,7 @@ export const Deposit: React.FC = () => {
                     const course = Number(rate.course);
                     setChips(Number(amount) * course);
                 }
-            }
+            } else getExchangeRate()
         }
     }, [amount, getExchangeRate]);
 
