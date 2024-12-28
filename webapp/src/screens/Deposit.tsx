@@ -37,47 +37,8 @@ const networkDescription : { [key: string]: string } = {
     ALGO: 'Algorand',
     NEAR: 'Near Protocol'
 };
-const periods = [
-{
-    id: 1,
-    title: '3 mos',
-},
-{
-    id: 2,
-    title: '12 mos',
-},
-{
-    id: 3,
-    title: '24 mos',
-},
-{
-    id: 4,
-    title: '6 mos',
-},
-{
-    id: 5,
-    title: '18 mos',
-},
-{
-    id: 6,
-    title: '36 mos',
-},
-];
 
-const cards = [
-{
-    id: 1,
-    cardUrl: 'https://george-fx.github.io/apitex_api/assets/cards/01.png',
-    number: '**** **** **** 7895',
-    balance: '4 863.27',
-},
-{
-    id: 2,
-    cardUrl: 'https://george-fx.github.io/apitex_api/assets/cards/02.png',
-    number: '**** **** **** 5378',
-    balance: '2 435.12',
-},
-];
+const preferredCurrencies = ['USDT', 'ETH', 'BTC', 'TON'];
 
 export const Deposit: React.FC = () => {
     const {pathname} = useLocation();
@@ -223,6 +184,11 @@ export const Deposit: React.FC = () => {
         );
     };
 
+    const sortedCurrencies = [
+        ...preferredCurrencies,
+        ...currencies.filter(currency => !preferredCurrencies.includes(currency)),
+    ];
+
     const renderCurrentDeposits = (): JSX.Element => {
         return (
             <div style={{marginBottom: 10}}>
@@ -259,7 +225,7 @@ export const Deposit: React.FC = () => {
                     >
                         <option value="">--Select currency--</option>
                         {
-                            currencies.map((value, index)=> {
+                            sortedCurrencies.map((value, index)=> {
                                 return <option key={index} value={value}>{value}</option>
                             })
                         }

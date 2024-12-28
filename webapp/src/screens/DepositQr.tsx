@@ -20,7 +20,8 @@ export const DepositQr: React.FC = () => {
         payment_status: '',
         url: '',
         network: '',
-        currency: ''
+        currency: '',
+        _id: ''
     });
     const [loading, setLoading] = useState(true);
     
@@ -67,7 +68,7 @@ export const DepositQr: React.FC = () => {
         });
     };
 
-    const handleCancel = async () => {
+    const handleCancelButton = async () => {
         const body = webapp?.initDataUnsafe || {};
         console.log(JSON.stringify({initData: body}));
         const urlWithParams = `https://api.lucky-number.net/v1/payment/cancel`;
@@ -77,7 +78,7 @@ export const DepositQr: React.FC = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({initData: body})
+            body: JSON.stringify({initData: body, id: payment._id})
         })
             .then((response) => response.json())
             .then((data) => {
@@ -94,10 +95,49 @@ export const DepositQr: React.FC = () => {
                         theme: "dark",
                     });
                 }
-                
             })
             .catch((error) => console.error(error));
+    } 
+
+    const handlePaidButton = async () => {
+        const body = webapp?.initDataUnsafe || {};
+        console.log(JSON.stringify({initData: body}));
+        const urlWithParams = `https://api.lucky-number.net/v1/payment/check-paid`;
     
+        fetch(urlWithParams, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({initData: body, id: payment._id})
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data.status) {
+                    toast.success('Paid Successfully!', {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: false,
+                        theme: "dark",
+                    });
+                    navigate("/deposit");
+                } else {
+                    toast.error('Paid Successfully!', {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: false,
+                        theme: "dark",
+                    });
+                }
+            })
+            .catch((error) => console.error(error));
     } 
 
     const renderHeader = (): JSX.Element => {
@@ -108,24 +148,6 @@ export const DepositQr: React.FC = () => {
             />
         );
     };
-
-    const renderBottom = (): JSX.Element => {
-        return (
-            <nav
-                style={{
-                    bottom: 0,
-                    zIndex: 999,
-                    width: '100%',
-                    position: 'fixed',
-                    maxWidth: '650px',
-                    padding: 10,
-                    backgroundColor: theme.colors.white,
-                }}
-            >
-                <components.Button title="Cancel" style={{background: theme.colors.main2Dark}} />
-            </nav>
-        )
-    }
 
     const renderContent = (): JSX.Element => {
         return (
@@ -272,6 +294,30 @@ export const DepositQr: React.FC = () => {
             </main>
         )
     }
+    
+    const renderBottom = (): JSX.Element => {
+        return (
+            <nav
+                style={{
+                    bottom: 0,
+                    zIndex: 999,
+                    width: '100%',
+                    position: 'fixed',
+                    maxWidth: '650px',
+                    padding: 10,
+                    backgroundColor: theme.colors.white,
+                    display: 'grid',
+                    gridTemplateColumns: '49% 49%',
+                    gap: 5,
+        
+                }}
+            >
+                <components.Button title="Cancel" style={{background: theme.colors.main2Dark}} onClick={handleCancelButton}/>
+                <components.Button title="Paid" onClick={handlePaidButton}/>
+            </nav>
+        )
+    }
+
     return (
         <div id='screen'>
             {renderHeader()}

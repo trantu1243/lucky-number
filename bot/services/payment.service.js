@@ -19,6 +19,10 @@ const cancelPaymentByUserId = async (user) => {
     return Payment.findOneAndUpdate({userId: user, payment_status: 'check'}, {payment_status: 'cancel'});
 }
 
+const findPaymentById = async (id) => {
+    return Payment.findById(id).populate('userId', 'userId');
+}
+
 module.exports = {
     createPayment,
     findPaymentByOrderId,

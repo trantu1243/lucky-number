@@ -144,9 +144,37 @@ const cancelPayment = async (req, res) => {
 	}
 }
 
+const checkPaid = async (req, res) => {
+	try {
+		const user = await userService.getUserByUserId(req.userId);
+		const payment = await paymentService.findPaymentById(req.body.id);
+
+		if (!user || !payment) {
+			return res.status(404).send({
+				status: false,
+			});
+		}
+		
+		if (payment.userId === user.id && payment.payment_status === 'paid'){
+			return res.send({
+				status: true,
+			});
+		} else {
+			return res.send({
+				status: false,
+			});
+		}
+	}
+	catch (error) {
+		console.log(error);
+		res.status(500);
+	}
+}
+
 module.exports = {
     callbackInvoice,
 	createPayment,
 	checkPayment,
-	cancelPayment
+	cancelPayment,
+	checkPaid
 }
