@@ -1,5 +1,6 @@
 const bot = require("../bot");
 const axios = require("axios");
+const { v4: uuidv4 } = require('uuid');
 const { paymentService, userService } = require("../services");
 require('dotenv').config();
 
@@ -83,7 +84,7 @@ const createPayment = async (req, res) => {
 		const data = {
 			amount: String(amountNum),
 			currency: req.body.currency,
-			order_id: '12',
+			order_id: uuidv4(),
 			to_currency: 'USDT',
 			network: req.body.network,
 			lifetime: "900"

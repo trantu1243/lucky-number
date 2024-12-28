@@ -28,7 +28,6 @@ export const DepositQr: React.FC = () => {
     const checkPayment = useCallback(async () => {
         setLoading(true);
         const body = webapp?.initDataUnsafe || {};
-        console.log(JSON.stringify({initData: body}));
         const urlWithParams = `https://api.lucky-number.net/v1/payment/check`;
     
         fetch(urlWithParams, {
@@ -40,7 +39,6 @@ export const DepositQr: React.FC = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 if (!data.status) {
                     navigate("/deposit");
                 }
@@ -70,7 +68,6 @@ export const DepositQr: React.FC = () => {
 
     const handleCancelButton = async () => {
         const body = webapp?.initDataUnsafe || {};
-        console.log(JSON.stringify({initData: body}));
         const urlWithParams = `https://api.lucky-number.net/v1/payment/cancel`;
     
         fetch(urlWithParams, {

@@ -71,7 +71,6 @@ export const Deposit: React.FC = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 if (data.status) {
                     navigate("/payment/qrcode");
                 }
