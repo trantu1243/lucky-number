@@ -208,6 +208,7 @@ export const Deposit: React.FC = () => {
     }, [webapp]);
 
     useEffect(() => {
+        console.log(amount)
         if (amount && Number(amount)) {
             if (rate) {
                 const targetDate = new Date(rate.updatedAt);
