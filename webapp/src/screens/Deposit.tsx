@@ -208,9 +208,12 @@ export const Deposit: React.FC = () => {
     }, [webapp]);
 
     useEffect(() => {
-        console.log(amount)
         if (amount && Number(amount)) {
+            console.log(amount)
+
             if (rate) {
+                console.log(amount)
+
                 const targetDate = new Date(rate.updatedAt);
                 const timeNow = Date.now();
                 if (Math.floor((targetDate.getTime() - timeNow) / 60000) > 2) getExchangeRate();
