@@ -59,7 +59,6 @@ export const Deposit: React.FC = () => {
 
     const checkPayment = useCallback(async () => {
         const body = webapp?.initDataUnsafe || {};
-        console.log(JSON.stringify({initData: body}));
         const urlWithParams = `https://api.lucky-number.net/v1/payment/check`;
     
         fetch(urlWithParams, {
@@ -113,7 +112,6 @@ export const Deposit: React.FC = () => {
           })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 setNetworks(data);
                 setNetwork('');
             })
@@ -145,7 +143,6 @@ export const Deposit: React.FC = () => {
         event.preventDefault();
         if (currency && network && amount && Number(amount) >= 1){
             const body = webapp?.initDataUnsafe || {};
-            console.log(JSON.stringify({initData: body}));
             const url = `https://api.lucky-number.net/v1/payment/create-payment`;
 
             fetch(url, {
@@ -162,7 +159,6 @@ export const Deposit: React.FC = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 navigate('/payment/qrcode');
             })
             .catch((error) => {

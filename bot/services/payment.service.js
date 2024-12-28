@@ -27,5 +27,6 @@ module.exports = {
     createPayment,
     findPaymentByOrderId,
     checkPaymentByUserId,
-    cancelPaymentByUserId
+    cancelPaymentByUserId,
+    findPaymentById
 }
