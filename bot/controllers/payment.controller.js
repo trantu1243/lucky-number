@@ -185,8 +185,7 @@ const getExchangeRate = async (req, res) => {
 		if (currency !== "USDT") {
 			const response = await axios.get(`https://api.cryptomus.com/v1/exchange-rate/${currency}/list`);
 			const result = response.data.result;
-			console.log(response.data);
-			const usdtItem = result.find(item.to === "USDT");
+			const usdtItem = result.find((item) => item.to === "USDT");
 			course = usdtItem.course;
 		}
 		
