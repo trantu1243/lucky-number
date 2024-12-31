@@ -86,7 +86,7 @@ const createPayment = async (req, res) => {
 		const usdtItem = resu.find(item.to === "USDT");
 
 		const estimate = Math.ceil((req.body.amount / usdtItem.course) / 0.98 * 1000) / 1000;
-		
+
 		const data = {
 			amount: String(estimate),
 			currency: req.body.currency,
@@ -181,13 +181,15 @@ const checkPaid = async (req, res) => {
 const getExchangeRate = async (req, res) => {
 	try {
 		const {currency, amount} = req.body;
-
-		const response = await axios.post(`https://api.cryptomus.com/v1/exchange-rate/${currency}/list`);
-		const result = response.data.result;
-		console.log(result);
-		const usdtItem = result.find(item.to === "USDT");
-
-		const estimate = Math.ceil((amount / usdtItem.course) / 0.98 * 1000) / 1000;
+		let course = 1;
+		if (currency !== "USDT") {
+			const response = await axios.get(`https://api.cryptomus.com/v1/exchange-rate/${currency}/list`);
+			const result = response.data.result;
+			const usdtItem = result.find(item.to === "USDT");
+			course = usdtItem.course;
+		}
+		
+		const estimate = Math.ceil((amount / course) / 0.98 * 1000) / 1000;
 		return res.send({
 			status: true,
 			estimate
