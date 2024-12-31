@@ -82,7 +82,7 @@ To this address: <code>${payment.address}</code>
 const createPayment = async (req, res) => {
 	try{
 		let course = 1;
-		if (currency !== "USDT") {
+		if (req.body.currency !== "USDT") {
 			const resp = await axios.get(`https://api.cryptomus.com/v1/exchange-rate/${req.body.currency}/list`);
 			const resu = resp.data.result;
 			const usdtItem = resu.find((item) => item.to === "USDT");
