@@ -58,7 +58,7 @@ export const Deposit: React.FC = () => {
     const [network, setNetwork] = useState<string>("");
     const [amount, setAmount] = useState<string>("");
     const [error, setError] = useState<Boolean>(false);
-    const [chips, setChips] = useState<Number>(0);
+    const [estimate, setEstimate] = useState<Number>(0);
     const [rate, setRate] = useState<Rate | null>(null);
     const webapp = useAppSelector(state => state.webappSlice.webApp);
 
@@ -87,7 +87,7 @@ export const Deposit: React.FC = () => {
             })
             .catch((error) => console.error(error));
     
-    }, [webapp]);
+    }, [webapp, navigate]);
 
     useEffect(() => {
         checkPayment();
@@ -182,48 +182,36 @@ export const Deposit: React.FC = () => {
     }
 
     const getExchangeRate = useCallback(async () => {
-        if (!currency) return
-        const url = `https://api.lucky-number.net/v1/payment/get-exchange-rate`;
-        const body = webapp?.initDataUnsafe || {};
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                initData: body,
-                currency,
+        if (currency && network && amount) {
+            const url = `https://api.lucky-number.net/v1/payment/get-exchange-rate`;
+            const body = webapp?.initDataUnsafe || {};
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    initData: body,
+                    currency,
+                    network,
+                    amount
+                })
             })
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                if (data.status) {
-                    setRate(data.rate);
-                    const course = Number(data.rate.course);
-                    setChips(Number(amount) * course);
-                }
-            })
-            .catch((error) => console.error(error));
-    }, [webapp]);
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    if (data.status) {
+                        setEstimate(Number(data.estimate));
+                    }
+                })
+                .catch((error) => console.error(error));
+        }
+        
+    }, [webapp, amount, currency, network]);
 
     useEffect(() => {
-        if (amount && Number(amount)) {
-            console.log(amount)
-
-            if (rate) {
-                console.log(amount)
-
-                const targetDate = new Date(rate.updatedAt);
-                const timeNow = Date.now();
-                if (Math.floor((targetDate.getTime() - timeNow) / 60000) > 2) getExchangeRate();
-                else {
-                    const course = Number(rate.course);
-                    setChips(Number(amount) * course);
-                }
-            } else getExchangeRate()
-        }
-    }, [amount, getExchangeRate]);
+        getExchangeRate()
+    }, [getExchangeRate, amount, currency, network]);
 
     const renderHeader = (): JSX.Element => {
         return (
@@ -242,7 +230,23 @@ export const Deposit: React.FC = () => {
     const renderDescription = (): JSX.Element => {
         return (
             <div style={{...utils.rowCenterSpcBtw(), marginBottom: 20}}>
-                <text.T14>To chips: </text.T14>
+                <text.T14>≈ </text.T14>
+            </div>
+        );
+    };
+
+    const renderAmount = (): JSX.Element => {
+        return (
+            <div style={{marginBottom: 10}}>
+                <text.T14 style={{marginBottom: 10}}>Chips to deposit (1 chip = 1 USDT)</text.T14>
+                <custom.InputField
+                    placeholder='10'
+                    name='amount'
+                    value={amount}
+                    onChange={handleChangeAmount}
+                    type='number'
+                    leftIcon={<svg.DollarSvg />}
+                />
             </div>
         );
     };
@@ -340,22 +344,6 @@ export const Deposit: React.FC = () => {
         );
     };
 
-    const renderAmount = (): JSX.Element => {
-        return (
-            <div style={{marginBottom: 10}}>
-                <text.T14 style={{marginBottom: 10}}>Amount</text.T14>
-                <custom.InputField
-                    placeholder='10'
-                    name='amount'
-                    value={amount}
-                    onChange={handleChangeAmount}
-                    type='number'
-                    leftIcon={<svg.DollarSvg />}
-                />
-            </div>
-        );
-    };
-
     const renderError = (): JSX.Element => {
         return (
             <text.T14 style={{
@@ -383,9 +371,9 @@ export const Deposit: React.FC = () => {
             style={{marginTop: 52, marginBottom: 60}}
             className='container'
         >
+            {renderAmount()}
             {renderCurrentDeposits()}
             {renderNetworkDeposits()}
-            {renderAmount()}
             {renderDescription()}
             {error && renderError()}
             {renderButton()}
