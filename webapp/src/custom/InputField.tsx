@@ -11,6 +11,7 @@ type Props = {
   clickable?: boolean;
   containerStyle?: React.CSSProperties;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+  inputMode?: 'none' | 'numeric';
   placeholder?: string;
   name?: string;
   value?: string;
@@ -25,6 +26,7 @@ export const InputField: FC<Props> = ({
   rightIcon,
   clickable,
   type = 'text',
+  inputMode = 'none',
   name,
   value,
   onChange
@@ -52,6 +54,7 @@ export const InputField: FC<Props> = ({
         type={type}
         name={name}
         value={value}
+        inputMode={inputMode}
         onChange={onChange}
         style={{
           width: '100%',

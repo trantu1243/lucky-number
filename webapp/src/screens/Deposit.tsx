@@ -59,7 +59,6 @@ export const Deposit: React.FC = () => {
     const [amount, setAmount] = useState<string>("");
     const [error, setError] = useState<Boolean>(false);
     const [estimate, setEstimate] = useState<Number>(0);
-    const [rate, setRate] = useState<Rate | null>(null);
     const webapp = useAppSelector(state => state.webappSlice.webApp);
 
     useEffect(() => {
@@ -147,7 +146,10 @@ export const Deposit: React.FC = () => {
     }
 
     function handleChangeAmount(event: React.ChangeEvent<HTMLInputElement>){
-        setAmount(event.target.value);       
+        const value = event.target.value.replace(/^0+/, "");
+        if (/^\d*$/.test(value)) {
+            setAmount(value);
+        }   
     }
 
     function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>){
@@ -244,6 +246,7 @@ export const Deposit: React.FC = () => {
                     name='amount'
                     value={amount}
                     onChange={handleChangeAmount}
+                    inputMode="numeric"
                     type='number'
                     leftIcon={<svg.DollarSvg />}
                 />

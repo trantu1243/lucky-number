@@ -81,11 +81,15 @@ To this address: <code>${payment.address}</code>
 
 const createPayment = async (req, res) => {
 	try{
-		const resp = await axios.post(`https://api.cryptomus.com/v1/exchange-rate/${req.body.currency}/list`);
-		const resu = resp.data.result;
-		const usdtItem = resu.find(item.to === "USDT");
+		let course = 1;
+		if (currency !== "USDT") {
+			const resp = await axios.get(`https://api.cryptomus.com/v1/exchange-rate/${req.body.currency}/list`);
+			const resu = resp.data.result;
+			const usdtItem = resu.find((item) => item.to === "USDT");
+			course = usdtItem.course;
+		}
 
-		const estimate = Math.ceil((req.body.amount / usdtItem.course) / 0.98 * 1000) / 1000;
+		const estimate = Math.ceil((req.body.amount / course) / 0.98 * 1000) / 1000;
 
 		const data = {
 			amount: String(estimate),
