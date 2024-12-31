@@ -81,6 +81,10 @@ To this address: <code>${payment.address}</code>
 
 const createPayment = async (req, res) => {
 	try{
+		if (req.body.amount < 10) return res.status(400);
+		const user = await userService.getUserByUserId(req.userId);
+		const paymentCheck = await paymentService.checkPaymentByUserId(user);
+		if (paymentCheck) return res.status(400);
 		let course = 1;
 		if (req.body.currency !== "USDT") {
 			const resp = await axios.get(`https://api.cryptomus.com/v1/exchange-rate/${req.body.currency}/list`);
@@ -110,7 +114,7 @@ const createPayment = async (req, res) => {
 		const result = response.data;
 		console.log(result);
 		const paymentBody = result.result;
-		paymentBody.userId = await userService.getUserByUserId(req.userId);
+		paymentBody.userId = user;
 		const payment = await paymentService.createPayment(paymentBody);
 		const {address, address_qr_code, amount, createdAt, currency, expired_at, merchant_amount, network, payment_status, updatedAt} = payment;
 

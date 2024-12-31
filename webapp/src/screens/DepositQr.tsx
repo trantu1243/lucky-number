@@ -6,7 +6,7 @@ import {svg} from '../assets/svg';
 import { useCallback, useEffect, useState } from "react";
 import { useAppSelector } from "../store";
 import { hooks } from "../hooks";
-import "../assets/css/loading.css"
+import "../assets/css/loading.css";
 
 export const DepositQr: React.FC = () => {
 
@@ -47,7 +47,7 @@ export const DepositQr: React.FC = () => {
             })
             .catch((error) => console.error(error));
     
-    }, [webapp]);
+    }, [webapp, navigate]);
 
     useEffect(() => {
         checkPayment();
@@ -123,7 +123,7 @@ export const DepositQr: React.FC = () => {
                     });
                     navigate("/deposit");
                 } else {
-                    toast.error('Paid Successfully!', {
+                    toast.error('Payment Pending...', {
                         position: "top-right",
                         autoClose: 3000,
                         hideProgressBar: true,

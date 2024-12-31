@@ -9,17 +9,7 @@ import {svg} from '../assets/svg';
 import {theme} from '../constants';
 import {components} from '../components';
 import { useAppSelector } from '../store';
-
-const currencies = [
-{
-    id: 1,
-    title: 'USDT',
-},
-{
-    id: 2,
-    title: 'ETH',
-},
-];
+import "../assets/css/loading.css";
 
 const networkDescription : { [key: string]: string } = {
     TRON: 'TRC20',
@@ -40,15 +30,6 @@ const networkDescription : { [key: string]: string } = {
 
 const preferredCurrencies = ['USDT', 'ETH', 'BTC', 'TON'];
 
-interface Rate {
-    _id: string;
-    from: string;
-    to: string;
-    course: string;
-    createdAt: string;
-    updatedAt: string;
-}
-
 export const Deposit: React.FC = () => {
     const {pathname} = useLocation();
     const navigate = hooks.useAppNavigate();
@@ -60,6 +41,7 @@ export const Deposit: React.FC = () => {
     const [error, setError] = useState<Boolean>(false);
     const [estimate, setEstimate] = useState<Number>(0);
     const webapp = useAppSelector(state => state.webappSlice.webApp);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setTimeout(() => {
@@ -68,6 +50,7 @@ export const Deposit: React.FC = () => {
     }, [pathname]);
 
     const checkPayment = useCallback(async () => {
+        setLoading(true);
         const body = webapp?.initDataUnsafe || {};
         const urlWithParams = `https://api.lucky-number.net/v1/payment/check`;
     
@@ -83,6 +66,7 @@ export const Deposit: React.FC = () => {
                 if (data.status) {
                     navigate("/payment/qrcode");
                 }
+                setLoading(false);
             })
             .catch((error) => console.error(error));
     
@@ -154,7 +138,7 @@ export const Deposit: React.FC = () => {
 
     function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>){
         event.preventDefault();
-        if (currency && network && amount && Number(amount) >= 1){
+        if (currency && network && amount && Number(amount) >= 10){
             const body = webapp?.initDataUnsafe || {};
             const url = `https://api.lucky-number.net/v1/payment/create-payment`;
 
@@ -387,7 +371,22 @@ export const Deposit: React.FC = () => {
     return (
         <div id='screen'>
             {renderHeader()}
-            {renderContent()}
+            {loading ? (
+                <div 
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center', 
+                        height: '100vh'   
+                    }}
+                >
+                    <span className="loader"></span>
+                </div>
+            ) : (     
+                <>
+                    {renderContent()}
+                </>
+            )}
         </div>
     );
 };
