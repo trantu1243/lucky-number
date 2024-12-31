@@ -230,7 +230,7 @@ export const Deposit: React.FC = () => {
     const renderDescription = (): JSX.Element => {
         return (
             <div style={{...utils.rowCenterSpcBtw(), marginBottom: 20}}>
-                <text.T14>≈ </text.T14>
+                <text.T14>≈ {String(estimate)} {currency}</text.T14>
             </div>
         );
     };
@@ -374,7 +374,7 @@ export const Deposit: React.FC = () => {
             {renderAmount()}
             {renderCurrentDeposits()}
             {renderNetworkDeposits()}
-            {renderDescription()}
+            {estimate && currency && renderDescription()}
             {error && renderError()}
             {renderButton()}
         </main>
