@@ -16,6 +16,14 @@ const stack = createBrowserRouter([
         element: <screens.Deposit/>,
     },
     {
+        path: '/withdraw',
+        element: <screens.Withdraw/>,
+    },
+    {
+        path: '/add-payout',
+        element: <screens.AddPayout/>,
+    },
+    {
         path: '/lucky-number',
         element: <screens.LuckyNumber/>,
     },

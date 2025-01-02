@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 
 import {utils} from '../utils';
-import {svg} from '../assets/svg';
 import {theme} from '../constants';
 
 type Props = {

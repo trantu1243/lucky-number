@@ -88,7 +88,21 @@ const userSchema = mongoose.Schema(
         payout_time: {
             type: Number,
             default: Math.floor(Date.now() / 1000)
-        }
+        },
+        payout_address: [{
+            address: {
+                type: String,
+                required: true,
+            },
+            currency: {
+                type: String,
+                required: true,
+            },
+            network: {
+                type: String,
+                required: true,
+            }
+        }]
     },
     {
         timestamps: true,

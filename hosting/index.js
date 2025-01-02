@@ -38,7 +38,7 @@ app.get('/cryptomus_0d0dd028.html', (req, res) => {
 app.post('/create-invoice', checkInternalToken, (req, res) => {
 	const URL = process.env.URL;
 	const API_KEY = process.env.API_KEY;
-	const body = {
+	let body = {
 		amount: req.body.amount,
 		currency: req.body.currency,
 		order_id: req.body.order_id,
@@ -47,7 +47,17 @@ app.post('/create-invoice', checkInternalToken, (req, res) => {
 		url_callback: `${URL}/callback-invoice-bc40-c903cb794d97-0d0dd028-c61b-4aa6`,
 		lifetime: req.body.lifetime,
 	};
-
+	if (req.body.currency === 'USDT') {
+		body = {
+			amount: req.body.amount,
+			currency: req.body.currency,
+			order_id: req.body.order_id,
+			network: req.body.network,
+			url_callback: `${URL}/callback-invoice-bc40-c903cb794d97-0d0dd028-c61b-4aa6`,
+			lifetime: req.body.lifetime,
+		};
+	}
+	
 	const data = JSON.stringify(body);
 	const base64Data = Buffer.from(data).toString('base64');
 	const sign = CryptoJS.MD5(base64Data + API_KEY).toString();
@@ -93,12 +103,13 @@ app.post('/create-payout', checkInternalToken, (req, res) => {
 	const URL = process.env.URL;
 	const API_KEY = process.env.API_KEY;
 	const body = {
-		amount: req.body.amount,
+		amount: "100",
 		currency: req.body.currency,
 		order_id: req.body.order_id,
 		network: req.body.network,
+		address: req.body.address,
 		url_callback: `${URL}/callback-payout-bc40-c903cb794d97-0d0dd028-c61b-4aa6`,
-		is_subtract: "1",
+		is_subtract: "0",
 	};
 
 	const data = JSON.stringify(body);

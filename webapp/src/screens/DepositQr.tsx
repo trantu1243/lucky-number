@@ -182,7 +182,7 @@ export const DepositQr: React.FC = () => {
                             src={payment.address_qr_code} />              
 
                     </div>
-                    <components.Countdown expiredAt={payment.expired_at} />
+                    <components.Countdown expiredAt={payment.expired_at} handle={()=>{navigate('/deposit')}}/>
                     <text.H3
                         style={{
                             textAlign: 'center',

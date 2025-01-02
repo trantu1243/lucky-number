@@ -41,6 +41,8 @@ import {Transaction} from './tabs/Transaction';
 import { Games } from './tabs/Games';
 import { LuckyNumber } from './LuckyNumber';
 import { DepositQr } from './DepositQr';
+import { Withdraw } from './Withdraw';
+import { AddPayout } from './AddPayout';
 
 export const screens = {
   FAQ,
@@ -83,5 +85,7 @@ export const screens = {
   ForgotPasswordSentEmail,
   ErrorPage,
   LuckyNumber,
-  DepositQr
+  DepositQr,
+  Withdraw,
+  AddPayout
 };
