@@ -165,7 +165,7 @@ export const Withdraw: React.FC = () => {
                 })}
                 <components.Button
                     title='Add +'
-                    onClick={handleClick}
+                    onClick={() => {navigate('/add-payout')}}
                     style={{
                         width: 100,
                     }}
