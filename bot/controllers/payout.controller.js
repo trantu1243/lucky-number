@@ -64,7 +64,7 @@ const createPayout = async (req, res) => {
                 status: false,
                 msg: ''
             });
-        if (Number(amount) > user.usd || Number(amount) < 5) 
+        if (Number(req.body.amount) > user.usd || Number(req.body.amount) < 5) 
             return res.status(400);
         const order_id = uuidv4();
 		const data = {
