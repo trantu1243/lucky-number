@@ -33,7 +33,7 @@ export const Withdraw: React.FC = () => {
     const getPayoutAddress = useCallback(async () => {
         const url = `https://api.lucky-number.net/v1/payout/get-payout-address`;
         const body = webapp?.initDataUnsafe || {};
-        setLoading(false);
+        setLoading(true);
         fetch(url, {
             method: 'POST',
             headers: {
