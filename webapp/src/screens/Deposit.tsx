@@ -336,7 +336,7 @@ export const Deposit: React.FC = () => {
             <text.T14 style={{
                 color: theme.colors.red,
                 fontStyle: 'italic'
-            }}>* Please enter correctly. Amount must be at least 1.</text.T14>
+            }}>* Please enter correctly. Amount must be at least 10.</text.T14>
         )
     }
 
