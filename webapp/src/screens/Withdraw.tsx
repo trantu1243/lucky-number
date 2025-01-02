@@ -33,7 +33,7 @@ export const Withdraw: React.FC = () => {
     const getPayoutAddress = useCallback(async () => {
         const url = `https://api.lucky-number.net/v1/payout/get-payout-address`;
         const body = webapp?.initDataUnsafe || {};
-        setLoading(true);
+        setLoading(false);
         fetch(url, {
             method: 'POST',
             headers: {
@@ -164,10 +164,14 @@ export const Withdraw: React.FC = () => {
                     );
                 })}
                 <components.Button
-                    title='Add +'
+                    title='+'
                     onClick={() => {navigate('/add-payout')}}
                     style={{
-                        width: 100,
+                        width: 30,
+                        height:30,
+                        borderRadius: 0,
+                        fontSize: 18,
+                        marginTop: 5
                     }}
                 />
             </div>
