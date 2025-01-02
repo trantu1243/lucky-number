@@ -2,6 +2,8 @@ const bot = require("../bot");
 const { payoutService, userService } = require("../services");
 const { v4: uuidv4 } = require('uuid');
 
+const INTERNAL_TOKEN = process.env.INTERNAL_TOKEN;
+
 const callbackPayout = async (req, res) => {
     console.log(req.body);
     const { order_id, status} = req.body;
