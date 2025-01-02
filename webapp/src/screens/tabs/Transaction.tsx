@@ -169,7 +169,7 @@ export const Transaction: React.FC = () => {
           title='- Withdraw'
           colorScheme='light'
           containerStyle={{width: '48%'}}
-          onClick={() => navigate('/withdraw')}
+          onClick={() => navigate('/add-payout')}
         />
       </div>
     );
