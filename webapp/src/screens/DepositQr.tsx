@@ -197,7 +197,7 @@ export const DepositQr: React.FC = () => {
                                 alignItems: 'center',
                             }}
                             onClick={() => {
-                                    handleCopy(payment.network)
+                                    handleCopy(payment.currency)
                                 }}>
                             <svg.CopySvg />
                         </span>

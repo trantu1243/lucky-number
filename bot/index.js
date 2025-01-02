@@ -9,7 +9,7 @@ const { dailyTaskService, paymentService, userService } = require('./services');
 const routes = require('./routes/index');
 const { CronJob } = require('cron');
 const { internalMiddleware } = require('./middlewares');
-const { paymentController } = require('./controllers');
+const { paymentController, payoutController } = require('./controllers');
 require('dotenv').config();
 
 mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_number?authSource=admin').then(() => {
@@ -61,9 +61,7 @@ app.post(`/bot${encodeURIComponent(process.env.BOT_TOKEN)}`, async (req, res) =>
 
 app.post('/callback-invoce', internalMiddleware.checkInternalToken, paymentController.callbackInvoice);
 
-app.post('/callback-payout', internalMiddleware.checkInternalToken, (req, res) => {
-	console.log(req.body)
-});
+app.post('/callback-payout', internalMiddleware.checkInternalToken, payoutController.callbackPayout);
 
 const job = new CronJob(
 	'* * * * *', // cronTime

@@ -78,7 +78,8 @@ export const Withdraw: React.FC = () => {
                     initData: body,
                     currency,
                     network,
-                    amount
+                    amount,
+                    address
                 })
             })
             .then((response) => response.json())
@@ -106,9 +107,9 @@ export const Withdraw: React.FC = () => {
     const renderAmount = (): JSX.Element => {
         return (
             <div style={{marginBottom: 10}}>
-                <text.T14 style={{marginBottom: 10}}>Chips to deposit (1 chip = 1 USDT)</text.T14>
+                <text.T14 style={{marginBottom: 10}}>Chips to payout (1 chip = 1 USDT)</text.T14>
                 <custom.InputField
-                    placeholder='10'
+                    placeholder='0'
                     name='amount'
                     value={amount}
                     onChange={handleChangeAmount}

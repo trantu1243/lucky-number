@@ -101,9 +101,9 @@ app.post('/callback-invoice-bc40-c903cb794d97-0d0dd028-c61b-4aa6', (req, res) =>
 
 app.post('/create-payout', checkInternalToken, (req, res) => {
 	const URL = process.env.URL;
-	const API_KEY = process.env.API_KEY;
+	const API_KEY = process.env.PAYOUT_API_KEY;
 	const body = {
-		amount: "100",
+		amount: req.body.amount,
 		currency: req.body.currency,
 		order_id: req.body.order_id,
 		network: req.body.network,
@@ -136,7 +136,7 @@ app.post('/create-payout', checkInternalToken, (req, res) => {
 
 app.post('/callback-payout-bc40-c903cb794d97-0d0dd028-c61b-4aa6', (req, res) => {
 	console.log(req.body);
-	const url = `${process.env.LN_URL}/`;
+	const url = `${process.env.LN_URL}/callback-payout`;
 	const headers = {
 		'x-internal-token': INTERNAL_TOKEN
 	};
