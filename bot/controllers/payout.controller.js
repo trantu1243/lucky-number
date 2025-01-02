@@ -1,5 +1,6 @@
 const bot = require("../bot");
 const { payoutService, userService } = require("../services");
+const { v4: uuidv4 } = require('uuid');
 
 const callbackPayout = async (req, res) => {
     console.log(req.body);

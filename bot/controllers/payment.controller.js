@@ -2,7 +2,6 @@ const bot = require("../bot");
 const axios = require("axios");
 const { v4: uuidv4 } = require('uuid');
 const { paymentService, userService } = require("../services");
-const { Rate } = require("../models");
 require('dotenv').config();
 
 const INTERNAL_TOKEN = process.env.INTERNAL_TOKEN;
