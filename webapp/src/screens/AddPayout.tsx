@@ -136,7 +136,7 @@ export const AddPayout: React.FC = () => {
                         }}
                         key={index}
                         >
-                    
+                            <svg.CardMenuSvg />
                             <div>
                                 <div
                                 style={{
@@ -146,7 +146,7 @@ export const AddPayout: React.FC = () => {
                                     ...theme.fonts.SourceSansPro_400Regular,
                                 }}
                                 >
-                                {card.address}
+                                {card.address.replace(/^(.{5}).+(.{5})$/, '$1*****$2')}
                                 </div>
                                 <text.H6>{card.currency} {net}</text.H6>
                             </div>

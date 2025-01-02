@@ -11,11 +11,11 @@ export const CardMenuSvg: React.FC = () => {
       <rect
         width={40}
         height={40}
-        fill='#fff'
+        fill='#FFD9C3'
         rx={20}
       />
       <g
-        stroke='#040325'
+        stroke='#FF8A71'
         strokeLinecap='round'
         strokeLinejoin='round'
         strokeWidth={1.5}
