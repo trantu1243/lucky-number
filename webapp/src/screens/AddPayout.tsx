@@ -239,7 +239,6 @@ export const AddPayout: React.FC = () => {
                     >
                         <option value="">--Select network--</option>
                         <option value="TRON">TRON(TRC20)</option>
-
                     </select>
                 </div>
             </div>

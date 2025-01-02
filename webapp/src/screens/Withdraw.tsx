@@ -10,35 +10,19 @@ import {theme} from '../constants';
 import {components} from '../components';
 import { useAppSelector } from '../store';
 import "../assets/css/loading.css";
-
-const networkDescription : { [key: string]: string } = {
-    TRON: 'TRC20',
-    ETH: 'ERC20',
-    BSC: 'BEP20',
-    BTC: 'Bitcoin',
-    LTC: 'Litecoin',
-    SOL: 'Solana',
-    ADA: 'Cardano',
-    DOT: 'Polkadot',
-    ATOM: 'Cosmos',
-    XMR: 'Monero',
-    DOGE: 'Dogecoin',
-    XRP: 'Ripple',
-    ALGO: 'Algorand',
-    NEAR: 'Near Protocol'
-};
+import { PayoutAddress } from './AddPayout';
 
 export const Withdraw: React.FC = () => {
     const {pathname} = useLocation();
     const navigate = hooks.useAppNavigate();
-    const [networks, setNetworks] = useState<string[]>([]);
     const [currency, setCurrency] = useState<string>("");
     const [network, setNetwork] = useState<string>("");
+    const [address, setAddress] = useState<string>("");
     const [amount, setAmount] = useState<string>("");
     const [error, setError] = useState<Boolean>(false);
-    const [estimate, setEstimate] = useState<Number>(0);
     const webapp = useAppSelector(state => state.webappSlice.webApp);
     const [loading, setLoading] = useState(true);
+    const [payoutAddress, setPayoutAddress] = useState<PayoutAddress[]>([]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -46,85 +30,31 @@ export const Withdraw: React.FC = () => {
         }, 10);
     }, [pathname]);
 
-    // const checkPayment = useCallback(async () => {
-    //     setLoading(true);
-    //     const body = webapp?.initDataUnsafe || {};
-    //     const urlWithParams = `https://api.lucky-number.net/v1/payment/check`;
-    
-    //     fetch(urlWithParams, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({initData: body})
-    //     })
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             if (data.status) {
-    //                 navigate("/payment/qrcode");
-    //             }
-    //             setLoading(false);
-    //         })
-    //         .catch((error) => console.error(error));
-    
-    // }, [webapp, navigate]);
-
-    // useEffect(() => {
-    //     checkPayment();
-    // }, [checkPayment])
-
-    // const getAllCurrencies = useCallback(async () => {
-
-    //     const url = `https://api.lucky-number.net/v1/payment-service/currencies`;
-
-    //     fetch(url, {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         }
-    //       })
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             setCurrencies(data);
-    //         })
-    //         .catch((error) => console.error(error));
-
-    // }, []);
-
-    // useEffect(()=>{
-    //     getAllCurrencies();
-    // }, [getAllCurrencies]);
-
-    const getNetworks = useCallback(async () => {
-        if (!currency) return
-        const url = `https://api.lucky-number.net/v1/payment-service/networks/${currency}`;
-
+    const getPayoutAddress = useCallback(async () => {
+        const url = `https://api.lucky-number.net/v1/payout/get-payout-address`;
+        const body = webapp?.initDataUnsafe || {};
+        setLoading(true);
         fetch(url, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-            }
-          })
+            },
+            body: JSON.stringify({
+                initData: body,
+            })
+            })
             .then((response) => response.json())
             .then((data) => {
-                setNetworks(data);
-                setNetwork('');
+                if (data.status) setPayoutAddress(data.result);
+                setLoading(false);
             })
             .catch((error) => console.error(error));
 
-    }, [currency]);
-
+    }, [webapp]);
+    
     useEffect(()=>{
-        getNetworks();
-    }, [currency, getNetworks]);
-
-    function handleChangeCurrency(event: React.ChangeEvent<HTMLSelectElement>){
-        setCurrency(event.target.value);
-    }
-
-    function handleChangeNetwork(event: React.ChangeEvent<HTMLSelectElement>){
-        setNetwork(event.target.value);
-    }
+        getPayoutAddress();
+    }, [getPayoutAddress]);
 
     function handleChangeAmount(event: React.ChangeEvent<HTMLInputElement>){
         const value = event.target.value.replace(/^0+/, "");
@@ -137,7 +67,7 @@ export const Withdraw: React.FC = () => {
         event.preventDefault();
         if (currency && network && amount && Number(amount) >= 10){
             const body = webapp?.initDataUnsafe || {};
-            const url = `https://api.lucky-number.net/v1/payment/create-payment`;
+            const url = `https://api.lucky-number.net/v1/payout/create-payout`;
 
             fetch(url, {
                 method: 'POST',
@@ -164,54 +94,12 @@ export const Withdraw: React.FC = () => {
         }
     }
 
-    const getExchangeRate = useCallback(async () => {
-        if (currency && network && amount) {
-            const url = `https://api.lucky-number.net/v1/payment/get-exchange-rate`;
-            const body = webapp?.initDataUnsafe || {};
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    initData: body,
-                    currency,
-                    network,
-                    amount
-                })
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data);
-                    if (data.status) {
-                        setEstimate(Number(data.estimate));
-                    }
-                })
-                .catch((error) => console.error(error));
-        }
-        
-    }, [webapp, amount, currency, network]);
-
-    useEffect(() => {
-        getExchangeRate()
-    }, [getExchangeRate, amount, currency, network]);
-
     const renderHeader = (): JSX.Element => {
         return (
         <components.Header
             title='Open deposit'
             goBack={true}
         />
-        );
-    };
-
-    const sortedCurrencies = ['USDT'];
-
-    const renderDescription = (): JSX.Element => {
-        return (
-            <div style={{...utils.rowCenterSpcBtw(), marginBottom: 20}}>
-                <text.T14>≈ {String(estimate)} {currency}</text.T14>
-            </div>
         );
     };
 
@@ -232,95 +120,56 @@ export const Withdraw: React.FC = () => {
         );
     };
 
-    const renderCurrentDeposits = (): JSX.Element => {
+    const renderUseCard = (): JSX.Element => {
         return (
-            <div style={{marginBottom: 10}}>
-                <text.T14 style={{marginBottom: 10}}>Currency</text.T14>
-                <div
-                    style={{
-                        height: 50,
-                        paddingLeft: 10,
-                        paddingRight: 20,
-                        position: 'relative',
-                        border: '1px solid #FFEFE6',
-                        backgroundColor: theme.colors.main2Dark,
-                        borderRadius: 10,
-                        ...utils.rowCenter(),
-                    }}
-                >
-                    <div style={{marginRight: 14}}>{<svg.CalendarSvg />}</div>
-                    <select
-                        name="currency"
-                        value={currency}
-                        onChange={handleChangeCurrency}
-                        style={{
-                            width: '100%',
-                            height: '100%',
-                            padding: 0,
-                            margin: 0,
-                            border: 'none',
-                            outline: 'none',
-                            backgroundColor: theme.colors.main2Dark,
-                            fontSize: 16,
-                            color: theme.colors.whiteText,
-                            ...theme.fonts.SourceSansPro_400Regular,
-                        }}
-                    >
-                        <option value="">--Select currency--</option>
-                        {
-                            sortedCurrencies.map((value, index)=> {
-                                return <option key={index} value={value}>{value}</option>
-                            })
-                        }
-                    </select>
-                </div>
-            </div>
-        );
-    };
+            <div style={{marginBottom: 30}}>
+                <text.T14 style={{marginBottom: 10}}>Select payout address</text.T14>
+                {payoutAddress.map((card, index, array) => {
+                    const isLast = index === array.length - 1;
+                    const net = card.network === "TRON" ? "TRON(TRC20)" : card.network;
 
-    const renderNetworkDeposits = (): JSX.Element => {
-        return (
-            <div style={{marginBottom: 10}}>
-                <text.T14 style={{marginBottom: 10}}>Network</text.T14>
-                <div
+                    return (
+                        <div
+                            style={{
+                                border:
+                                address === card.address
+                                    ? `1px solid ${theme.colors.mainColor}`
+                                    : '1px solid #FFEFE6',
+                                padding: 12,
+                                borderRadius: 10,
+                                cursor: 'pointer',
+                                userSelect: 'none',
+                                marginBottom: isLast ? 0 : 10,
+                                ...utils.rowCenter({gap: 12}),
+                                backgroundColor: theme.colors.white,
+                            }}
+                            key={index}
+                            onClick={() => {setAddress(card.address); setCurrency(card.currency); setNetwork(card.network)}}
+                        >
+                            <svg.CardMenuSvg />
+                            <div>
+                                <div
+                                    style={{
+                                        fontSize: 12,
+                                        lineHeight: 1.6,
+                                        color: theme.colors.bodyTextColor,
+                                        ...theme.fonts.SourceSansPro_400Regular,
+                                    }}
+                                >
+                                    {card.address.replace(/^(.{5}).+(.{5})$/, '$1*****$2')}
+                                </div>
+                                <text.H6>{card.currency} {net}</text.H6>
+                            </div>
+                        </div>
+                    );
+                })}
+                <components.Button
+                    title='Add +'
+                    onClick={handleClick}
                     style={{
-                        height: 50,
-                        paddingLeft: 10,
-                        paddingRight: 20,
-                        position: 'relative',
-                        border: '1px solid #FFEFE6',
-                        backgroundColor: theme.colors.main2Dark,
-                        borderRadius: 10,
-                        ...utils.rowCenter(),
+                        width: 100,
                     }}
-                >
-                    <div style={{marginRight: 14}}>{<svg.CalendarSvg />}</div>
-                    <select
-                        name="network"
-                        value={network}
-                        onChange={handleChangeNetwork}
-                        style={{
-                        width: '100%',
-                        height: '100%',
-                        padding: 0,
-                        margin: 0,
-                        border: 'none',
-                        outline: 'none',
-                        backgroundColor: theme.colors.main2Dark,
-                        fontSize: 16,
-                        color: theme.colors.whiteText,
-                        ...theme.fonts.SourceSansPro_400Regular,
-                        }}
-                    >
-                        <option value="">--Select network--</option>
-                        {
-                            networks.map((value, index)=> {
-                                const description = networkDescription[value] ? ` (${networkDescription[value]})` : '';
-                                return <option key={index} value={value}>{value + description}</option>;
-                            })
-                        }
-                    </select>
-                </div>
+                />
             </div>
         );
     };
@@ -336,13 +185,13 @@ export const Withdraw: React.FC = () => {
 
     const renderButton = (): JSX.Element => {
         return (
-        <components.Button
-            title='Open deposit'
-            onClick={handleClick}
-            style={{
-                marginTop: 20
-            }}
-        />
+            <components.Button
+                title='Open deposit'
+                onClick={handleClick}
+                style={{
+                    marginTop: 20
+                }}
+            />
         );
     };
 
@@ -353,9 +202,7 @@ export const Withdraw: React.FC = () => {
             className='container'
         >
             {renderAmount()}
-            {renderCurrentDeposits()}
-            {renderNetworkDeposits()}
-            {estimate && currency && renderDescription()}
+            {renderUseCard()}
             {error && renderError()}
             {renderButton()}
         </main>
