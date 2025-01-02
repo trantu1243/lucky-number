@@ -65,7 +65,7 @@ export const Withdraw: React.FC = () => {
 
     function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>){
         event.preventDefault();
-        if (currency && network && amount && Number(amount) >= 10){
+        if (currency && network && amount && Number(amount) >= 5){
             const body = webapp?.initDataUnsafe || {};
             const url = `https://api.lucky-number.net/v1/payout/create-payout`;
 

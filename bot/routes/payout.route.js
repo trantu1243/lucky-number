@@ -6,7 +6,8 @@ const router = express.Router();
 
 router.post('/add-payout', validateTelegramData, payoutController.addPayoutAddress);
 
-router.post('/get-payout-address', validateTelegramData, payoutController.getPayoutAddress);
+router.post('/create-payout', validateTelegramData, payoutController.createPayout);
 
+router.post('/get-payout-address', validateTelegramData, payoutController.getPayoutAddress);
 
 module.exports = router;
