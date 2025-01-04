@@ -111,7 +111,7 @@ const createPayment = async (req, res) => {
 		}
 
 		let estimate = Math.ceil((req.body.amount / course) / 0.98 * 1000) / 1000;
-		if (currency === 'USDT') estimate = Math.ceil((req.body.amount / course) / 0.98 * 100) / 100;
+		if (req.body.currency === 'USDT') estimate = Math.ceil((req.body.amount / course) / 0.98 * 100) / 100;
 
 		console.log(String(estimate));
 
