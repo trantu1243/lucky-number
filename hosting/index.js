@@ -42,7 +42,7 @@ app.post('/create-invoice', checkInternalToken, (req, res) => {
 		amount: req.body.amount,
 		currency: req.body.currency,
 		order_id: req.body.order_id,
-		// to_currency: req.body.to_currency,
+		to_currency: req.body.to_currency,
 		network: req.body.network,
 		url_callback: `${URL}/callback-invoice-bc40-c903cb794d97-0d0dd028-c61b-4aa6`,
 		lifetime: req.body.lifetime,
