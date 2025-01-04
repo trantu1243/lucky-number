@@ -15,7 +15,7 @@ const callbackInvoice = async (req, res) => {
 
 	if ((status === 'paid' || status === 'paid_over') && !payment.check) {
 		const user = await userService.getUserByUserId(payment.userId.userId);
-		user.usd += Math.floor(payment.merchant_amount);
+		user.usd += payment.chip;
 		payment.check = true;
 		await payment.save();
 		await user.save();
