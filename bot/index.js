@@ -29,7 +29,6 @@ const io = new Server(server, {
 		origin: 'https://lucky-number.net',
 		methods: ['GET', 'POST'],
 		allowedHeaders: ['Content-Type', 'Authorization'],
-		credentials: true,
 	}
 });
 
@@ -58,7 +57,6 @@ app.use(cors({
 	origin: 'https://lucky-number.net', 
 	methods: ['GET', 'POST', 'PUT', 'DELETE'], 
 	allowedHeaders: ['Content-Type', 'Authorization'], 
-	credentials: true,
 }));
 
 app.use(bodyParser.json());
