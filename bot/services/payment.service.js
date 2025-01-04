@@ -16,7 +16,7 @@ const checkPaymentByUserId = async (user) => {
 }
 
 const cancelPaymentByUserId = async (user) => {
-    return Payment.findOneAndUpdate({userId: user, payment_status: 'check'}, {payment_status: 'cancel'});
+    return Payment.findOneAndUpdate({userId: user, payment_status: 'check'}, {payment_status: 'cancel', check: true});
 }
 
 const findPaymentById = async (id) => {
