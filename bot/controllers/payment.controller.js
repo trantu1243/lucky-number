@@ -7,86 +7,113 @@ require('dotenv').config();
 const INTERNAL_TOKEN = process.env.INTERNAL_TOKEN;
 
 const callbackInvoice = async (req, res) => {
-	console.log(req.body);
-	const { order_id, status} = req.body;
-	const payment = await paymentService.findPaymentByOrderId(order_id);
-	payment.payment_status = status;
-	await payment.save();
-
-	if ((status === 'paid' || status === 'paid_over') && !payment.check) {
-		const user = await userService.getUserByUserId(payment.userId.userId);
-		user.usd += payment.chip;
-		payment.check = true;
+	try {
+		console.log(req.body);
+		const { order_id, status} = req.body;
+		const payment = await paymentService.findPaymentByOrderId(order_id);
+		payment.payment_status = status;
 		await payment.save();
-		await user.save();
-		if (payment.message_id) {
-			await bot.telegram.editMessageCaption(
+
+		if (status === 'paid' && !payment.check) {
+			const user = await userService.getUserByUserId(payment.userId.userId);
+			user.usd += payment.chip;
+			payment.check = true;
+			await payment.save();
+			await user.save();
+	// 		if (payment.message_id) {
+	// 			await bot.telegram.editMessageCaption(
+	// 					payment.userId.userId, 
+	// 					payment.message_id, 
+	// 					null, 
+	// 					`Send an amount equal to or greater than: <code>${payment.amount}</code> ${payment.currency} tron(TRC20)
+	// To this address: <code>${payment.address}</code>
+
+	// ⏰ <b>✅ YOU HAVE SUCCESSFULLY RECHARGED.</b>`, 
+	// 					{ parse_mode: 'HTML' }
+	// 				);
+	// 		}
+			
+			await bot.telegram.sendMessage(
+				payment.userId.userId, 
+				`<b>✅ You have successfully recharged ${Math.floor(payment.chip)} chips.</b>`, 
+				{ 
+					parse_mode: 'HTML',
+				}
+			);
+		} else if (status === 'paid_over' && !payment.check) {
+			const user = await userService.getUserByUserId(payment.userId.userId);
+			user.usd += Math.floor(payment.payment_amount);
+			payment.check = true;
+			await payment.save();
+			await user.save();
+
+			if (currency === 'USDT') {
+				await bot.telegram.sendMessage(
 					payment.userId.userId, 
-					payment.message_id, 
-					null, 
-					`Send an amount equal to or greater than: <code>${payment.amount}</code> ${payment.currency} tron(TRC20)
-To this address: <code>${payment.address}</code>
-
-⏰ <b>✅ YOU HAVE SUCCESSFULLY RECHARGED.</b>`, 
-					{ parse_mode: 'HTML' }
+					`<b>✅ You have successfully recharged ${Math.floor(payment.amount)} chips.</b>`, 
+					{ 
+						parse_mode: 'HTML',
+					}
 				);
-		}
-		
-		await bot.telegram.sendMessage(
-			payment.userId.userId, 
-			`<b>✅ You have successfully recharged ${Math.floor(payment.chip)} chips.</b>`, 
-			{ 
-				parse_mode: 'HTML',
 			}
-		);
-	} else if (status === 'cancel' && !payment.check) {
-		payment.check = true;
-		await payment.save();
-		if (payment.message_id){
-			await bot.telegram.editMessageCaption(
+		} else if (status === 'cancel' && !payment.check) {
+			payment.check = true;
+			await payment.save();
+			
+			await bot.telegram.sendMessage(
 				payment.userId.userId, 
-				payment.message_id, 
-				null, 
-				`Send an amount equal to or greater than: <code>${payment.amount}</code> ${payment.currency} tron(TRC20)
-To this address: <code>${payment.address}</code>
+				`<b>❌ Recharged failed: ${Math.floor(payment.chip)} chips</b>
+	<b>Reason: Recharge time expired.</b>`, 
+				{ 
+					parse_mode: 'HTML',
+				}
+			);
+		} 
+		else if (status === 'wrong_amount' && !payment.check) {
+			payment.check = true;
+			await payment.save();
+			const { amount, payment_amount, currency, network} = req.body;
+			if (Number(amount) > Number(payment_amount)) {
+				
+				const data = {
+					amount: String(Number(amount) - Number(payment_amount)),
+					currency: currency,
+					order_id: uuidv4(),
+					to_currency: 'USDT',
+					network: network,
+					lifetime: "900"
+				};
 
-⏰ <b>❌ RECHARGED FAILED: RECHARGE TIME EXPIRED.</b>`, 
-				{ parse_mode: 'HTML' }
+				const url = `${process.env.HOSTING_URL}/create-invoice`;
+				const headers = {
+					'x-internal-token': INTERNAL_TOKEN
+				};
+
+				const response = await axios.post(url, data, { headers });
+						
+				const result = response.data;
+
+				console.log(result);
+				const paymentBody = result.result;
+				paymentBody.userId = user;
+				paymentBody.chip = Number(req.body.amount);
+				const payment = await paymentService.createPayment(paymentBody);
+
+				user.payment_time = Math.floor(Date.now() / 1000);
+				await user.save();
+			}
+			await bot.telegram.sendMessage(
+				payment.userId.userId, 
+				`<b>❌ Recharged failed: ${Math.floor(payment.chip)} chips</b>
+	<b>Reason: Incorrect amount.</b>`, 
+				{ 
+					parse_mode: 'HTML',
+				}
 			);
 		}
-		
-		await bot.telegram.sendMessage(
-			payment.userId.userId, 
-			`<b>❌ Recharged failed: ${Math.floor(payment.chip)} chips</b>
-<b>Reason: Recharge time expired.</b>`, 
-			{ 
-				parse_mode: 'HTML',
-			}
-		);
-	} else if (status === 'wrong_amount' && !payment.check) {
-		payment.check = true;
-		await payment.save();
-		if (payment.message_id){
-			await bot.telegram.editMessageCaption(
-				payment.userId.userId, 
-				payment.message_id, 
-				null, 
-				`Send an amount equal to or greater than: <code>${payment.amount}</code> ${payment.currency} tron(TRC20)
-To this address: <code>${payment.address}</code>
-
-⏰ <b>❌ RECHARGED FAILED: INCORRECT AMOUNT.</b>`, 
-				{ parse_mode: 'HTML' }
-			);
-		}
-		
-		await bot.telegram.sendMessage(
-			payment.userId.userId, 
-			`<b>❌ Recharged failed: ${Math.floor(payment.chip)} chips</b>
-<b>Reason: Incorrect amount.</b>`, 
-			{ 
-				parse_mode: 'HTML',
-			}
-		);
+	}
+	catch (e) {
+		console.log(e)
 	}
 } 
 
