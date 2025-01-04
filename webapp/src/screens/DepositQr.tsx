@@ -1,9 +1,11 @@
+import { useCallback, useEffect, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import io from 'socket.io-client';
+
 import { theme } from "../constants"
 import {components} from '../components';
-import { ToastContainer, toast } from 'react-toastify';
 import {text} from '../text';
 import {svg} from '../assets/svg';
-import { useCallback, useEffect, useState } from "react";
 import { useAppSelector } from "../store";
 import { hooks } from "../hooks";
 import "../assets/css/loading.css";
@@ -25,6 +27,8 @@ const networkDescription : { [key: string]: string } = {
     near: 'NEAR(Near Protocol)'
 };
 
+const SERVER_URL = 'https://api.lucky-number.net';
+
 export const DepositQr: React.FC = () => {
 
     const webapp = useAppSelector(state => state.webappSlice.webApp);
@@ -40,7 +44,37 @@ export const DepositQr: React.FC = () => {
         currency: '',
         _id: ''
     });
-    const [loading, setLoading] = useState(true);
+
+    
+    useEffect(() => {
+        const data = webapp?.initDataUnsafe || null;
+        
+        if (data) {
+            const socket = io(SERVER_URL, {
+                query: {
+                    initDataUnsafe: JSON.stringify(data)
+                }
+            })
+
+            socket.on('connect', () => {
+                console.log('Connected to server with socket id:', socket.id);
+            });
+
+            socket.on('error', (error) => {
+                console.error('Error from server:', error);
+            });
+
+            return () => {
+                socket.disconnect();
+            };
+        }
+        
+        return () => {};
+
+    }, [webapp]);
+
+    const [loading, setLoading] = useState<boolean>(true);
+    const [checkpaid, setCheckpaid] = useState<boolean>(true);
     
     const checkPayment = useCallback(async () => {
         setLoading(true);
@@ -140,6 +174,7 @@ export const DepositQr: React.FC = () => {
                     });
                     navigate("/deposit");
                 } else {
+                    if (data.payment_status === 'confirm_check') setCheckpaid(true);
                     toast.error('Payment Pending...', {
                         position: "top-right",
                         autoClose: 3000,
@@ -316,24 +351,43 @@ export const DepositQr: React.FC = () => {
     
     const renderBottom = (): JSX.Element => {
         return (
-            <nav
-                style={{
-                    bottom: 0,
-                    zIndex: 999,
-                    width: '100%',
-                    position: 'fixed',
-                    maxWidth: '650px',
-                    padding: 10,
-                    backgroundColor: theme.colors.white,
-                    display: 'grid',
-                    gridTemplateColumns: '49% 49%',
-                    gap: 5,
-        
-                }}
-            >
-                <components.Button title="Cancel" style={{background: theme.colors.main2Dark}} onClick={handleCancelButton}/>
-                <components.Button title="Paid" onClick={handlePaidButton}/>
-            </nav>
+            <>
+                {checkpaid ? (
+                    <nav
+                        style={{
+                            bottom: 0,
+                            zIndex: 999,
+                            width: '100%',
+                            position: 'fixed',
+                            maxWidth: '650px',
+                            padding: 10,
+                            backgroundColor: theme.colors.white,
+                
+                        }}
+                    >
+                        <components.Button title="Pending ..."/>
+                    </nav>
+                ) : (     
+                    <nav
+                        style={{
+                            bottom: 0,
+                            zIndex: 999,
+                            width: '100%',
+                            position: 'fixed',
+                            maxWidth: '650px',
+                            padding: 10,
+                            backgroundColor: theme.colors.white,
+                            display: 'grid',
+                            gridTemplateColumns: '49% 49%',
+                            gap: 5,
+                
+                        }}
+                    >
+                        <components.Button title="Cancel" style={{background: theme.colors.main2Dark}} onClick={handleCancelButton}/>
+                        <components.Button title="Paid" onClick={handlePaidButton}/>
+                    </nav>
+                )}
+            </>
         )
     }
 

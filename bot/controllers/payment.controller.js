@@ -216,16 +216,19 @@ const checkPaid = async (req, res) => {
 		if (!user || !payment) {
 			return res.status(404).send({
 				status: false,
+				payment_status: ''
 			});
 		}
 		
 		if (payment.userId === user.id && payment.payment_status === 'paid'){
 			return res.send({
 				status: true,
+				payment_status: payment.payment_status
 			});
 		} else {
 			return res.send({
 				status: false,
+				payment_status: payment.payment_status
 			});
 		}
 	}

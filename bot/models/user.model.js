@@ -102,7 +102,11 @@ const userSchema = mongoose.Schema(
                 type: String,
                 required: true,
             }
-        }]
+        }],
+        socketId: {
+            type: String,
+            default: ''
+        }
     },
     {
         timestamps: true,

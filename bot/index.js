@@ -4,12 +4,16 @@ const cors = require('cors')
 const mongoSanitize = require('express-mongo-sanitize');
 const path = require('path');
 const bodyParser = require('body-parser');
+const http = require('http');
+const { Server } = require("socket.io");
+
 const bot = require('./bot');
 const { dailyTaskService, paymentService, userService } = require('./services');
 const routes = require('./routes/index');
 const { CronJob } = require('cron');
 const { internalMiddleware } = require('./middlewares');
 const { paymentController, payoutController } = require('./controllers');
+const verifySocketConnection = require('./middlewares/validateTelegramSocket.middleware');
 require('dotenv').config();
 
 mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_number?authSource=admin').then(() => {
@@ -19,6 +23,29 @@ mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_numb
 // bot.launch()
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
+
+io.use(verifySocketConnection);
+
+io.on('connection', async (socket) => {
+	console.log(`User ${socket.userId} connected with socketId: ${socket.id}`);
+	
+    socket.on('disconnect', async () => {
+        try {
+            const user = await userService.getUserByUserId(socket.userId);
+            if (user) {
+                user.socketId = '';
+                await user.save();
+                console.log(`User ${socket.userId} disconnected`);
+            } else {
+                console.warn(`User ${socket.userId} not found during disconnect`);
+            }
+        } catch (error) {
+            console.error('Error during disconnect:', error);
+        }
+    });
+});
 
 app.use(cors({
 	origin: 'https://lucky-number.net', 
