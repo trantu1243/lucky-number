@@ -14,9 +14,9 @@ const Countdown: React.FC<CountdownProps> = ({ expiredAt, handle }) => {
 
         const updateCountdown = () => {
             const currentTime = Date.now();
-            const difference = Math.max(0, targetTime - currentTime);
+            const difference = targetTime - currentTime;
             setTimeLeft(difference);
-            if (difference === 0) {
+            if (difference < - 30000) {
                 handle();
             }
         };
