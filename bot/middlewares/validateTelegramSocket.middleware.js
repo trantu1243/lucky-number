@@ -27,12 +27,14 @@ const verifySocketConnection = async (socket, next) => {
     const botToken = process.env.BOT_TOKEN; 
 
     if (!initData || !botToken) {
+        console.log("Invalid data or bot token")
         return next(new Error("Invalid data or bot token"));
     }
 
     const { hash, ...rest } = initData;
 
     if (!verifyDataIntegrity(rest, hash, botToken)) {
+        console.log("Invalid data signature");
         return next(new Error("Invalid data signature"));
     }
 
@@ -41,6 +43,7 @@ const verifySocketConnection = async (socket, next) => {
     const MAX_AGE = 86400;
 
     if (currentTime - authDate > MAX_AGE) {
+        console.log("Data is outdated")
         return next(new Error("Data is outdated"));
     }
 
@@ -48,6 +51,7 @@ const verifySocketConnection = async (socket, next) => {
 
     const user = await userService.getUserByUserId(rest.user_id);
     if (!user) {
+        console.log('User not found')
         return next(new Error('User not found'));
     }
 
