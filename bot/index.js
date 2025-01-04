@@ -24,13 +24,20 @@ mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_numb
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+	cors: {
+		origin: 'https://lucky-number.net',
+		methods: ['GET', 'POST'],
+		allowedHeaders: ['Content-Type', 'Authorization'],
+		credentials: true,
+	}
+});
 
 io.use(verifySocketConnection);
 
 io.on('connection', async (socket) => {
 	console.log(`User ${socket.userId} connected with socketId: ${socket.id}`);
-	
+
     socket.on('disconnect', async () => {
         try {
             const user = await userService.getUserByUserId(socket.userId);
@@ -51,6 +58,7 @@ app.use(cors({
 	origin: 'https://lucky-number.net', 
 	methods: ['GET', 'POST', 'PUT', 'DELETE'], 
 	allowedHeaders: ['Content-Type', 'Authorization'], 
+	credentials: true,
 }));
 
 app.use(bodyParser.json());
