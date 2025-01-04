@@ -94,6 +94,11 @@ const createPayment = async (req, res) => {
 	try{
 		if (req.body.amount < 10) return res.status(400);
 		const user = await userService.getUserByUserId(req.userId);
+		if (timeNow - user.payment_time < 300) 
+            return res.status(400).send({
+                status: false,
+                msg: ''
+            });
 		const paymentCheck = await paymentService.checkPaymentByUserId(user);
 		if (paymentCheck) return res.status(400);
 		let course = 1;
@@ -104,7 +109,8 @@ const createPayment = async (req, res) => {
 			course = usdtItem.course;
 		}
 
-		const estimate = Math.ceil((req.body.amount / course) / 0.98 * 1000) / 1000;
+		let estimate = Math.ceil((req.body.amount / course) / 0.98 * 1000) / 1000;
+		if (currency === 'USDT') estimate = Math.ceil((req.body.amount / course) / 0.98 * 100) / 100;
 
 		console.log(String(estimate));
 
@@ -130,6 +136,10 @@ const createPayment = async (req, res) => {
 		paymentBody.userId = user;
 		paymentBody.chip = Number(req.body.amount);
 		const payment = await paymentService.createPayment(paymentBody);
+
+		user.payment_time = Math.floor(Date.now() / 1000);
+        await user.save();
+
 		const {address, address_qr_code, amount, createdAt, currency, expired_at, merchant_amount, network, payment_status, updatedAt} = payment;
 
 		res.status(401).send({address, address_qr_code, amount, createdAt, currency, expired_at, merchant_amount, network, payment_status, updatedAt});
