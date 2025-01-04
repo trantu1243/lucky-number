@@ -48,10 +48,8 @@ const verifySocketConnection = async (socket, next) => {
     }
 
     socket.userId = rest.user.id; 
-    console.log(rest);
-    console.log(rest.user.id)
 
-    const user = await userService.getUserByUserId(rest.user_id);
+    const user = await userService.getUserByUserId(rest.user.id);
     if (!user) {
         console.log('User not found')
         return next(new Error('User not found'));
