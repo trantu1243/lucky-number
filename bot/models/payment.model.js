@@ -57,6 +57,10 @@ const paymentSchema = mongoose.Schema(
         },
         message_id: {
             type: String,
+        },
+        check: {
+            type: Boolean,
+            default: false
         }
     },
     {

@@ -40,7 +40,10 @@ const payoutSchema = mongoose.Schema(
             enum: ["process", "check", "paid", "fail", "cancel", "system_fail"],
             required: true,
         },
-        
+        check: {
+            type: Boolean,
+            default: false
+        }
     },
     {
         timestamps: true,

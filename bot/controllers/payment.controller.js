@@ -13,9 +13,11 @@ const callbackInvoice = async (req, res) => {
 	payment.payment_status = status;
 	await payment.save();
 
-	if (status === 'paid' || status === 'paid_over') {
+	if ((status === 'paid' || status === 'paid_over') && !payment) {
 		const user = await userService.getUserByUserId(payment.userId.userId);
 		user.usd += Math.floor(payment.merchant_amount);
+		payment.check = true;
+		await payment.save();
 		await user.save();
 		if (payment.message_id) {
 			await bot.telegram.editMessageCaption(
@@ -37,7 +39,9 @@ To this address: <code>${payment.address}</code>
 				parse_mode: 'HTML',
 			}
 		);
-	} else if (status === 'cancel') {
+	} else if (status === 'cancel' && !payment) {
+		payment.check = true;
+		await payment.save();
 		if (payment.message_id){
 			await bot.telegram.editMessageCaption(
 				payment.userId.userId, 
@@ -53,13 +57,15 @@ To this address: <code>${payment.address}</code>
 		
 		await bot.telegram.sendMessage(
 			payment.userId.userId, 
-			`<b>❌ Recharged failed: ${Math.floor(payment.merchant_amount)} USDT</b>
+			`<b>❌ Recharged failed: ${Math.floor(payment.merchant_amount)} chips</b>
 <b>Reason: Recharge time expired.</b>`, 
 			{ 
 				parse_mode: 'HTML',
 			}
 		);
 	} else if (status === 'wrong_amount') {
+		payment.check = true;
+		await payment.save();
 		if (payment.message_id){
 			await bot.telegram.editMessageCaption(
 				payment.userId.userId, 
@@ -75,7 +81,7 @@ To this address: <code>${payment.address}</code>
 		
 		await bot.telegram.sendMessage(
 			payment.userId.userId, 
-			`<b>❌ Recharged failed: ${Math.floor(payment.merchant_amount)} USDT</b>
+			`<b>❌ Recharged failed: ${Math.floor(payment.merchant_amount)} chips</b>
 <b>Reason: Incorrect amount.</b>`, 
 			{ 
 				parse_mode: 'HTML',
