@@ -164,7 +164,7 @@ export const DepositQr: React.FC = () => {
     };
 
     const renderContent = (): JSX.Element => {
-        const network = networkDescription[payment.network] ? ` (${networkDescription[payment.network]})` : payment.network;
+        const network = networkDescription[payment.network] ? ` (${networkDescription[payment.network]})` : payment.network.toUpperCase();
         return (
             <main
                 style={{marginTop: 40, paddingBottom: 100}}
