@@ -94,12 +94,6 @@ const createPayment = async (req, res) => {
 	try{
 		if (req.body.amount < 5) return res.status(400);
 		const user = await userService.getUserByUserId(req.userId);
-		const timeNow = Math.floor(Date.now() / 1000);
-		if (timeNow - user.payment_time < 300) 
-            return res.send({
-                status: false,
-                msg: ''
-            });
 		const paymentCheck = await paymentService.checkPaymentByUserId(user);
 		if (paymentCheck) return res.status(400);
 		let course = 1;
