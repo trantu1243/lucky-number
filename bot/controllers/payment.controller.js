@@ -100,6 +100,8 @@ const createPayment = async (req, res) => {
 
 		const estimate = Math.ceil((req.body.amount / course) / 0.98 * 1000) / 1000;
 
+		console.log(String(estimate));
+
 		const data = {
 			amount: String(estimate),
 			currency: req.body.currency,
