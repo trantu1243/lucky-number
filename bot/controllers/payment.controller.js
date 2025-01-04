@@ -96,8 +96,8 @@ const callbackInvoice = async (req, res) => {
 				console.log(result);
 				const paymentBody = result.result;
 				paymentBody.userId = user;
-				paymentBody.chip = Number(req.body.amount);
-				const payment = await paymentService.createPayment(paymentBody);
+				paymentBody.chip = payment.chip;
+				const newPayment = await paymentService.createPayment(paymentBody);
 
 				user.payment_time = Math.floor(Date.now() / 1000);
 				await user.save();
