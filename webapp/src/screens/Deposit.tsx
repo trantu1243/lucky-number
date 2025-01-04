@@ -139,7 +139,7 @@ export const Deposit: React.FC = () => {
 
     function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>){
         event.preventDefault();
-        if (currency && network && amount && Number(amount) >= 10){
+        if (currency && network && amount && Number(amount) >= 5){
             const body = webapp?.initDataUnsafe || {};
             const url = `https://api.lucky-number.net/v1/payment/create-payment`;
 
@@ -239,7 +239,7 @@ export const Deposit: React.FC = () => {
             <div style={{marginBottom: 10}}>
                 <text.T14 style={{marginBottom: 10}}>Chips to deposit (1 chip = 1 USDT)</text.T14>
                 <custom.InputField
-                    placeholder='10'
+                    placeholder='Min 5 chips'
                     name='amount'
                     value={amount}
                     onChange={handleChangeAmount}
@@ -349,7 +349,7 @@ export const Deposit: React.FC = () => {
             <text.T14 style={{
                 color: theme.colors.red,
                 fontStyle: 'italic'
-            }}>* Please enter correctly. Amount must be at least 10.</text.T14>
+            }}>* Please enter correctly. Amount must be at least 5.</text.T14>
         )
     }
 
