@@ -189,7 +189,7 @@ export const DepositQr: React.FC = () => {
                             margin: 15
                         }}
                     >
-                        {parseFloat(payment.amount).toString()} {payment.currency}
+                        {parseFloat(payment.amount).toString()} {payment.currency} 
                         <span
                             style={{
                                 display: 'inline-flex',
