@@ -20,7 +20,7 @@ const callbackPayout = async (req, res) => {
 
         await bot.telegram.sendMessage(
 			payout.userId.userId, 
-			`<b>✅ You have successfully withdrawn ${Math.floor(payout.amount + 1)} chips.</b>`, 
+			`<b>✅ You have successfully withdrawn ${Math.floor(payout.chip)} chips.</b>`, 
 			{ 
 				parse_mode: 'HTML',
 			}
