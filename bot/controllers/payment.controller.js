@@ -128,6 +128,7 @@ const createPayment = async (req, res) => {
 		console.log(result);
 		const paymentBody = result.result;
 		paymentBody.userId = user;
+		paymentBody.chip = Number(req.body.amount);
 		const payment = await paymentService.createPayment(paymentBody);
 		const {address, address_qr_code, amount, createdAt, currency, expired_at, merchant_amount, network, payment_status, updatedAt} = payment;
 
@@ -210,7 +211,8 @@ const getExchangeRate = async (req, res) => {
 			course = usdtItem.course;
 		}
 		
-		const estimate = Math.ceil((amount / course) / 0.98 * 1000) / 1000;
+		let estimate = Math.ceil((amount / course) / 0.98 * 1000) / 1000;
+		if (currency === 'USDT') estimate = Math.ceil((amount / course) / 0.98 * 100) / 100;
 		return res.send({
 			status: true,
 			estimate

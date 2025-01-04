@@ -28,6 +28,10 @@ const paymentSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        chip: {
+            type: Number,
+            required: true,
+        },
         merchant_amount: {
             type: String,
             required: true

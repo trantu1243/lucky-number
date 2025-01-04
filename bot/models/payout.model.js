@@ -27,6 +27,10 @@ const payoutSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        chip: {
+            type: Number,
+            required: true,
+        },
         address: {
             type: String,
             required: true,

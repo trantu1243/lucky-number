@@ -95,7 +95,7 @@ const createPayout = async (req, res) => {
 		const payoutBody = result.result;
 		payoutBody.userId = user;
         payoutBody.order_id = order_id;
-
+        payoutBody.chip = Number(req.body.amount);
 		const payout = await payoutService.createPayout(payoutBody);
         user.payout_time = Math.floor(Date.now() / 1000);
         await user.save();
