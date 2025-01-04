@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const { userService } = require('../services');
 
 const verifyDataIntegrity = (initDataUnsafe, hash, token) => {
     const dataCheckString = Object.entries(initDataUnsafe).sort().map(([k, v]) => {
@@ -49,7 +50,7 @@ const verifySocketConnection = async (socket, next) => {
     if (!user) {
         return next(new Error('User not found'));
     }
-    
+
     user.socketId = socket.id;
     await user.save();
     next(); 
