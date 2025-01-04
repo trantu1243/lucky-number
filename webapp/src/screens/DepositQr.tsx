@@ -8,6 +8,23 @@ import { useAppSelector } from "../store";
 import { hooks } from "../hooks";
 import "../assets/css/loading.css";
 
+const networkDescription : { [key: string]: string } = {
+    tron: 'TRON(TRC20)',
+    eth: 'ETH(ERC20)',
+    bsc: 'BSC(BEP20)',
+    btc: 'BTC(Bitcoin)',
+    ltc: 'LTC(Litecoin)',
+    sol: 'SOL(Solana)',
+    ada: 'ADA(Cardano)',
+    dot: 'DOT(Polkadot)',
+    atom: 'ATOM(Cosmos)',
+    xmr: 'XMR(Monero)',
+    doge: 'DOGE(Dogecoin)',
+    xrp: 'XRP(Ripple)',
+    algo: 'ALGO(Algorand)',
+    near: 'NEAR(Near Protocol)'
+};
+
 export const DepositQr: React.FC = () => {
 
     const webapp = useAppSelector(state => state.webappSlice.webApp);
@@ -147,6 +164,7 @@ export const DepositQr: React.FC = () => {
     };
 
     const renderContent = (): JSX.Element => {
+        const network = networkDescription[payment.network] ? ` (${networkDescription[payment.network]})` : payment.network;
         return (
             <main
                 style={{marginTop: 40, paddingBottom: 100}}
@@ -237,7 +255,7 @@ export const DepositQr: React.FC = () => {
                                         fontWeight: '600',
                                     }}
                                 >
-                                    {payment.network}
+                                    {network}
                                 </text.T16>
                             </div>             
                         </div>
@@ -286,7 +304,8 @@ export const DepositQr: React.FC = () => {
                         
                     </div>
                     <text.T14 style={{
-                        fontStyle: 'italic'
+                        fontStyle: 'italic',
+                        marginTop: 10
                     }}>* Please send an amount equal to or greater than.</text.T14>           
                   
                 </div>
