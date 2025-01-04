@@ -48,7 +48,7 @@ const verifySocketConnection = async (socket, next) => {
         return next(new Error("Data is outdated"));
     }
 
-    socket.userId = rest.user_id; 
+    socket.userId = rest.user.id; 
 
     const user = await userService.getUserByUserId(rest.user_id);
     if (!user) {
