@@ -24,7 +24,6 @@ const verifySocketConnection = async (socket, next) => {
     const { initDataUnsafe } = socket.handshake.query;
 
     const initData = JSON.parse(initDataUnsafe);
-    console.log(initData)
     const botToken = process.env.BOT_TOKEN; 
 
     if (!initData || !botToken) {
