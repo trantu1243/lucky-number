@@ -24,13 +24,7 @@ mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_numb
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
-	cors: {
-		origin: 'https://lucky-number.net',
-		methods: ['GET', 'POST'],
-		allowedHeaders: ['Content-Type'],
-	}
-});
+const io = new Server(server);
 
 io.use(verifySocketConnection);
 
