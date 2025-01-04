@@ -30,7 +30,7 @@ io.use(verifySocketConnection);
 
 io.on('connection', async (socket) => {
 	console.log(`User ${socket.userId} connected with socketId: ${socket.id}`);
-
+	
     socket.on('disconnect', async () => {
         try {
             const user = await userService.getUserByUserId(socket.userId);
@@ -50,7 +50,7 @@ io.on('connection', async (socket) => {
 app.use(cors({
 	origin: 'https://lucky-number.net', 
 	methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-	allowedHeaders: ['Content-Type'], 
+	allowedHeaders: ['Content-Type', 'Authorization'], 
 }));
 
 app.use(bodyParser.json());
