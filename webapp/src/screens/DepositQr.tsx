@@ -216,7 +216,7 @@ export const DepositQr: React.FC = () => {
                                 paddingLeft: 5
                             }}
                             onClick={() => {
-                                    handleCopy(payment.currency)
+                                    handleCopy(payment.amount)
                                 }}>
                             <svg.CopySvg />
                         </span>
@@ -305,7 +305,7 @@ export const DepositQr: React.FC = () => {
                     </div>
                     <text.T14 style={{
                         fontStyle: 'italic',
-                        marginTop: 10
+                        marginTop: 15
                     }}>* Please send an amount equal to or greater than.</text.T14>           
                   
                 </div>
