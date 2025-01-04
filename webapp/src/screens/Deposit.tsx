@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {useLocation} from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 import {text} from '../text';
 import {hooks} from '../hooks';
@@ -156,7 +157,19 @@ export const Deposit: React.FC = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                navigate('/payment/qrcode');
+                if (data.status) {
+                    navigate('/payment/qrcode');
+                } else {
+                    toast.error('You can only make a deposit once every 5 minutes.', {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: false,
+                        theme: "dark",
+                    });
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -364,6 +377,7 @@ export const Deposit: React.FC = () => {
             {estimate && currency && renderDescription()}
             {error && renderError()}
             {renderButton()}
+            <ToastContainer />
         </main>
         );
     };

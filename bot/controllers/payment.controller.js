@@ -96,7 +96,7 @@ const createPayment = async (req, res) => {
 		const user = await userService.getUserByUserId(req.userId);
 		const timeNow = Math.floor(Date.now() / 1000);
 		if (timeNow - user.payment_time < 300) 
-            return res.status(400).send({
+            return res.send({
                 status: false,
                 msg: ''
             });
@@ -143,7 +143,10 @@ const createPayment = async (req, res) => {
 
 		const {address, address_qr_code, amount, createdAt, currency, expired_at, merchant_amount, network, payment_status, updatedAt} = payment;
 
-		res.status(401).send({address, address_qr_code, amount, createdAt, currency, expired_at, merchant_amount, network, payment_status, updatedAt});
+		res.status(401).send({
+			status: true,
+			payment: {address, address_qr_code, amount, createdAt, currency, expired_at, merchant_amount, network, payment_status, updatedAt}
+		});
 	}
 	catch (error) {
 		console.log(error);
