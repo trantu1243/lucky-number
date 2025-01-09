@@ -3,10 +3,9 @@ import { theme } from '../constants';
 
 interface CountdownProps {
     expiredAt: number; // UNIX timestamp in seconds
-    handle: () => void;
 }
 
-const Countdown: React.FC<CountdownProps> = ({ expiredAt, handle }) => {
+const Countdown: React.FC<CountdownProps> = ({ expiredAt }) => {
     const [timeLeft, setTimeLeft] = useState<number>(0);
 
     useEffect(() => {
@@ -15,17 +14,14 @@ const Countdown: React.FC<CountdownProps> = ({ expiredAt, handle }) => {
         const updateCountdown = () => {
             const currentTime = Date.now();
             const difference = targetTime - currentTime;
-            setTimeLeft(difference);
-            if (difference < - 30000) {
-                handle();
-            }
+            setTimeLeft(Math.max(0, difference));
         };
 
         updateCountdown();
         const interval = setInterval(updateCountdown, 1000);
 
         return () => clearInterval(interval);
-    }, [expiredAt, handle]);
+    }, [expiredAt]);
 
     const minutes = Math.floor(timeLeft / 60000);
     const seconds = Math.floor((timeLeft % 60000) / 1000);
