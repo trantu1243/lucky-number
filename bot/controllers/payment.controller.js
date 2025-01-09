@@ -54,7 +54,7 @@ const callbackInvoice = async (req, res) => {
 			io.to(user.socketId).emit('paid_over', {
 				msg: `${chip}`
 			});
-		} else if (status === 'cancel' && !payment.check) {
+		} else if (status === 'cancel') {
 			const user = await userService.getUserByUserId(payment.userId.userId);
 			payment.check = true;
 			await payment.save();
