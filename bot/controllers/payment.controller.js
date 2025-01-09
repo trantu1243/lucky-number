@@ -55,6 +55,7 @@ const callbackInvoice = async (req, res) => {
 				msg: `${chip}`
 			});
 		} else if (status === 'cancel' && !payment.check) {
+			const user = await userService.getUserByUserId(payment.userId.userId);
 			payment.check = true;
 			await payment.save();
 			
@@ -70,6 +71,7 @@ const callbackInvoice = async (req, res) => {
 				msg: `${payment.chip}`
 			});
 		} else if (status === 'wrong_amount' && !payment.check) {
+			const user = await userService.getUserByUserId(payment.userId.userId);
 			payment.check = true;
 			await payment.save();
 			const { amount, payment_amount, currency, network} = req.body;
