@@ -31,7 +31,7 @@ export const Profile: React.FC = () => {
   const webapp = useAppSelector(state => state.webappSlice.webApp);
 
   const loanDetails = [
-    { title: '💰Chips', content: (userInfo.usd ?? 0).toString() },
+    { title: '💰Chip', content: (userInfo.usd ?? 0).toString() },
     { title: '🎖️Level', content: userInfo.level || 'N/A' },
     { title: '🎲Wins', content: (userInfo.won ?? 0).toString() },
     { title: '📅Player since', content: userInfo.createdAt ? formatISODateToDate(userInfo.createdAt) : 'N/A' },

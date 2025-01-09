@@ -237,9 +237,9 @@ export const Deposit: React.FC = () => {
     const renderAmount = (): JSX.Element => {
         return (
             <div style={{marginBottom: 10}}>
-                <text.T14 style={{marginBottom: 10}}>Chips to deposit (1 chip = 1 USDT)</text.T14>
+                <text.T14 style={{marginBottom: 10}}>Chip to deposit (1 chip = 1 USDT)</text.T14>
                 <custom.InputField
-                    placeholder='Min 5 chips'
+                    placeholder='Min 5 Chip'
                     name='amount'
                     value={amount}
                     onChange={handleChangeAmount}

@@ -41,7 +41,7 @@ export const PaymentSuccess: React.FC = () => {
             style={{
               fontSize: 28,
               ...theme.fonts.SourceSansPro_400Regular,
-              color: theme.colors.mainDark,
+              color: theme.colors.whiteText,
             }}
           >
             364
@@ -50,10 +50,10 @@ export const PaymentSuccess: React.FC = () => {
             style={{
               fontSize: 16,
               ...theme.fonts.SourceSansPro_400Regular,
-              color: theme.colors.mainDark,
+              color: theme.colors.whiteText,
             }}
           >
-            .00 USD
+            &nbsp;Chip
           </span>
         </div>
         <text.T16 style={{marginBottom: 30}}>
@@ -61,15 +61,10 @@ export const PaymentSuccess: React.FC = () => {
           nisi mollit.
         </text.T16>
         <div style={{...utils.rowCenterSpcBtw()}}>
-          <components.Button
-            title='Send Receipt'
-            colorScheme='light'
-            onClick={() => {}}
-            containerStyle={{width: '48%'}}
-          />
+  
           <components.Button
             title='Done'
-            containerStyle={{width: '48%'}}
+            containerStyle={{width: '100%'}}
             onClick={() => navigate('/TabNavigator')}
           />
         </div>
@@ -79,7 +74,6 @@ export const PaymentSuccess: React.FC = () => {
 
   return (
     <div id='screen'>
-      {renderBackground()}
       {renderHeader()}
       {renderContent()}
     </div>

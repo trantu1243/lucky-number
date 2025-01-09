@@ -9,6 +9,9 @@ import {svg} from '../assets/svg';
 import { useAppSelector } from "../store";
 import { hooks } from "../hooks";
 import "../assets/css/loading.css";
+import useSocket from "../hooks/useSocket";
+import { useLocation } from "react-router-dom";
+import { utils } from "../utils";
 
 const networkDescription : { [key: string]: string } = {
     tron: 'TRON(TRC20)',
@@ -30,9 +33,16 @@ const networkDescription : { [key: string]: string } = {
 const SERVER_URL = 'https://api.lucky-number.net';
 
 export const DepositQr: React.FC = () => {
+    const {pathname} = useLocation();
+    const navigate = hooks.useAppNavigate();
+
+    useEffect(() => {
+        setTimeout(() => {
+            window.scroll({top: -1, left: 0, behavior: 'smooth'});
+        }, 10);
+    }, [pathname]);
 
     const webapp = useAppSelector(state => state.webappSlice.webApp);
-    const navigate = hooks.useAppNavigate();
     const [payment, setPayment] = useState({
         address: '',
         address_qr_code: '',
@@ -44,7 +54,47 @@ export const DepositQr: React.FC = () => {
         currency: '',
         _id: ''
     });
+    const [status, setStatus] = useState<Number>(0);
+    const [msg, setMsg] = useState<String>('');
+    const [chip, setChip] = useState<Number>(0);
 
+    const socket = useSocket();
+
+    useEffect(() => {
+        if (socket) {
+            socket.on('connect', () => {
+                console.log('Connected to server with socket id:', socket.id);
+            });
+            
+            socket.on('paid', (data) => {
+                setChip(Number(data.msg));
+                setMsg('You have successfully deposited');
+                setStatus(2);
+            });
+
+            socket.on('paid_over', (data) => {
+                setChip(Number(data.msg));
+                setMsg('You have already topped up. The system has automatically added more chips to your account.');
+                setStatus(2);
+            });
+
+            socket.on('cancel', (data) => {
+                setChip(Number(data.msg));
+                setMsg('Deposit time expired. Please try again.');
+                setStatus(3);
+            });
+
+            socket.on('wrong_amount', (data) => {
+                setChip(Number(data.msg));
+                setMsg(`You have underpaid by {data.msg2}. The system will automatically create a new payment to cover the remaining amount.`);
+                setStatus(3);
+            });
+        
+            return () => {
+                socket.off('nap-tien-thanh-cong');
+            };
+        }
+    }, [socket]);
     
     useEffect(() => {
         const data = webapp?.initDataUnsafe || null;
@@ -73,11 +123,10 @@ export const DepositQr: React.FC = () => {
 
     }, [webapp]);
 
-    const [loading, setLoading] = useState<boolean>(true);
     const [checkpaid, setCheckpaid] = useState<boolean>(true);
     
     const checkPayment = useCallback(async () => {
-        setLoading(true);
+        setStatus(2);
         const body = webapp?.initDataUnsafe || {};
         const urlWithParams = `https://api.lucky-number.net/v1/payment/check`;
     
@@ -94,7 +143,7 @@ export const DepositQr: React.FC = () => {
                     navigate("/deposit");
                 }
                 setPayment(data.payment);
-                setLoading(false);
+                setStatus(1);
             })
             .catch((error) => console.error(error));
     
@@ -391,10 +440,100 @@ export const DepositQr: React.FC = () => {
         )
     }
 
+    const renderSuccess = (): JSX.Element => {
+        return (
+          <main
+            className='container'
+            style={{justifyContent: 'center'}}
+          >
+            <svg.TransactionSvg style={{marginBottom: 30}} />
+            <text.H2 style={{marginBottom: 30}}>
+              Your payment has been {'\n'} processed!
+            </text.H2>
+            <div style={{marginBottom: 10}}>
+              <span
+                style={{
+                  fontSize: 28,
+                  ...theme.fonts.SourceSansPro_400Regular,
+                  color: theme.colors.whiteText,
+                }}
+              >
+                {String(chip)}
+              </span>
+              <span
+                style={{
+                  fontSize: 16,
+                  ...theme.fonts.SourceSansPro_400Regular,
+                  color: theme.colors.whiteText,
+                }}
+              >
+                &nbsp;Chip
+              </span>
+            </div>
+            <text.T16 style={{marginBottom: 30}}>
+                {msg}
+            </text.T16>
+            <div style={{...utils.rowCenterSpcBtw()}}>
+      
+              <components.Button
+                title='Done'
+                containerStyle={{width: '100%'}}
+                onClick={() => navigate('/TabNavigator')}
+              />
+            </div>
+          </main>
+        );
+    };
+
+      const renderFailure = (): JSX.Element => {
+        return (
+          <main
+            className='container'
+            style={{justifyContent: 'center'}}
+          >
+            <svg.CancelSvg style={{marginBottom: 30}} />
+            <text.H2 style={{marginBottom: 30}}>
+                Your payment has failed!
+            </text.H2>
+            <div style={{marginBottom: 10}}>
+              <span
+                style={{
+                  fontSize: 28,
+                  ...theme.fonts.SourceSansPro_400Regular,
+                  color: theme.colors.whiteText,
+                }}
+              >
+                {String(chip)}
+              </span>
+              <span
+                style={{
+                  fontSize: 16,
+                  ...theme.fonts.SourceSansPro_400Regular,
+                  color: theme.colors.whiteText,
+                }}
+              >
+                &nbsp;Chip
+              </span>
+            </div>
+            <text.T16 style={{marginBottom: 30}}>
+                {msg}
+            </text.T16>
+            <div style={{...utils.rowCenterSpcBtw()}}>
+              
+              <components.Button
+                title='Try Again'
+                containerStyle={{width: '100%'}}
+                onClick={() => {navigate('/deposit')}}
+              />
+            </div>
+          </main>
+        );
+    };
+
     return (
         <div id='screen'>
             {renderHeader()}
-            {loading ? (
+            {status === 0 ? (
                 <div 
                     style={{
                         display: 'flex',
@@ -405,10 +544,18 @@ export const DepositQr: React.FC = () => {
                 >
                     <span className="loader"></span>
                 </div>
-            ) : (     
+            ) : status === 1 ? (
                 <>
                     {renderContent()}
                     {renderBottom()}
+                </>
+            ) : status === 2 ? (
+                <>
+                    {renderSuccess()}
+                </>
+            ) : (
+                <>
+                    {renderFailure()}
                 </>
             )}
         </div>  
