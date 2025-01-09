@@ -8,12 +8,13 @@ const http = require('http');
 const { Server } = require("socket.io");
 
 const bot = require('./bot');
-const { dailyTaskService, paymentService, userService } = require('./services');
+const { dailyTaskService } = require('./services');
 const routes = require('./routes/index');
 const { CronJob } = require('cron');
 const { internalMiddleware } = require('./middlewares');
 const { paymentController, payoutController } = require('./controllers');
 const verifySocketConnection = require('./middlewares/validateTelegramSocket.middleware');
+const { initSocket } = require('./socket/socketHandler');
 require('dotenv').config();
 
 mongoose.connect('mongodb://admin:admin036203@mongodb-container:27017/lucky_number?authSource=admin').then(() => {
@@ -33,25 +34,6 @@ const io = new Server(server, {
 });
 
 io.use(verifySocketConnection);
-
-io.on('connection', async (socket) => {
-	console.log(`User ${socket.userId} connected with socketId: ${socket.id}`);
-	
-    socket.on('disconnect', async () => {
-        try {
-            const user = await userService.getUserByUserId(socket.userId);
-            if (user) {
-                user.socketId = '';
-                await user.save();
-                console.log(`User ${socket.userId} disconnected`);
-            } else {
-                console.warn(`User ${socket.userId} not found during disconnect`);
-            }
-        } catch (error) {
-            console.error('Error during disconnect:', error);
-        }
-    });
-});
 
 app.use(cors({
 	origin: 'https://lucky-number.net', 
@@ -95,6 +77,9 @@ app.post(`/bot${encodeURIComponent(process.env.BOT_TOKEN)}`, async (req, res) =>
 app.post('/callback-invoce', internalMiddleware.checkInternalToken, paymentController.callbackInvoice);
 
 app.post('/callback-payout', internalMiddleware.checkInternalToken, payoutController.callbackPayout);
+
+// init socket
+initSocket(io);
 
 const job = new CronJob(
 	'* * * * *', // cronTime

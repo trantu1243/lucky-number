@@ -13,6 +13,7 @@ const callbackInvoice = async (req, res) => {
 		const payment = await paymentService.findPaymentByOrderId(order_id);
 		payment.payment_status = status;
 		await payment.save();
+		const io = getSocket();
 
 		if (status === 'paid' && !payment.check) {
 			const user = await userService.getUserByUserId(payment.userId.userId);
@@ -20,29 +21,22 @@ const callbackInvoice = async (req, res) => {
 			payment.check = true;
 			await payment.save();
 			await user.save();
-	// 		if (payment.message_id) {
-	// 			await bot.telegram.editMessageCaption(
-	// 					payment.userId.userId, 
-	// 					payment.message_id, 
-	// 					null, 
-	// 					`Send an amount equal to or greater than: <code>${payment.amount}</code> ${payment.currency} tron(TRC20)
-	// To this address: <code>${payment.address}</code>
-
-	// ⏰ <b>✅ YOU HAVE SUCCESSFULLY RECHARGED.</b>`, 
-	// 					{ parse_mode: 'HTML' }
-	// 				);
-	// 		}
 			
 			await bot.telegram.sendMessage(
 				payment.userId.userId, 
-				`<b>✅ You have successfully recharged ${Math.floor(payment.chip)} chips.</b>`, 
+				`<b>✅ You have successfully deposited ${Math.floor(payment.chip)} chips.</b>`, 
 				{ 
 					parse_mode: 'HTML',
 				}
 			);
+			io.to(user.socketId).emit('paid', {
+				msg: `${payment.chip}`
+			});
+
 		} else if (status === 'paid_over' && !payment.check) {
 			const user = await userService.getUserByUserId(payment.userId.userId);
-			user.usd += Math.floor(payment.payment_amount);
+			const chip = Math.floor(payment.chip / Number(payment.amount) * Number(payment.payment_amount))
+			user.usd += chip;
 			payment.check = true;
 			await payment.save();
 			await user.save();
@@ -50,26 +44,31 @@ const callbackInvoice = async (req, res) => {
 			if (currency === 'USDT') {
 				await bot.telegram.sendMessage(
 					payment.userId.userId, 
-					`<b>✅ You have successfully recharged ${Math.floor(payment.amount)} chips.</b>`, 
+					`<b>✅ You have successfully deposited ${Math.floor(payment.amount)} chips.</b>`, 
 					{ 
 						parse_mode: 'HTML',
 					}
 				);
 			}
+			io.to(user.socketId).emit('paid_over', {
+				msg: `${chip}`
+			});
 		} else if (status === 'cancel' && !payment.check) {
 			payment.check = true;
 			await payment.save();
 			
 			await bot.telegram.sendMessage(
 				payment.userId.userId, 
-				`<b>❌ Recharged failed: ${Math.floor(payment.chip)} chips</b>
-	<b>Reason: Recharge time expired.</b>`, 
+				`<b>❌ Deposited failed: ${Math.floor(payment.chip)} chips</b>
+<b>Reason: Deposit time expired.</b>`, 
 				{ 
 					parse_mode: 'HTML',
 				}
 			);
-		} 
-		else if (status === 'wrong_amount' && !payment.check) {
+			io.to(user.socketId).emit('cancel', {
+				msg: `${payment.chip}`
+			});
+		} else if (status === 'wrong_amount' && !payment.check) {
 			payment.check = true;
 			await payment.save();
 			const { amount, payment_amount, currency, network} = req.body;
@@ -104,12 +103,18 @@ const callbackInvoice = async (req, res) => {
 			}
 			await bot.telegram.sendMessage(
 				payment.userId.userId, 
-				`<b>❌ Recharged failed: ${Math.floor(payment.chip)} chips</b>
-	<b>Reason: Incorrect amount.</b>`, 
+				`<b>❌ Deposited failed: ${Math.floor(payment.chip)} chips</b>
+<b>Reason: Incorrect amount.</b>
+<b>Please top up more.</b>`, 
 				{ 
 					parse_mode: 'HTML',
 				}
 			);
+
+			io.to(user.socketId).emit('wrong_amount', {
+				msg2: `${String(Number(amount) - Number(payment_amount))} {payment.currency}`,
+				msg: `${payment.chip}`
+			});
 		}
 	}
 	catch (e) {
