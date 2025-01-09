@@ -65,7 +65,7 @@ export const DepositQr: React.FC = () => {
             socket.on('connect', () => {
                 console.log('Connected to server with socket id:', socket.id);
             });
-            
+
             socket.on('paid', (data) => {
                 setChip(Number(data.msg));
                 setMsg('You have successfully deposited');
@@ -126,7 +126,7 @@ export const DepositQr: React.FC = () => {
     const [checkpaid, setCheckpaid] = useState<boolean>(true);
     
     const checkPayment = useCallback(async () => {
-        setStatus(2);
+        setStatus(0);
         const body = webapp?.initDataUnsafe || {};
         const urlWithParams = `https://api.lucky-number.net/v1/payment/check`;
     
