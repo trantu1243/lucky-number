@@ -26,7 +26,13 @@ export const AddPayout: React.FC = () => {
     const [error, setError] = useState<Boolean>(false);
     const webapp = useAppSelector(state => state.webappSlice.webApp);
     const [loading, setLoading] = useState<Boolean>(true);
-    const [payoutAddress, setPayoutAddress] = useState<PayoutAddress[]>([]);
+    const [payoutAddress, setPayoutAddress] = useState<PayoutAddress[]>([
+        {
+            currency: 'USDT',
+            network: 'TRON',
+            address: 'fsadfasfasfasasdfafasdfasdfdffasdf'
+        }
+    ]);
 
     const getPayoutAddress = useCallback(async () => {
         const url = `https://api.lucky-number.net/v1/payout/get-payout-address`;
@@ -150,6 +156,19 @@ export const AddPayout: React.FC = () => {
                                 </div>
                                 <text.H6>{card.currency} {net}</text.H6>
                             </div>
+                            <svg
+                                width="18px" 
+                                height="18px"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                                style={{
+                                    cursor: 'pointer',
+                                    fill: 'red', 
+                                    marginLeft: 'auto'
+                                }}
+                            >
+                                <path d="M 10 2 L 9 3 L 4 3 L 4 5 L 20 5 L 20 3 L 15 3 L 14 2 L 10 2 z M 5 7 L 5 22 L 19 22 L 19 7 L 5 7 z M 8 9 L 10 9 L 10 20 L 8 20 L 8 9 z M 14 9 L 16 9 L 16 20 L 14 20 L 14 9 z" />
+                            </svg>
                         </div>
                     );
                 })}
@@ -238,7 +257,10 @@ export const AddPayout: React.FC = () => {
                         }}
                     >
                         <option value="">--Select network--</option>
-                        <option value="TRON">TRON(TRC20)</option>
+                        <option value="TRON">TRON (TRC20)</option>
+                        <option value="ETH">ETH (ERC20)</option>
+                        <option value="BSC">BSC (BEP20)</option>
+                        <option value="TON">TON</option>
                     </select>
                 </div>
             </div>

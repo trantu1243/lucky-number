@@ -113,10 +113,12 @@ const createPayout = async (req, res) => {
 	}
 }
 
+const networks = ["TRON", "BSC", "ETH", "TON"]
+
 const addPayoutAddress = async (req, res) => {
     try {
         const { address, currency, network} = req.body;
-        if (currency !== "USDT" || network !== "TRON") 
+        if (currency !== "USDT" || !networks.includes(network)) 
             return res.status(400);
         const user = await userService.getUserByUserId(req.userId);
         if (user.payout_address.length > 3) 
