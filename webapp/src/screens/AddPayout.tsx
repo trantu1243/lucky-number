@@ -117,35 +117,32 @@ export const AddPayout: React.FC = () => {
     function handleDelete(event: React.MouseEvent<SVGSVGElement, MouseEvent>, addressToDelete: string){
         event.preventDefault();
         setLoading(true);
+        
+        const body = webapp?.initDataUnsafe || {};
+        const url = `https://api.lucky-number.net/v1/payout/delete-payout-address`;
 
-        if (currency && network && address){
-            const body = webapp?.initDataUnsafe || {};
-            const url = `https://api.lucky-number.net/v1/payout/delete-payout-address`;
-
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    initData: body,
-                    address: addressToDelete
-                })
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                initData: body,
+                address: addressToDelete
             })
-            .then((response) => response.json())
-            .then((data) => {
-                getPayoutAddress();
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error(error);
-                setError(true);
-                setLoading(false);
-
-            });
-        } else {
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            getPayoutAddress();
+            setLoading(false);
+        })
+        .catch((error) => {
+            console.error(error);
             setError(true);
-        }
+            setLoading(false);
+
+        });
+   
     }
 
     const renderHeader = (): JSX.Element => {
