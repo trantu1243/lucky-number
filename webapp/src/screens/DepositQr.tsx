@@ -63,9 +63,6 @@ export const DepositQr: React.FC = () => {
 
     useEffect(() => {
         if (socket) {
-            socket.on('connect', () => {
-                console.log('Connected to server with socket id:', socket.id);
-            });
 
             socket.on('paid', (data) => {
                 setChip(Number(data.msg));

@@ -7,56 +7,86 @@ require('dotenv').config();
 const INTERNAL_TOKEN = process.env.INTERNAL_TOKEN;
 
 const callbackPayout = async (req, res) => {
-    console.log(req.body);
-    const { order_id, status} = req.body;
-	const payout = await payoutService.findPayoutByOrderId(order_id);
-    payout.status = status;
-	await payout.save();
-    const user = await userService.getUserByUserId(payout.userId.userId);
+    try {
+        console.log(req.body);
+        const { order_id, status } = req.body;
+        const payout = await payoutService.findPayoutByOrderId(order_id);
+        payout.status = status;
+        await payout.save();
+        const user = await userService.getUserByUserId(payout.userId.userId);
 
-    if (status === 'paid') {
-        user.usd -= payout.amount + 1;
-        user.save();
+        if (status === 'paid' && !payment.check) {
+            user.usd -= payout.amount + 1;
+            user.save();
 
-        await bot.telegram.sendMessage(
-			payout.userId.userId, 
-			`<b>✅ You have successfully withdrawn ${Math.floor(payout.chip)} chips.</b>`, 
-			{ 
-				parse_mode: 'HTML',
-			}
-		);
-    } else if (status === 'fail') {
-        await bot.telegram.sendMessage(
-			payout.userId.userId, 
-			`<b>❌ Withdrawal failed. Please try again.</b>`, 
-			{ 
-				parse_mode: 'HTML',
-			}
-		);
-    } else if (status === 'system_fail') {
-        await bot.telegram.sendMessage(
-			payout.userId.userId, 
-			`<b>❌ A system error has occurred.</b>`, 
-			{ 
-				parse_mode: 'HTML',
-			}
-		);
-    } else if (status === 'check') {
-        await bot.telegram.sendMessage(
-			payout.userId.userId, 
-			`<b>The payout is being verified.</b>`, 
-			{ 
-				parse_mode: 'HTML',
-			}
-		);
-    } else if (status === 'cancel') {
-        await bot.telegram.sendMessage(
-			payout.userId.userId, 
-			`<b>❌ Payout cancelled.</b>`, 
-			{ 
-				parse_mode: 'HTML',
-			}
-		);
+            payout.check = true;
+			await payout.save();
+
+            await bot.telegram.sendMessage(
+                payout.userId.userId, 
+                `<b>✅ You have successfully withdrawn ${Math.floor(payout.chip)} Chip.</b>`, 
+                { 
+                    parse_mode: 'HTML',
+                }
+            );
+
+            io.to(user.socketId).emit('paid_payout', {
+				msg: `${chip}`
+			});
+        } else if (status === 'fail' && !payment.check) {
+            payout.check = true;
+			await payout.save();
+            await bot.telegram.sendMessage(
+                payout.userId.userId, 
+                `<b>❌ Withdrawal failed. Please try again.</b>`, 
+                { 
+                    parse_mode: 'HTML',
+                }
+            );
+            io.to(user.socketId).emit('fail_payout', {
+				msg: `${chip}`
+			});
+        } else if (status === 'system_fail' && !payment.check) {
+            payout.check = true;
+			await payout.save();
+            await bot.telegram.sendMessage(
+                payout.userId.userId, 
+                `<b>❌ A system error has occurred.</b>`, 
+                { 
+                    parse_mode: 'HTML',
+                }
+            );
+            io.to(user.socketId).emit('system_fail_payout', {
+				msg: `${chip}`
+			});
+        } else if (status === 'check' && !payment.check) {
+            await bot.telegram.sendMessage(
+                payout.userId.userId, 
+                `<b>The payout is being verified.</b>`, 
+                { 
+                    parse_mode: 'HTML',
+                }
+            );
+            io.to(user.socketId).emit('check_payout', {
+				msg: `${chip}`
+			});
+        } else if (status === 'cancel' && !payment.check) {
+            payout.check = true;
+			await payout.save();
+            await bot.telegram.sendMessage(
+                payout.userId.userId, 
+                `<b>❌ Payout cancelled.</b>`, 
+                { 
+                    parse_mode: 'HTML',
+                }
+            );
+            io.to(user.socketId).emit('cancel_payout', {
+				msg: `${chip}`
+			});
+        }
+    }
+    catch (e) {
+        console.log(e)
     }
 }
 
@@ -69,7 +99,7 @@ const createPayout = async (req, res) => {
                 status: false,
                 msg: ''
             });
-        if (Number(req.body.amount) > user.usd || Number(req.body.amount) < 5) 
+        if (Number(req.body.amount) > user.usd || Number(req.body.amount) < 2) 
             return res.status(400);
         const order_id = uuidv4();
 		const data = {

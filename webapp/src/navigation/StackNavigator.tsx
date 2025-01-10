@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import {RouterProvider, createBrowserRouter} from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 import {screens} from '../screens';
 import {TabNavigator} from './TabNavigator';
 import { useAppDispatch } from '../store';
 import { setWebApp } from '../store/slices/webappSlice';
+import useSocket from '../hooks/useSocket';
 
 const stack = createBrowserRouter([
     {
@@ -172,5 +174,80 @@ export const StackNavigator: React.FC = () => {
         }
     }, [dispatch]);
 
-    return <RouterProvider router={stack} />;
+    const socket = useSocket();
+
+    useEffect(() => {
+        if (socket) {
+            socket.on('paid_payout', (data) => {
+                toast.success(`You have successfully withdrawn ${Math.floor(data.msg)} Chip.`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    theme: "dark",
+                });
+            });
+
+            socket.on('fail_payout', (data) => {
+                toast.error(`Withdrawing ${Math.floor(data.msg)} Chip failed. Please try again.`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    theme: "dark",
+                });
+            });
+
+            socket.on('system_fail_payout', (data) => {
+                toast.error(`Withdrawing ${Math.floor(data.msg)} Chip failed. A system error has occurred.`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    theme: "dark",
+                });
+            });
+        
+            socket.on('check', (data) => {
+                toast.info(`Withdrawing ${Math.floor(data.msg)} Chip. The payout is under verification.`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    theme: "dark",
+                });
+            });
+
+            socket.on('cancel_payout', (data) => {
+                toast.error(`Withdrawing ${Math.floor(data.msg)} Chip. Payout cancelled.`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    theme: "dark",
+                });
+            });
+        
+            return () => {
+                socket.off('nap-tien-thanh-cong');
+            };
+        }
+    }, [socket]);
+    
+
+    return (
+        <>
+            <RouterProvider router={stack} />
+            <ToastContainer />
+        </>)
 };

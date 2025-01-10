@@ -25,7 +25,7 @@ const callbackInvoice = async (req, res) => {
 			
 			await bot.telegram.sendMessage(
 				payment.userId.userId, 
-				`<b>✅ You have successfully deposited ${Math.floor(payment.chip)} chips.</b>`, 
+				`<b>✅ You have successfully deposited ${Math.floor(payment.chip)} Chip.</b>`, 
 				{ 
 					parse_mode: 'HTML',
 				}
@@ -45,7 +45,7 @@ const callbackInvoice = async (req, res) => {
 			if (currency === 'USDT') {
 				await bot.telegram.sendMessage(
 					payment.userId.userId, 
-					`<b>✅ You have successfully deposited ${Math.floor(payment.amount)} chips.</b>`, 
+					`<b>✅ You have successfully deposited ${Math.floor(payment.amount)} Chip.</b>`, 
 					{ 
 						parse_mode: 'HTML',
 					}
@@ -61,7 +61,7 @@ const callbackInvoice = async (req, res) => {
 			
 			await bot.telegram.sendMessage(
 				payment.userId.userId, 
-				`<b>❌ Deposited failed: ${Math.floor(payment.chip)} chips</b>
+				`<b>❌ Deposited failed: ${Math.floor(payment.chip)} Chip</b>
 <b>Reason: Deposit time expired.</b>`, 
 				{ 
 					parse_mode: 'HTML',
@@ -106,7 +106,7 @@ const callbackInvoice = async (req, res) => {
 			}
 			await bot.telegram.sendMessage(
 				payment.userId.userId, 
-				`<b>❌ Deposited failed: ${Math.floor(payment.chip)} chips</b>
+				`<b>❌ Deposited failed: ${Math.floor(payment.chip)} Chip</b>
 <b>Reason: Incorrect amount.</b>
 <b>Please top up more.</b>`, 
 				{ 

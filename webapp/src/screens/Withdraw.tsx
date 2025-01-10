@@ -67,7 +67,7 @@ export const Withdraw: React.FC = () => {
     function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>){
         setLoading(true);
         event.preventDefault();
-        if (currency && network && amount && Number(amount) >= 5){
+        if (currency && network && amount && Number(amount) >= 2){
             const body = webapp?.initDataUnsafe || {};
             const url = `https://api.lucky-number.net/v1/payout/create-payout`;
 
@@ -102,8 +102,17 @@ export const Withdraw: React.FC = () => {
             })
             .catch((error) => {
                 console.error(error);
-               
+                toast.error('Error', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    theme: "dark",
+                });
                 setError(true);
+                setLoading(false);
             });
         } else {
             setError(true);
