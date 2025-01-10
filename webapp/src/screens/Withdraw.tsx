@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {useLocation} from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 import {text} from '../text';
 import {hooks} from '../hooks';
@@ -64,6 +65,7 @@ export const Withdraw: React.FC = () => {
     }
 
     function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>){
+        setLoading(true);
         event.preventDefault();
         if (currency && network && amount && Number(amount) >= 5){
             const body = webapp?.initDataUnsafe || {};
@@ -84,10 +86,23 @@ export const Withdraw: React.FC = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                navigate('/payment/qrcode');
+                toast.success('We are processing your request, please kindly wait a moment.', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    theme: "dark",
+                });
+                setTimeout(() => {
+                    navigate('/TabNavigator');
+                }, 3000);
+                
             })
             .catch((error) => {
                 console.error(error);
+               
                 setError(true);
             });
         } else {
@@ -233,6 +248,7 @@ export const Withdraw: React.FC = () => {
                     {renderContent()}
                 </>
             )}
+             <ToastContainer />
         </div>
     );
 };

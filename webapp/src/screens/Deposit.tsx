@@ -139,6 +139,7 @@ export const Deposit: React.FC = () => {
 
     function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>){
         event.preventDefault();
+        setLoading(true);
         if (currency && network && amount && Number(amount) >= 5){
             const body = webapp?.initDataUnsafe || {};
             const url = `https://api.lucky-number.net/v1/payment/create-payment`;

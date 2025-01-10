@@ -115,7 +115,34 @@ const callbackInvoice = async (req, res) => {
 			);
 
 			io.to(user.socketId).emit('wrong_amount', {
-				msg2: `${String(Number(amount) - Number(payment_amount))} {payment.currency}`,
+				msg2: `${String(Number(amount) - Number(payment_amount))} ${payment.currency}`,
+				msg: `${payment.chip}`
+			});
+		} else if (status === 'wrong_amount_waiting' && !payment.check) {
+			const user = await userService.getUserByUserId(payment.userId.userId);
+			
+			await bot.telegram.sendMessage(
+				payment.userId.userId, 
+				`<b>❌ You are short ${String(Number(amount) - Number(payment_amount))} ${payment.currency}. Please add $1 to complete the transaction.</b>`, 
+				{ 
+					parse_mode: 'HTML',
+				}
+			);
+			io.to(user.socketId).emit('wrong_amount_waiting', {
+				msg2: `${String(Number(amount) - Number(payment_amount))} ${payment.currency}`,
+				msg: `${payment.chip}`
+			});
+		} else if (status === 'confirm_check' && !payment.check) {
+			const user = await userService.getUserByUserId(payment.userId.userId);
+			
+			await bot.telegram.sendMessage(
+				payment.userId.userId, 
+				`<b>${payment.payment_amount} ${payment.currency} received. Please allow time for network confirmations to process your payment.</b>`, 
+				{ 
+					parse_mode: 'HTML',
+				}
+			);
+			io.to(user.socketId).emit('confirm_check', {
 				msg: `${payment.chip}`
 			});
 		}

@@ -57,6 +57,7 @@ export const DepositQr: React.FC = () => {
     const [status, setStatus] = useState<Number>(0);
     const [msg, setMsg] = useState<String>('');
     const [chip, setChip] = useState<Number>(0);
+    const [errorMsg, setErrorMsg] = useState<String>('');
 
     const socket = useSocket();
 
@@ -88,6 +89,24 @@ export const DepositQr: React.FC = () => {
                 setChip(Number(data.msg));
                 setMsg(`You have underpaid by {data.msg2}. The system will automatically create a new payment to cover the remaining amount.`);
                 setStatus(3);
+            });
+
+            socket.on('confirm_check', (data) => {
+                
+                setStatus(4);
+            });
+
+            socket.on('wrong_amount_waiting', (data) => {
+                setErrorMsg(`You are short ${data.msg2}. Please add ${data.msg2} to complete the transaction.`);
+                toast.error(`You are short ${data.msg2}. Please add ${data.msg2} to complete the transaction.`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    theme: "dark",
+                });
             });
         
             return () => {
@@ -126,7 +145,7 @@ export const DepositQr: React.FC = () => {
     // const [checkpaid, setCheckpaid] = useState<boolean>(true);
     
     const checkPayment = useCallback(async () => {
-        setStatus(0);
+        setStatus(4);
         const body = webapp?.initDataUnsafe || {};
         const urlWithParams = `https://api.lucky-number.net/v1/payment/check`;
     
@@ -305,6 +324,13 @@ export const DepositQr: React.FC = () => {
                             <svg.CopySvg />
                         </span>
                     </text.H3>
+
+                    {errorMsg && <text.T14 style={{
+                        fontStyle: 'italic',
+                        marginTop: 10,
+                        marginBottom: 10,
+                        color: theme.colors.red
+                    }}>{errorMsg}</text.T14> }
                     
                     <div
                         style={{
@@ -536,10 +562,46 @@ export const DepositQr: React.FC = () => {
                 <>
                     {renderSuccess()}
                 </>
-            ) : (
+            ) : status === 3 ? (
                 <>
-                    {renderFailure()}
+                    {renderSuccess()}
                 </>
+            ) : (
+                <main
+                    className='container'
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100vh',
+                        padding: '40px',
+                        
+                    }}
+                >
+                    
+                    <div 
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center', 
+                            height: '15vh',
+                            textAlign: 'center',
+                        }}
+                    >
+                        <span className="loader"></span>
+                    </div>
+                    <text.H5>
+                        Funds received. Please allow time 
+                    </text.H5>
+                    <text.H5>
+                        for network confirmations to process
+                    </text.H5>
+                    <text.H5>
+                        your payment.
+                    </text.H5>
+                </main>
+                
             )}
         </div>  
     )
