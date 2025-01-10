@@ -100,7 +100,10 @@ export const AddPayout: React.FC = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                getPayoutAddress()
+                getPayoutAddress();
+                setAddress('');
+                setCurrency('');
+                setCurrency('');
                 setLoading(false);
             })
             .catch((error) => {
@@ -117,7 +120,7 @@ export const AddPayout: React.FC = () => {
     function handleDelete(event: React.MouseEvent<SVGSVGElement, MouseEvent>, addressToDelete: string){
         event.preventDefault();
         setLoading(true);
-        
+
         const body = webapp?.initDataUnsafe || {};
         const url = `https://api.lucky-number.net/v1/payout/delete-payout-address`;
 
