@@ -10,4 +10,7 @@ router.post('/create-payout', validateTelegramData, payoutController.createPayou
 
 router.post('/get-payout-address', validateTelegramData, payoutController.getPayoutAddress);
 
+router.post('/delete-payout-address', validateTelegramData, payoutController.deletePayoutAddress);
+
+
 module.exports = router;

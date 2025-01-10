@@ -175,6 +175,7 @@ export const Deposit: React.FC = () => {
             .catch((error) => {
                 console.error(error);
                 setError(true);
+                setLoading(false);
             });
         } else {
             setError(true);

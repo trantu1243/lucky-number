@@ -153,10 +153,26 @@ const getPayoutAddress = async (req, res) => {
     }
 }
 
+const deletePayoutAddress = async (req, res) => {
+    try {
+        const { address } = req.body;
+        const user = await userService.getUserByUserId(req.userId);
+        user.payout_address = user.payout_address.filter(item => item.address !== address);
+        return res.send({
+            status: true,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500);
+    }
+}
+
 
 module.exports = {
     callbackPayout,
     addPayoutAddress,
     getPayoutAddress,
-    createPayout
+    createPayout,
+    deletePayoutAddress
 }

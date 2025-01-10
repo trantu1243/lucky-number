@@ -185,7 +185,9 @@ export const DepositQr: React.FC = () => {
         });
     };
 
-    const handleCancelButton = async () => {
+    const handleCancelButton = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
+        setStatus(0);
         const body = webapp?.initDataUnsafe || {};
         const urlWithParams = `https://api.lucky-number.net/v1/payment/cancel`;
     

@@ -75,12 +75,13 @@ export const AddPayout: React.FC = () => {
     }
 
     function handleChangeAddress(event: React.ChangeEvent<HTMLInputElement>){
-        const value = event.target.value.replace(/^0+/, "");
+        const value = event.target.value;
         setAddress(value);
     }
 
     function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>){
         event.preventDefault();
+        setLoading(true);
         if (currency && network && address){
             const body = webapp?.initDataUnsafe || {};
             const url = `https://api.lucky-number.net/v1/payout/add-payout`;
@@ -100,10 +101,47 @@ export const AddPayout: React.FC = () => {
             .then((response) => response.json())
             .then((data) => {
                 getPayoutAddress()
+                setLoading(false);
             })
             .catch((error) => {
                 console.error(error);
                 setError(true);
+                setLoading(false);
+
+            });
+        } else {
+            setError(true);
+        }
+    }
+
+    function handleDelete(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, addressToDelete: string){
+        event.preventDefault();
+        setLoading(true);
+
+        if (currency && network && address){
+            const body = webapp?.initDataUnsafe || {};
+            const url = `https://api.lucky-number.net/v1/payout/delete-payout-address`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    initData: body,
+                    address: addressToDelete
+                })
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                getPayoutAddress();
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error(error);
+                setError(true);
+                setLoading(false);
+
             });
         } else {
             setError(true);
