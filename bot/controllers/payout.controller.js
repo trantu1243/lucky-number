@@ -158,6 +158,7 @@ const deletePayoutAddress = async (req, res) => {
         const { address } = req.body;
         const user = await userService.getUserByUserId(req.userId);
         user.payout_address = user.payout_address.filter(item => item.address !== address);
+        await user.save();
         return res.send({
             status: true,
         });
