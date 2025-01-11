@@ -12,5 +12,6 @@ router.post('/get-payout-address', validateTelegramData, payoutController.getPay
 
 router.post('/delete-payout-address', validateTelegramData, payoutController.deletePayoutAddress);
 
+router.post('/payout-service', validateTelegramData, payoutController.getServicePayout);
 
 module.exports = router;

@@ -124,7 +124,7 @@ export const Profile: React.FC = () => {
                 marginBottom: isLast ? 0 : 14,
               }}
             >
-              <text.T14 style={{ marginBottom: 10 }}>{item.title}</text.T14>
+              <text.T14>{item.title}</text.T14>
               <text.H6>{item.content}</text.H6>
             </div>
           );

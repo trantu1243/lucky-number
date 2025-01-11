@@ -199,11 +199,37 @@ const deletePayoutAddress = async (req, res) => {
     }
 }
 
+const getServicePayout = async (req, res) => {
+    try{
+        const data = {};
+
+        const url = `${process.env.HOSTING_URL}/payout-service`;
+        const headers = {
+            'x-internal-token': INTERNAL_TOKEN
+        };
+
+        const response = await axios.post(url, data, { headers });
+                
+        if (response.data.state === 0) {
+            const result = response.data.result;
+            const usdt = result.filter(item => item.currency === 'USDT');
+            return res.send(usdt);
+        } else {
+            return res.status(500);
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500);
+    }
+}
+
 
 module.exports = {
     callbackPayout,
     addPayoutAddress,
     getPayoutAddress,
     createPayout,
-    deletePayoutAddress
+    deletePayoutAddress,
+    getServicePayout
 }

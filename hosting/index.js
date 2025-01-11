@@ -134,6 +134,33 @@ app.post('/create-payout', checkInternalToken, (req, res) => {
 		});
 });
 
+app.post('/payout-service', checkInternalToken, (req, res) => {
+	const URL = process.env.URL;
+	const API_KEY = process.env.PAYOUT_API_KEY;
+	const body = {};
+
+	const data = JSON.stringify(body);
+	const base64Data = Buffer.from(data).toString('base64');
+	const sign = CryptoJS.MD5(base64Data + API_KEY).toString();
+
+	const url = 'https://api.cryptomus.com/v1/payout/services';
+	const headers = {
+		merchant: '0d0dd028-c61b-4aa6-bc40-c903cb794d97',
+		sign: sign,
+		'Content-Type': 'application/json',
+	};
+
+	axios
+		.post(url, data, { headers })
+		.then((response) => {
+			res.send(response.data);
+		})
+		.catch((error) => {
+			console.error(error);
+			res.status(400).send(error);
+		});
+});
+
 app.post('/callback-payout-bc40-c903cb794d97-0d0dd028-c61b-4aa6', (req, res) => {
 	console.log(req.body);
 	const url = `${process.env.LN_URL}/callback-payout`;

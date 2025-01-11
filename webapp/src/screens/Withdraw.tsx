@@ -13,6 +13,20 @@ import { useAppSelector } from '../store';
 import "../assets/css/loading.css";
 import { PayoutAddress } from './AddPayout';
 
+interface USDT {
+    network: string;
+    currency: string;
+    is_avaible: boolean;
+    limit: {
+        min_amount: string;
+        max_amount: string;
+    };
+    commission: { 
+        fee_amount: string; 
+        percent: string;
+    }
+}
+
 export const Withdraw: React.FC = () => {
     const {pathname} = useLocation();
     const navigate = hooks.useAppNavigate();
@@ -24,6 +38,10 @@ export const Withdraw: React.FC = () => {
     const webapp = useAppSelector(state => state.webappSlice.webApp);
     const [loading, setLoading] = useState(true);
     const [payoutAddress, setPayoutAddress] = useState<PayoutAddress[]>([]);
+    const [usdt, setUsdt] = useState<USDT[]>([]);
+    const [errorMsg, setErrorMsg] = useState<string>('');
+    const [receive, setReceive] = useState<string>('');
+    const [expiredAt, setExpriredAt] = useState<number>(Math.floor(Date.now() / 1000) + 15 * 60); 
 
     useEffect(() => {
         setTimeout(() => {
@@ -34,7 +52,7 @@ export const Withdraw: React.FC = () => {
     const getPayoutAddress = useCallback(async () => {
         const url = `https://api.lucky-number.net/v1/payout/get-payout-address`;
         const body = webapp?.initDataUnsafe || {};
-        setLoading(true);
+        setLoading(false);
         fetch(url, {
             method: 'POST',
             headers: {
@@ -52,10 +70,44 @@ export const Withdraw: React.FC = () => {
             .catch((error) => console.error(error));
 
     }, [webapp]);
+
+    const getPayoutService = useCallback(async () => {
+        const url = `https://api.lucky-number.net/v1/payout/payout-service`;
+        const body = webapp?.initDataUnsafe || {};
+        setLoading(false);
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                    initData: body,
+                })
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                setUsdt(data);
+                setExpriredAt(Math.floor(Date.now() / 1000) + 15 * 60);
+            })
+            .catch((error) => console.error(error));
+    }, [webapp]);
     
-    useEffect(()=>{
+    useEffect(() => {
         getPayoutAddress();
-    }, [getPayoutAddress]);
+        getPayoutService();
+    }, [getPayoutAddress, getPayoutService]);
+
+    useEffect(() => {
+        if (amount && network && currency) {
+            const exchange: USDT = usdt.filter(item => item.currency === currency && item.network === network)[0];
+            if (Number(amount) < Number(exchange.limit.min_amount) || Number(amount) > Number(exchange.limit.max_amount) || Number(amount) < 5) {
+                setError(true);
+                setErrorMsg(`Please enter correctly. Amount must be at least 5 (10 with ETH network) and the maximum amount is ${exchange.limit.max_amount}.`)
+            }
+            setReceive(String(Number(amount) - Number(exchange.commission.fee_amount) - 0.5));
+        }
+    }, [amount, currency, network, usdt]);
 
     function handleChangeAmount(event: React.ChangeEvent<HTMLInputElement>){
         const value = event.target.value.replace(/^0+/, "");
@@ -147,8 +199,29 @@ export const Withdraw: React.FC = () => {
 
     const renderUseCard = (): JSX.Element => {
         return (
-            <div style={{marginBottom: 30}}>
-                <text.T14 style={{marginBottom: 10}}>Select payout address</text.T14>
+            <div style={{marginBottom: 10}}>
+                <text.T14 
+                    style={{
+                        marginBottom: 10,
+                        display: 'inline-block',
+                        marginRight: 10
+                    }}>
+                        Select payout address
+                </text.T14>
+                <components.Button
+                    title='+'
+                    onClick={() => {navigate('/add-payout')}}
+                    style={{
+                        width: 30,
+                        height:30,
+                        borderRadius: 0,
+                        fontSize: 18,
+                        marginTop: 5
+                    }}
+                    containerStyle={{
+                        display: 'inline-block'
+                    }}
+                />
                 {payoutAddress.map((card, index, array) => {
                     const isLast = index === array.length - 1;
                     const net = card.network === "TRON" ? "TRON(TRC20)" : card.network;
@@ -188,27 +261,122 @@ export const Withdraw: React.FC = () => {
                         </div>
                     );
                 })}
-                <components.Button
-                    title='+'
-                    onClick={() => {navigate('/add-payout')}}
-                    style={{
-                        width: 30,
-                        height:30,
-                        borderRadius: 0,
-                        fontSize: 18,
-                        marginTop: 5
-                    }}
-                />
+                
             </div>
         );
     };
+
+    const renderCommission = (): JSX.Element => {
+        return (
+            <div
+                style={{
+                    padding: 10,
+                    borderRadius: 10,
+                    border: '1px solid gray',
+                    marginBottom: 10,
+                    backgroundColor: theme.colors.white,
+                }}
+            >
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <text.T14
+                        style={{
+                            color: 'gray'
+                        }}
+                    >
+                        Recipient gets
+                    </text.T14>
+                    <text.T14
+                        style={{
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        {receive} USDT
+                    </text.T14>
+                </div>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <text.T14
+                        style={{
+                            color: 'gray'
+                        }}
+                    >
+                        From your balance
+                    </text.T14>
+                    <text.T14
+                        style={{
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        {amount} Chip
+                    </text.T14>
+                </div>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <text.T14
+                        style={{
+                            color: 'gray'
+                        }}
+                    >
+                        Commission
+                    </text.T14>
+                    <text.T14
+                        style={{
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        {String(Number(amount) - Number(receive))} USDT
+                    </text.T14>
+                </div>
+                <div style={{
+                    borderTop: '1px solid gray',
+                    margin: '10px 0'
+                }}></div>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <text.T14
+                        style={{
+                            
+                        }}
+                    >
+                        The commission is valid for
+                    </text.T14>
+                    <components.Countdown expiredAt={expiredAt} handle={() => {getPayoutService()}}/>
+                </div>
+            </div>
+          
+        )
+    }
 
     const renderError = (): JSX.Element => {
         return (
             <text.T14 style={{
                 color: theme.colors.red,
                 fontStyle: 'italic'
-            }}>* Please enter correctly. Amount must be at least 5.</text.T14>
+            }}>* {errorMsg}</text.T14>
         )
     }
 
@@ -232,6 +400,7 @@ export const Withdraw: React.FC = () => {
         >
             {renderAmount()}
             {renderUseCard()}
+            {amount && network && currency && renderCommission()}
             {error && renderError()}
             {renderButton()}
         </main>
