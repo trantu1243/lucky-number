@@ -104,7 +104,7 @@ const createPayout = async (req, res) => {
         if (Number(req.body.amount) > user.usd || Number(req.body.amount) < 2) 
             return res.status(400);
         const order_id = uuidv4();
-        if (currency !== "USDT" || !networks.includes(network)){
+        if (req.body.currency !== "USDT" || !networks.includes(req.body.network)){
             return res.status(400);
         }
 		const data = {
