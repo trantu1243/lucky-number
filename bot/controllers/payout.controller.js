@@ -108,7 +108,7 @@ const createPayout = async (req, res) => {
             return res.status(400);
         }
 		const data = {
-			amount: String(Number(req.body.amount - 1)),
+			amount: String(Number(req.body.amount - 0.5)),
 			currency: req.body.currency,
 			network: req.body.network,
             order_id: order_id,
