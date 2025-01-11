@@ -6,6 +6,8 @@ require('dotenv').config();
 
 const INTERNAL_TOKEN = process.env.INTERNAL_TOKEN;
 
+const networks = ["TRON", "BSC", "ETH", "TON"]
+
 const callbackPayout = async (req, res) => {
     try {
         console.log(req.body);
@@ -102,6 +104,9 @@ const createPayout = async (req, res) => {
         if (Number(req.body.amount) > user.usd || Number(req.body.amount) < 2) 
             return res.status(400);
         const order_id = uuidv4();
+        if (currency !== "USDT" || !networks.includes(network)){
+            return res.status(400);
+        }
 		const data = {
 			amount: String(Number(req.body.amount - 1)),
 			currency: req.body.currency,
@@ -142,8 +147,6 @@ const createPayout = async (req, res) => {
 		res.status(500);
 	}
 }
-
-const networks = ["TRON", "BSC", "ETH", "TON"]
 
 const addPayoutAddress = async (req, res) => {
     try {

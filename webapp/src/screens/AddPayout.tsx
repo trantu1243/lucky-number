@@ -2,7 +2,6 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {useLocation} from 'react-router-dom';
 
 import {text} from '../text';
-import {hooks} from '../hooks';
 import {utils} from '../utils';
 import {custom} from '../custom';
 import {svg} from '../assets/svg';
@@ -19,7 +18,6 @@ export interface PayoutAddress {
 
 export const AddPayout: React.FC = () => {
     const {pathname} = useLocation();
-    const navigate = hooks.useAppNavigate();
     const [currency, setCurrency] = useState<string>("");
     const [network, setNetwork] = useState<string>("");
     const [address, setAddress] = useState<string>("");
