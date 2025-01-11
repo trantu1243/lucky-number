@@ -34,7 +34,7 @@ export const Withdraw: React.FC = () => {
     const [network, setNetwork] = useState<string>("");
     const [address, setAddress] = useState<string>("");
     const [amount, setAmount] = useState<string>("");
-    const [error, setError] = useState<Boolean>(false);
+    const [error, setError] = useState<boolean>(false);
     const webapp = useAppSelector(state => state.webappSlice.webApp);
     const [loading, setLoading] = useState(true);
     const [payoutAddress, setPayoutAddress] = useState<PayoutAddress[]>([]);
@@ -103,8 +103,8 @@ export const Withdraw: React.FC = () => {
             const exchange: USDT = usdt.filter(item => item.currency === currency && item.network === network)[0];
             if (Number(amount) < Number(exchange.limit.min_amount) || Number(amount) > Number(exchange.limit.max_amount) || Number(amount) < 5) {
                 setError(true);
-                setErrorMsg(`Please enter correctly. Amount must be at least 5 (10 with ETH network) and the maximum amount is ${exchange.limit.max_amount}.`)
-            }
+                setErrorMsg(`Please enter correctly. Amount must be at least 5 (10 with ETH network) and the maximum amount is ${String(Math.floor(Number(exchange.limit.max_amount)))}.`)
+            } else setError(false);
             setReceive(String(Number(amount) - Number(exchange.commission.fee_amount) - 0.5));
         }
     }, [amount, currency, network, usdt]);
@@ -164,10 +164,12 @@ export const Withdraw: React.FC = () => {
                     theme: "dark",
                 });
                 setError(true);
+                setErrorMsg('Error.')
                 setLoading(false);
             });
         } else {
             setError(true);
+            setErrorMsg('Please enter correctly.')
         }
     }
 
@@ -342,7 +344,7 @@ export const Withdraw: React.FC = () => {
                             fontWeight: 'bold'
                         }}
                     >
-                        {String(Number(amount) - Number(receive))} USDT
+                        {String(Math.round((Number(amount) - Number(receive)) * 100) / 100)} USDT
                     </text.T14>
                 </div>
                 <div style={{
@@ -383,11 +385,12 @@ export const Withdraw: React.FC = () => {
     const renderButton = (): JSX.Element => {
         return (
             <components.Button
-                title='Open deposit'
+                title='Withdraw'
                 onClick={handleClick}
                 style={{
                     marginTop: 20
                 }}
+                disabled={error}
             />
         );
     };

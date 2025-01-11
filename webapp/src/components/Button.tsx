@@ -9,6 +9,7 @@ interface ButtonProps {
   colorScheme?: 'dark' | 'light';
   style?: React.CSSProperties;
   containerStyle?: React.CSSProperties;
+  disabled?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -17,11 +18,13 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   colorScheme = 'dark',
   containerStyle,
+  disabled = false
 }) => {
   return (
     <div style={{...containerStyle}}>
       <button
         onClick={onClick}
+        disabled={disabled}
         style={{
           width: '100%',
           color: '#fff',
