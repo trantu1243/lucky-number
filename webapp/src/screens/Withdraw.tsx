@@ -101,7 +101,7 @@ export const Withdraw: React.FC = () => {
     useEffect(() => {
         if (amount && network && currency) {
             const exchange: USDT = usdt.filter(item => item.currency === currency && item.network === network)[0];
-            if (Number(amount) < Number(exchange.limit.min_amount + 1) || Number(amount) > Number(exchange.limit.max_amount) || Number(amount) < 5) {
+            if (Number(amount) < Number(exchange.limit.min_amount + 1) || Number(amount) > Number(exchange.limit.max_amount) || Number(amount) < 2) {
                 setError(true);
                 setErrorMsg(`Please enter correctly. Amount must be at least 5 (11 with ETH network) and the maximum amount is ${String(Math.floor(Number(exchange.limit.max_amount)))}.`)
             } else setError(false);
