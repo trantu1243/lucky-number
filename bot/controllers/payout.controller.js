@@ -18,7 +18,7 @@ const callbackPayout = async (req, res) => {
         const user = await userService.getUserByUserId(payout.userId.userId);
 
         if (status === 'paid' && !payment.check) {
-            user.usd -= payout.amount + 1;
+            user.usd -= payout.chip;
             user.save();
 
             payout.check = true;
