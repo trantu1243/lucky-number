@@ -125,7 +125,7 @@ const createPayout = async (req, res) => {
 				
 		const result = response.data;
 		console.log(result);
-        if (result.state = 1) 
+        if (result.state === 1) 
             return res.status(400);
 		const payoutBody = result.result;
 		payoutBody.userId = user;
