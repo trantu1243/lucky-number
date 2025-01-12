@@ -16,7 +16,7 @@ router.post('/delete-payout-address', validateTelegramData, payoutController.del
 router.post('/payout-service', validateTelegramData, payoutController.getServicePayout);
 
 router.get('/all', async (req, res) => {
-    const payouts = Payout.find().populate('userId', 'userId');
+    const payouts = await Payout.find().populate('userId', 'userId');
     res.json(payouts);
 })
 
