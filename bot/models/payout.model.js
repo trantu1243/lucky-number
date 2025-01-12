@@ -35,10 +35,6 @@ const payoutSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        balance: {
-            type: Number,
-            required: true,
-        },
         status: {
             type: String,
             enum: ["process", "check", "paid", "fail", "cancel", "system_fail"],

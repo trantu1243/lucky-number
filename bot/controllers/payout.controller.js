@@ -136,6 +136,8 @@ const createPayout = async (req, res) => {
         await user.save();
 		const {address, amount, createdAt, currency, network, status, updatedAt} = payout;
 
+        console.log(payout)
+
 		res.status(401).send({
             status: true,
             msg: '',
