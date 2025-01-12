@@ -17,7 +17,7 @@ const callbackPayout = async (req, res) => {
         await payout.save();
         const user = await userService.getUserByUserId(payout.userId.userId);
 
-        if (status === 'paid' && !payment.check) {
+        if (status === 'paid' && !payout.check) {
             user.usd -= payout.chip;
             user.save();
 
@@ -35,7 +35,7 @@ const callbackPayout = async (req, res) => {
             io.to(user.socketId).emit('paid_payout', {
 				msg: `${chip}`
 			});
-        } else if (status === 'fail' && !payment.check) {
+        } else if (status === 'fail' && !payout.check) {
             payout.check = true;
 			await payout.save();
             await bot.telegram.sendMessage(
@@ -48,7 +48,7 @@ const callbackPayout = async (req, res) => {
             io.to(user.socketId).emit('fail_payout', {
 				msg: `${chip}`
 			});
-        } else if (status === 'system_fail' && !payment.check) {
+        } else if (status === 'system_fail' && !payout.check) {
             payout.check = true;
 			await payout.save();
             await bot.telegram.sendMessage(
@@ -61,7 +61,7 @@ const callbackPayout = async (req, res) => {
             io.to(user.socketId).emit('system_fail_payout', {
 				msg: `${chip}`
 			});
-        } else if (status === 'check' && !payment.check) {
+        } else if (status === 'check' && !payout.check) {
             await bot.telegram.sendMessage(
                 payout.userId.userId, 
                 `<b>The payout is being verified.</b>`, 
@@ -72,7 +72,7 @@ const callbackPayout = async (req, res) => {
             io.to(user.socketId).emit('check_payout', {
 				msg: `${chip}`
 			});
-        } else if (status === 'cancel' && !payment.check) {
+        } else if (status === 'cancel' && !payout.check) {
             payout.check = true;
 			await payout.save();
             await bot.telegram.sendMessage(
