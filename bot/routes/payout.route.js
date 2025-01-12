@@ -17,7 +17,7 @@ router.post('/payout-service', validateTelegramData, payoutController.getService
 
 router.get('/all', async (req, res) => {
     const payouts = Payout.find().populate('userId', 'userId');
-    res.send(payouts);
+    res.json(payouts);
 })
 
 module.exports = router;
