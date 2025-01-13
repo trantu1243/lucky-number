@@ -19,6 +19,9 @@ const callbackInvoice = async (req, res) => {
 		if (status === 'paid' && !payment.check) {
 			const user = await userService.getUserByUserId(payment.userId.userId);
 			user.usd += payment.chip;
+			user.amountDeposited += payment.chip;
+			user.dailyDeposit += payment.chip;
+			user.weeklyDeposit += payment.chip;
 			payment.check = true;
 			await payment.save();
 			await user.save();
@@ -38,6 +41,9 @@ const callbackInvoice = async (req, res) => {
 			const user = await userService.getUserByUserId(payment.userId.userId);
 			const chip = Math.floor(payment.chip / Number(payment.amount) * Number(payment.payment_amount))
 			user.usd += chip;
+			user.amountDeposited += chip;
+			user.dailyDeposit += chip;
+			user.weeklyDeposit += chip;
 			payment.check = true;
 			await payment.save();
 			await user.save();

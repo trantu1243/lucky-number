@@ -19,6 +19,7 @@ const callbackPayout = async (req, res) => {
 
         if (status === 'paid' && !payout.check) {
             user.usd -= payout.chip;
+            user.amountWithdrawn += payout.chip;
             user.save();
 
             payout.check = true;

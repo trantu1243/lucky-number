@@ -26,7 +26,7 @@ const startBot = async (ctx) => {
 
         const un = username ? username : "undefined";
         const user = await userService.createUser({userId, username: un, name: firstName});
-        user.usd = 50;
+        user.usd = 0;
         await user.save();
         let message = `🎉 <i>Welcome <b>${user.name}</b> to Lucky Number Bot!</i> 🎉
 

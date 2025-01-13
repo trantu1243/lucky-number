@@ -5,8 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const { authRouter, dashboardRouter } = require('./routes');
-const { Admin } = require('./models');
+const { authRouter, dashboardRouter, userRouter, luckyNumberRouter } = require('./routes');
+const { Admin, LuckyNumber } = require('./models');
 require('dotenv').config()
 
 const app = express();
@@ -35,6 +35,8 @@ app.use(session({
 // Routes
 app.use('/auth', authRouter);
 app.use('/', dashboardRouter);
+app.use('/user', userRouter);
+app.use('/lucky-number', luckyNumberRouter);
 // app.use('/monhoc', monhocRouter);
 
 app.get('/cryptomus_a2c0610a.html', (req, res) => {
@@ -72,5 +74,10 @@ async function test(){
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)
 })
+
+//
+LuckyNumber.create({
+  uuid: '0011'
+});
 
 module.exports = app;
