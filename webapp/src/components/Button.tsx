@@ -35,7 +35,7 @@ export const Button: React.FC<ButtonProps> = ({
           textTransform: 'capitalize',
           border: colorScheme === 'dark' ? 'none' : '1px solid #FFD9C3',
           background:
-            colorScheme === 'dark' ? (disabled ? "#e16d66" : theme.colors.mainColor) : theme.colors.primary,
+            colorScheme === 'dark' ? (disabled ? "#bf4e47" : theme.colors.mainColor) : theme.colors.primary,
           ...utils.flexCenter(),
           ...theme.fonts.SourceSansPro_600SemiBold,
           ...style,

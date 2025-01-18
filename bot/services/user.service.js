@@ -18,8 +18,14 @@ const getDailyTask = async (userId) => {
     return user.dailyTask;
 }
 
+const getUserByEmail = async (email) => {
+    const user = await User.findOne({ email });
+    return user;
+};
+
 module.exports = {
     createUser,
     getUserByUserId,
-    getDailyTask
+    getDailyTask,
+    getUserByEmail
 }

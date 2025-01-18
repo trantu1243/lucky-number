@@ -6,4 +6,8 @@ const router = express.Router();
 
 router.post('/', validateTelegramData, userController.getUserInfo);
 
+router.post('/send-code', validateTelegramData, userController.sendCode);
+
+router.post('/verify-code', validateTelegramData, userController.verifyCode);
+
 module.exports = router;

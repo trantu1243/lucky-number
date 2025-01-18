@@ -43,6 +43,7 @@ import { LuckyNumber } from './LuckyNumber';
 import { DepositQr } from './DepositQr';
 import { Withdraw } from './Withdraw';
 import { AddPayout } from './AddPayout';
+import { AddEmail } from './AddEmail';
 
 export const screens = {
   FAQ,
@@ -87,5 +88,6 @@ export const screens = {
   LuckyNumber,
   DepositQr,
   Withdraw,
-  AddPayout
+  AddPayout,
+  AddEmail
 };

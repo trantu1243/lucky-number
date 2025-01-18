@@ -26,6 +26,10 @@ const stack = createBrowserRouter([
         element: <screens.AddPayout/>,
     },
     {
+        path: '/add-email',
+        element: <screens.AddEmail/>,
+    },
+    {
         path: '/lucky-number',
         element: <screens.LuckyNumber/>,
     },
