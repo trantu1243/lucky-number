@@ -17,6 +17,8 @@ ENV TZ=Europe/London
 
 USER root
 # Install tzdata to set the timezone
+RUN sed -i 's|https://dl-cdn.alpinelinux.org/alpine|http://mirror.cs.uchicago.edu/alpine|g' /etc/apk/repositories
+RUN apk update
 RUN apk add --no-cache tzdata \
     && ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime \
     && echo "Europe/London" > /etc/timezone \
