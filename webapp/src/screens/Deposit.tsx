@@ -67,6 +67,9 @@ export const Deposit: React.FC = () => {
                 if (data.status) {
                     navigate("/payment/qrcode");
                 }
+                if (data.msg === "email") {
+                    navigate("/add-email");
+                }
                 setLoading(false);
             })
             .catch((error) => console.error(error));
